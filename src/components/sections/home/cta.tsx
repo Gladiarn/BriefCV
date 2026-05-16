@@ -1,4 +1,4 @@
-import { Sparkles, Trophy, Zap } from "lucide-react";
+import { Sparkles, Trophy } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../../ui/button";
 import { Card } from "../../ui/card";
