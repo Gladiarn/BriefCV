@@ -23,13 +23,13 @@ export function CTASection() {
   return (
     <section className="py-24 md:py-32">
       <Card
-        className="relative overflow-hidden p-10 md:p-16 text-center border-primary/20 shadow-[0_20px_50px_-20px_rgba(236,72,153,0.3)]"
+        className="relative p-10 md:p-16 text-center border-primary/20 shadow-[0_10px_40px_-15px_rgba(236,72,153,0.2)]"
         variant="default"
       >
         {/* Creative Background Elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(236,72,153,0.1)_0%,transparent_70%)]" />
-        <div className="absolute -top-24 -left-24 w-80 h-80 bg-primary/10 blur-[120px] rounded-full animate-pulse-slow" />
-        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-primary-purple/10 blur-[120px] rounded-full animate-float" />
+        <div className="absolute -top-24 -left-24 w-80 h-80 bg-primary/10 blur-[80px] rounded-full animate-pulse-slow will-change-[opacity,filter]" />
+        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-primary-purple/10 blur-[80px] rounded-full animate-float will-change-transform" />
 
         <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 text-[10px] font-black uppercase tracking-tighter">

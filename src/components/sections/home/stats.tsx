@@ -11,7 +11,7 @@ const stats = [
 export function StatsStrip() {
   return (
     <section className="py-12 md:py-16">
-      <Card variant="glass" className="p-0 overflow-hidden border-primary/10">
+      <Card variant="glass" className="p-0 border-primary/10">
         <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-border">
           {stats.map((stat) => (
             <div
