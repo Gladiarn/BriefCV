@@ -36,9 +36,8 @@ const DEFAULT_RESUME: ResumeData = {
   projects: [],
   skills: [],
   awards: [],
-  templateId: "modern"
+  templateId: "modern",
 };
-
 
 export const resumeService = {
   /**

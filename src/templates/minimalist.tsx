@@ -1,6 +1,8 @@
 import type { ResumeData } from "@/types/resume";
 
-export const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
+export const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({
+  data,
+}) => {
   return (
     <div className="h-full text-black flex flex-col space-y-6 text-left font-serif">
       <div className="flex justify-between items-end border-b border-black pb-6">

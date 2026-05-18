@@ -1,8 +1,8 @@
 "use client";
 
-import type { ResumeData } from "@/types/resume";
-import { templates } from "@/lib/templates";
 import { Maximize2, ZoomIn, ZoomOut } from "lucide-react";
+import { templates } from "@/lib/templates";
+import type { ResumeData } from "@/types/resume";
 
 interface PreviewCanvasProps {
   resumeData: ResumeData;

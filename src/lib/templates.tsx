@@ -1,7 +1,19 @@
-import { Briefcase, FolderGit2, GraduationCap, Sparkles, Trophy, User } from "lucide-react";
-import type { FormSection, ResumeData, Template } from "@/types/resume";
-import { ModernTemplate, MinimalistTemplate, ExecutiveTemplate, ProfessionalTemplate } from "@/templates";
+import {
+  Briefcase,
+  FolderGit2,
+  GraduationCap,
+  Sparkles,
+  Trophy,
+  User,
+} from "lucide-react";
+import {
+  ExecutiveTemplate,
+  MinimalistTemplate,
+  ModernTemplate,
+  ProfessionalTemplate,
+} from "@/templates";
 import { ModernPDFTemplate } from "@/templates/pdf/modern";
+import type { FormSection, ResumeData, Template } from "@/types/resume";
 
 export const pdfTemplates = {
   modern: ModernPDFTemplate,
@@ -22,16 +34,70 @@ const BASICS_SECTION: FormSection = {
   description: "Tell us who you are and how to reach you.",
   icon: User,
   fields: [
-    { id: "name", label: "Full Name", type: "text", placeholder: "Alex Johnson", gridSpan: 1 },
-    { id: "role", label: "Target Role", type: "text", placeholder: "Senior Product Manager", gridSpan: 1 },
-    { id: "email", label: "Email Address", type: "email", placeholder: "alex@forge.com", gridSpan: 1 },
-    { id: "phone", label: "Phone", type: "tel", placeholder: "+1 555 123 4567", gridSpan: 1 },
-    { id: "location", label: "Location", type: "text", placeholder: "San Francisco, CA", gridSpan: 1 },
-    { id: "portfolio", label: "Portfolio URL", type: "text", placeholder: "https://your-portfolio.com", gridSpan: 1 },
-    { id: "github", label: "GitHub URL", type: "text", placeholder: "https://github.com/user", gridSpan: 2 },
-    { id: "summary", label: "Professional Summary", type: "textarea", placeholder: "Briefly describe your career impact...", gridSpan: 2 },
-    { id: "skills", label: "Core Skills", type: "list", placeholder: "Enter a skill...", gridSpan: 2 },
-  ]
+    {
+      id: "name",
+      label: "Full Name",
+      type: "text",
+      placeholder: "Alex Johnson",
+      gridSpan: 1,
+    },
+    {
+      id: "role",
+      label: "Target Role",
+      type: "text",
+      placeholder: "Senior Product Manager",
+      gridSpan: 1,
+    },
+    {
+      id: "email",
+      label: "Email Address",
+      type: "email",
+      placeholder: "alex@forge.com",
+      gridSpan: 1,
+    },
+    {
+      id: "phone",
+      label: "Phone",
+      type: "tel",
+      placeholder: "+1 555 123 4567",
+      gridSpan: 1,
+    },
+    {
+      id: "location",
+      label: "Location",
+      type: "text",
+      placeholder: "San Francisco, CA",
+      gridSpan: 1,
+    },
+    {
+      id: "portfolio",
+      label: "Portfolio URL",
+      type: "text",
+      placeholder: "https://your-portfolio.com",
+      gridSpan: 1,
+    },
+    {
+      id: "github",
+      label: "GitHub URL",
+      type: "text",
+      placeholder: "https://github.com/user",
+      gridSpan: 2,
+    },
+    {
+      id: "summary",
+      label: "Professional Summary",
+      type: "textarea",
+      placeholder: "Briefly describe your career impact...",
+      gridSpan: 2,
+    },
+    {
+      id: "skills",
+      label: "Core Skills",
+      type: "list",
+      placeholder: "Enter a skill...",
+      gridSpan: 2,
+    },
+  ],
 };
 
 const EXPERIENCE_SECTION: FormSection = {
@@ -41,11 +107,35 @@ const EXPERIENCE_SECTION: FormSection = {
   icon: Briefcase,
   isRepeatable: true,
   fields: [
-    { id: "company", label: "Company Name", type: "text", placeholder: "Forge Corp", gridSpan: 1 },
-    { id: "period", label: "Period", type: "text", placeholder: "2021 - Present", gridSpan: 1 },
-    { id: "title", label: "Job Title", type: "text", placeholder: "Lead Product Manager", gridSpan: 2 },
-    { id: "points", label: "Bullet Points", type: "textarea", placeholder: "• Describe a key achievement...", gridSpan: 2 },
-  ]
+    {
+      id: "company",
+      label: "Company Name",
+      type: "text",
+      placeholder: "Forge Corp",
+      gridSpan: 1,
+    },
+    {
+      id: "period",
+      label: "Period",
+      type: "text",
+      placeholder: "2021 - Present",
+      gridSpan: 1,
+    },
+    {
+      id: "title",
+      label: "Job Title",
+      type: "text",
+      placeholder: "Lead Product Manager",
+      gridSpan: 2,
+    },
+    {
+      id: "points",
+      label: "Bullet Points",
+      type: "textarea",
+      placeholder: "• Describe a key achievement...",
+      gridSpan: 2,
+    },
+  ],
 };
 
 const EDUCATION_SECTION: FormSection = {
@@ -55,10 +145,28 @@ const EDUCATION_SECTION: FormSection = {
   icon: GraduationCap,
   isRepeatable: true,
   fields: [
-    { id: "school", label: "University / School", type: "text", placeholder: "Stanford University", gridSpan: 2 },
-    { id: "degree", label: "Degree / Major", type: "text", placeholder: "B.S. in Computer Science", gridSpan: 1 },
-    { id: "year", label: "Graduation Year", type: "text", placeholder: "2020", gridSpan: 1 },
-  ]
+    {
+      id: "school",
+      label: "University / School",
+      type: "text",
+      placeholder: "Stanford University",
+      gridSpan: 2,
+    },
+    {
+      id: "degree",
+      label: "Degree / Major",
+      type: "text",
+      placeholder: "B.S. in Computer Science",
+      gridSpan: 1,
+    },
+    {
+      id: "year",
+      label: "Graduation Year",
+      type: "text",
+      placeholder: "2020",
+      gridSpan: 1,
+    },
+  ],
 };
 
 const PROJECTS_SECTION: FormSection = {
@@ -68,11 +176,35 @@ const PROJECTS_SECTION: FormSection = {
   icon: FolderGit2,
   isRepeatable: true,
   fields: [
-    { id: "title", label: "Project Title", type: "text", placeholder: "EcoCycle", gridSpan: 1 },
-    { id: "period", label: "Period", type: "text", placeholder: "2026", gridSpan: 1 },
-    { id: "technologies", label: "Technologies Used", type: "text", placeholder: "Next.js, Tailwind, Supabase", gridSpan: 2 },
-    { id: "description", label: "Project Description", type: "textarea", placeholder: "High-performance inventory system...", gridSpan: 2 },
-  ]
+    {
+      id: "title",
+      label: "Project Title",
+      type: "text",
+      placeholder: "EcoCycle",
+      gridSpan: 1,
+    },
+    {
+      id: "period",
+      label: "Period",
+      type: "text",
+      placeholder: "2026",
+      gridSpan: 1,
+    },
+    {
+      id: "technologies",
+      label: "Technologies Used",
+      type: "text",
+      placeholder: "Next.js, Tailwind, Supabase",
+      gridSpan: 2,
+    },
+    {
+      id: "description",
+      label: "Project Description",
+      type: "textarea",
+      placeholder: "High-performance inventory system...",
+      gridSpan: 2,
+    },
+  ],
 };
 
 const AWARDS_SECTION: FormSection = {
@@ -81,8 +213,14 @@ const AWARDS_SECTION: FormSection = {
   description: "Highlights and achievements.",
   icon: Trophy,
   fields: [
-    { id: "awards", label: "Awards List", type: "list", placeholder: "Add an award...", gridSpan: 2 },
-  ]
+    {
+      id: "awards",
+      label: "Awards List",
+      type: "list",
+      placeholder: "Add an award...",
+      gridSpan: 2,
+    },
+  ],
 };
 
 export const templates: Template[] = [
@@ -134,7 +272,14 @@ export const templates: Template[] = [
         },
       ],
       projects: [
-        { id: "1", title: "EcoCycle", description: "High-performance inventory system with carbon impact monitoring.", technologies: "Next.js, Tailwind, Supabase", period: "2026" }
+        {
+          id: "1",
+          title: "EcoCycle",
+          description:
+            "High-performance inventory system with carbon impact monitoring.",
+          technologies: "Next.js, Tailwind, Supabase",
+          period: "2026",
+        },
       ],
       skills: [
         "Product Strategy",
@@ -196,7 +341,13 @@ export const templates: Template[] = [
         },
       ],
       projects: [
-        { id: "2", title: "TourConnect", description: "Full-stack booking platform with real-time tracking.", technologies: "Next.js, Node.js, MongoDB", period: "2025" }
+        {
+          id: "2",
+          title: "TourConnect",
+          description: "Full-stack booking platform with real-time tracking.",
+          technologies: "Next.js, Node.js, MongoDB",
+          period: "2025",
+        },
       ],
       skills: [
         "TypeScript",
@@ -211,7 +362,8 @@ export const templates: Template[] = [
   {
     id: "executive",
     name: "Executive",
-    description: "Sophisticated and authoritative design for senior leadership.",
+    description:
+      "Sophisticated and authoritative design for senior leadership.",
     thumbnailColor: "bg-slate-800/10",
     component: ExecutiveTemplate,
     sections: [
@@ -222,7 +374,12 @@ export const templates: Template[] = [
       AWARDS_SECTION,
       AI_SECTION,
     ],
-    features: ["ATS Optimized", "Sophisticated Typography", "Bold Header Sections", "Executive Layout"],
+    features: [
+      "ATS Optimized",
+      "Sophisticated Typography",
+      "Bold Header Sections",
+      "Executive Layout",
+    ],
     dimensions: "210mm x 297mm (A4)",
     defaultData: {
       name: "Sarah Jenkins",
@@ -232,14 +389,16 @@ export const templates: Template[] = [
       location: "Chicago, IL",
       portfolio: "https://sarah-exec.com",
       github: "https://github.com/sarah-exec",
-      summary: "Strategic CTO with 15+ years experience in driving digital transformation and building high-performance engineering organizations.",
+      summary:
+        "Strategic CTO with 15+ years experience in driving digital transformation and building high-performance engineering organizations.",
       experience: [
         {
           id: "3",
           company: "Global Tech Inc",
           title: "CTO",
           period: "2018 - Present",
-          points: "• Led global engineering team of 200+ through a successful IPO.\n• Implemented AI-first strategy increasing operational efficiency by 50%.",
+          points:
+            "• Led global engineering team of 200+ through a successful IPO.\n• Implemented AI-first strategy increasing operational efficiency by 50%.",
         },
       ],
       education: [
@@ -251,9 +410,20 @@ export const templates: Template[] = [
         },
       ],
       projects: [
-        { id: "3", title: "CloudScale", description: "Global infrastructure transformation project.", technologies: "AWS, Kubernetes, Terraform", period: "2024" }
+        {
+          id: "3",
+          title: "CloudScale",
+          description: "Global infrastructure transformation project.",
+          technologies: "AWS, Kubernetes, Terraform",
+          period: "2024",
+        },
       ],
-      skills: ["Executive Strategy", "Cloud Infrastructure", "Organizational Scaling", "AI Roadmap"],
+      skills: [
+        "Executive Strategy",
+        "Cloud Infrastructure",
+        "Organizational Scaling",
+        "AI Roadmap",
+      ],
       awards: ["CTO of the Year 2023"],
       templateId: "executive",
     },
@@ -272,7 +442,12 @@ export const templates: Template[] = [
       AWARDS_SECTION,
       AI_SECTION,
     ],
-    features: ["ATS Optimized", "Traditional Layout", "Formal Typography", "Industry Standard"],
+    features: [
+      "ATS Optimized",
+      "Traditional Layout",
+      "Formal Typography",
+      "Industry Standard",
+    ],
     dimensions: "210mm x 297mm (A4)",
     defaultData: {
       name: "John Doe",
@@ -282,14 +457,16 @@ export const templates: Template[] = [
       location: "Dallas, TX",
       portfolio: "https://johndoe.com",
       github: "https://github.com/johndoe",
-      summary: "Detail-oriented Project Manager dedicated to delivering complex projects within scope and budget.",
+      summary:
+        "Detail-oriented Project Manager dedicated to delivering complex projects within scope and budget.",
       experience: [
         {
           id: "4",
           company: "Big Corp Ltd",
           title: "Project Manager",
           period: "2020 - Present",
-          points: "• Delivered 10+ major cross-departmental projects on time.\n• Optimized team workflows reducing project cycle time by 20%.",
+          points:
+            "• Delivered 10+ major cross-departmental projects on time.\n• Optimized team workflows reducing project cycle time by 20%.",
         },
       ],
       education: [
@@ -301,9 +478,21 @@ export const templates: Template[] = [
         },
       ],
       projects: [
-        { id: "4", title: "WorkflowMax", description: "Internal project management tool for large enterprises.", technologies: "Jira, Agile, Scrum", period: "2023" }
+        {
+          id: "4",
+          title: "WorkflowMax",
+          description:
+            "Internal project management tool for large enterprises.",
+          technologies: "Jira, Agile, Scrum",
+          period: "2023",
+        },
       ],
-      skills: ["Project Management", "Agile", "Risk Assessment", "Stakeholder Communication"],
+      skills: [
+        "Project Management",
+        "Agile",
+        "Risk Assessment",
+        "Stakeholder Communication",
+      ],
       awards: ["Project Manager of the Quarter 2024"],
       templateId: "professional",
     },

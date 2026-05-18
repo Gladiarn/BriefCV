@@ -260,12 +260,18 @@ export default function BuildPage() {
                   </p>
                   <div className="space-y-2">
                     {template.features.slice(0, 2).map((feature, i) => (
-                        <p key={i} className="text-[10px] text-primary font-medium flex items-center gap-1.5">
-                            <span className="w-1 h-1 rounded-full bg-primary" /> {feature}
-                        </p>
+                      <p
+                        key={i}
+                        className="text-[10px] text-primary font-medium flex items-center gap-1.5"
+                      >
+                        <span className="w-1 h-1 rounded-full bg-primary" />{" "}
+                        {feature}
+                      </p>
                     ))}
                   </div>
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">{template.dimensions}</p>
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+                    {template.dimensions}
+                  </p>
                   <Link
                     href={`/build/new?template=${template.id}`}
                     className="block pt-2"
