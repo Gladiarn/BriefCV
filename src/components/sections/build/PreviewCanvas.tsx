@@ -1,9 +1,8 @@
 "use client";
 
-import { forwardRef } from "react";
-import { Maximize2, ZoomIn, ZoomOut } from "lucide-react";
-import { templates } from "@/lib/templates";
 import type { ResumeData } from "@/types/resume";
+import { templates } from "@/lib/templates";
+import { Maximize2, ZoomIn, ZoomOut } from "lucide-react";
 
 interface PreviewCanvasProps {
   resumeData: ResumeData;
@@ -11,11 +10,11 @@ interface PreviewCanvasProps {
   setZoom: (zoom: number | ((prev: number) => number)) => void;
 }
 
-export const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(({
+export const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
   resumeData,
   zoom,
   setZoom,
-}, ref) => {
+}) => {
   const template =
     templates.find((t) => t.id === resumeData.templateId) || templates[0];
   const TemplateComponent = template.component;
@@ -51,7 +50,6 @@ export const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(({
 
       {/* Paper Canvas */}
       <div
-        ref={ref}
         className="bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] origin-top transition-transform duration-300 overflow-y-auto custom-scrollbar"
         style={{
           width: "210mm",
@@ -64,6 +62,4 @@ export const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(({
       </div>
     </main>
   );
-});
-
-PreviewCanvas.displayName = "PreviewCanvas";
+};

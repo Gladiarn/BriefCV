@@ -3,8 +3,7 @@
 import { ChevronLeft, Download } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { AIForgeTab } from "@/components/sections/build/AIForgeTab";
 import { EditorSidebar } from "@/components/sections/build/EditorSidebar";
 import { PreviewCanvas } from "@/components/sections/build/PreviewCanvas";
@@ -32,11 +31,11 @@ const DEFAULT_RESUME: ResumeData = {
 
 function EditorContent() {
   const searchParams = useSearchParams();
-  const canvasRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("basics");
   const [zoom, setZoom] = useState(100);
   const [resumeData, setResumeData] = useState<ResumeData>(DEFAULT_RESUME);
   const [isFetching, setIsFetching] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const activeTemplate = useMemo(() => {
     return (
@@ -44,10 +43,27 @@ function EditorContent() {
     );
   }, [resumeData.templateId]);
 
-  const handlePrint = useReactToPrint({
-    contentRef: canvasRef,
-    documentTitle: `${resumeData.name || "Resume"} - ${activeTemplate.name}`,
-  });
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      const response = await fetch('/api/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resumeData })
+      });
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${resumeData.name || 'resume'}.pdf`;
+      a.click();
+    } catch (error) {
+      console.error('Export failed:', error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   useEffect(() => {
     const templateId = searchParams.get("template");
@@ -160,16 +176,17 @@ function EditorContent() {
           <Button
             className="w-full gap-2 shadow-xl shadow-pink-500/20"
             size="xl"
-            onClick={handlePrint}
+            onClick={handleExport}
+            disabled={isExporting}
           >
             <Download className="w-5 h-5" />
-            Export PDF
+            {isExporting ? "Exporting..." : "Export PDF"}
           </Button>
         </footer>
       </aside>
 
       {/* Right Canvas - Preview Area */}
-      <PreviewCanvas resumeData={resumeData} zoom={zoom} setZoom={setZoom} ref={canvasRef} />
+      <PreviewCanvas resumeData={resumeData} zoom={zoom} setZoom={setZoom} />
     </div>
   );
 }
