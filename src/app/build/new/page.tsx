@@ -42,10 +42,6 @@ function EditorContent() {
     const templateId = searchParams.get("template");
     const resumeId = searchParams.get("id");
 
-    if (templateId) {
-      setResumeData((prev) => ({ ...prev, templateId }));
-    }
-
     if (resumeId) {
       const fetchResume = async () => {
         setIsFetching(true);
@@ -61,6 +57,12 @@ function EditorContent() {
         }
       };
       fetchResume();
+    } else if (templateId) {
+      const template =
+        templates.find((t) => t.id === templateId) || templates[0];
+      setResumeData(template.defaultData);
+    } else {
+      setResumeData(DEFAULT_RESUME);
     }
   }, [searchParams]);
 

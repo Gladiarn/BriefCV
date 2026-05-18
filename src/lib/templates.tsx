@@ -339,6 +339,40 @@ export const templates: Template[] = [
       "Clean Typography",
     ],
     dimensions: "210mm x 297mm (A4)",
+    defaultData: {
+      name: "Alex Johnson",
+      role: "Senior Product Manager",
+      email: "alex@forge.com",
+      phone: "+1 (555) 000-1234",
+      location: "San Francisco, CA",
+      summary:
+        "Results-driven Product Manager with 8+ years of experience leading cross-functional teams in high-growth tech environments. Expert in AI-driven product strategy and user engagement.",
+      experience: [
+        {
+          id: "1",
+          company: "Forge Corp",
+          title: "Lead Product Manager",
+          period: "2021 - Present",
+          points:
+            "• Spearheaded the development of AI-driven tools resulting in 40% user growth.\n• Managed a cross-functional team of 15 designers and engineers.",
+        },
+      ],
+      education: [
+        {
+          id: "1",
+          school: "Stanford University",
+          degree: "M.S. in Computer Science",
+          year: "2020",
+        },
+      ],
+      skills: [
+        "Product Strategy",
+        "AI/ML Integration",
+        "User Research",
+        "Agile Leadership",
+      ],
+      templateId: "modern",
+    },
   },
   {
     id: "minimalist",
@@ -359,5 +393,39 @@ export const templates: Template[] = [
       "Serif Typography",
     ],
     dimensions: "210mm x 297mm (A4)",
+    defaultData: {
+      name: "Sam Smith",
+      role: "Software Engineer",
+      email: "sam@minimalist.com",
+      phone: "+1 (555) 987-6543",
+      location: "New York, NY",
+      summary:
+        "Passionate Software Engineer specializing in scalable microservices and elegant code architecture.",
+      experience: [
+        {
+          id: "2",
+          company: "Tech Solutions",
+          title: "Full Stack Developer",
+          period: "2019 - 2021",
+          points:
+            "• Architected microservices that reduced API latency by 30%.\n• Collaborated with global teams for feature delivery.",
+        },
+      ],
+      education: [
+        {
+          id: "2",
+          school: "MIT",
+          degree: "B.S. in Computer Science",
+          year: "2019",
+        },
+      ],
+      skills: [
+        "TypeScript",
+        "Node.js",
+        "System Design",
+        "Cloud Infrastructure",
+      ],
+      templateId: "minimalist",
+    },
   },
 ];

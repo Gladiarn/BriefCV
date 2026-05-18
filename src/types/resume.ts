@@ -27,6 +27,7 @@ export interface Template {
   features: string[];
   dimensions: string;
   previewImage?: string;
+  defaultData: ResumeData;
 }
 
 export interface ExperienceItem {
