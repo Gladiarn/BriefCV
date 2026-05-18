@@ -98,7 +98,7 @@ export default function BuildPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {/* Create New Card */}
-            <Link href="/build/new" className="group">
+            <Link href="/build/select-template" className="group">
               <Card className="h-full border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center p-8 gap-4 bg-transparent shadow-none">
                 <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   <Plus className="w-8 h-8 text-primary" />
@@ -214,7 +214,7 @@ export default function BuildPage() {
                     : "You haven't forged any resumes yet. Start your journey today!"}
                 </p>
                 {!searchQuery && (
-                  <Link href="/build/new">
+                  <Link href="/build/select-template">
                     <Button variant="outline" className="gap-2">
                       <Plus className="w-4 h-4" /> Forge Your First
                     </Button>
