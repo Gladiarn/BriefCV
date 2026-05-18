@@ -10,12 +10,12 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "mongoose": "^9.6.2",
     "next": "16.2.6",
     "next-themes": "^0.4.6",
-    "puppeteer": "^25.0.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-to-print": "^3.3.0",

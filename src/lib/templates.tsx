@@ -1,6 +1,12 @@
 import { Briefcase, FolderGit2, GraduationCap, Sparkles, Trophy, User } from "lucide-react";
 import type { FormSection, ResumeData, Template } from "@/types/resume";
 import { ModernTemplate, MinimalistTemplate, ExecutiveTemplate, ProfessionalTemplate } from "@/templates";
+import { ModernPDFTemplate } from "@/templates/pdf/modern";
+
+export const pdfTemplates = {
+  modern: ModernPDFTemplate,
+  // Add others here as we build them
+};
 
 const AI_SECTION: FormSection = {
   id: "ai",
