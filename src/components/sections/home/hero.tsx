@@ -77,11 +77,12 @@ export function HeroSection() {
 
         {/* Right Side: Decorative AI Preview */}
         <div className="relative hidden lg:flex items-center justify-center">
-          <div className="absolute inset-0 bg-primary-gradient blur-[120px] opacity-10 rounded-full animate-pulse-slow" />
+          {/* Static subtle glow - removing pulse on large blur as it kills performance */}
+          <div className="absolute inset-0 bg-primary-gradient blur-[40px] opacity-[0.07] rounded-full will-change-[opacity]" />
 
           {/* Main Floating Card */}
           <Card
-            className="relative w-full max-w-md animate-float p-6"
+            className="relative w-full max-w-md animate-float p-6 shadow-md will-change-transform"
             variant="default"
           >
             <div className="flex items-center gap-3 mb-6">
@@ -102,7 +103,7 @@ export function HeroSection() {
                 <div className="h-2 w-[80%] bg-muted rounded-full" />
               </div>
 
-              <div className="relative p-4 rounded-2xl bg-primary/5 border border-primary/20 scale-105 shadow-lg">
+              <div className="relative p-4 rounded-2xl bg-primary/5 border border-primary/20 scale-105">
                 <div className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter">
                   AI Optimized
                 </div>
@@ -118,13 +119,13 @@ export function HeroSection() {
             </div>
           </Card>
 
-          {/* Smaller floating accents */}
+          {/* Smaller floating accents - simplified (no blurs here) */}
           <div
-            className="absolute -top-10 -right-4 w-24 h-24 bg-primary/10 backdrop-blur-xl border border-white/10 rounded-3xl rotate-12 animate-float"
+            className="absolute -top-10 -right-4 w-24 h-24 bg-primary/5 border border-primary/10 rounded-3xl rotate-12 animate-float will-change-transform"
             style={{ animationDelay: "1s" }}
           />
           <div
-            className="absolute -bottom-6 -left-6 w-16 h-16 bg-primary-purple/10 backdrop-blur-xl border border-white/10 rounded-2xl -rotate-12 animate-float"
+            className="absolute -bottom-6 -left-6 w-16 h-16 bg-primary-purple/5 border border-primary-purple/10 rounded-2xl -rotate-12 animate-float will-change-transform"
             style={{ animationDelay: "2s" }}
           />
         </div>

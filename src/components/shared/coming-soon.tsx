@@ -9,26 +9,26 @@ interface ComingSoonProps {
 
 export function ComingSoon({ title, description }: ComingSoonProps) {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-[65vh] px-4 overflow-hidden page-padding">
+    <div className="relative flex flex-col items-center justify-center min-h-[65vh] px-4">
       {/* Dynamic Background Elements */}
-      <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 blur-[100px] rounded-full animate-pulse-slow" />
-      <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-primary-purple/10 blur-[120px] rounded-full animate-float" />
+      <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 blur-[80px] rounded-full animate-pulse-slow will-change-[opacity,filter]" />
+      <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-primary-purple/10 blur-[80px] rounded-full animate-float will-change-transform" />
 
       {/* Floating Icons Decoration */}
       <div
-        className="absolute top-10 left-1/4 animate-float opacity-20 hidden md:block"
+        className="absolute top-10 left-1/4 animate-float opacity-20 hidden md:block will-change-transform"
         style={{ animationDelay: "1s" }}
       >
         <Code className="w-8 h-8 text-primary" />
       </div>
       <div
-        className="absolute bottom-20 left-10 animate-float opacity-20 hidden md:block"
+        className="absolute bottom-20 left-10 animate-float opacity-20 hidden md:block will-change-transform"
         style={{ animationDelay: "2s" }}
       >
         <Palette className="w-10 h-10 text-primary-purple" />
       </div>
       <div
-        className="absolute top-40 right-1/4 animate-float opacity-20 hidden md:block"
+        className="absolute top-40 right-1/4 animate-float opacity-20 hidden md:block will-change-transform"
         style={{ animationDelay: "0.5s" }}
       >
         <Zap className="w-6 h-6 text-primary" />
@@ -40,7 +40,7 @@ export function ComingSoon({ title, description }: ComingSoonProps) {
           <div className="absolute inset-0 bg-primary-gradient blur-2xl opacity-20 rounded-full scale-150 animate-pulse-slow" />
 
           <div className="relative flex items-center justify-center">
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-card border-2 border-primary/20 rounded-3xl rotate-12 animate-float flex items-center justify-center shadow-2xl relative">
+            <div className="w-20 h-20 md:w-24 md:h-24 bg-card border-2 border-primary/20 rounded-3xl rotate-12 animate-float flex items-center justify-center shadow-lg relative">
               <Rocket className="w-10 h-10 md:w-12 md:h-12 text-primary" />
               <div className="absolute -top-4 -right-4 bg-primary-gradient p-2 rounded-xl shadow-lg">
                 <Sparkles className="w-5 h-5 text-white animate-spin-slow" />

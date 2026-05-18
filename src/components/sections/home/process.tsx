@@ -34,7 +34,7 @@ const steps = [
 
 export function ProcessSection() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative">
       <div className="flex flex-col items-center text-center mb-16 space-y-4">
         <div className="bg-primary/10 text-primary px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2">
           The Workflow
@@ -50,7 +50,7 @@ export function ProcessSection() {
 
         {steps.map((step, index) => (
           <div key={step.title} className="relative z-10">
-            <Card className="group flex flex-col h-full hover:border-primary/40 hover:shadow-2xl transition-all duration-500 p-6 rounded-[1.5rem]">
+            <Card className="group flex flex-col h-full hover:border-primary/40 hover:shadow-lg transition-all duration-500 p-6 rounded-[1.5rem]">
               <div
                 className={`w-12 h-12 rounded-xl ${step.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 shadow-sm`}
               >

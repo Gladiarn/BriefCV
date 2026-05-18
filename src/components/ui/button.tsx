@@ -15,7 +15,7 @@ export function Button({
 }: ButtonProps) {
   const variants = {
     primary:
-      "bg-primary-gradient text-white font-black shadow-[0_10px_30px_-10px_rgba(236,72,153,0.5)] hover:shadow-[0_15px_35px_-10px_rgba(236,72,153,0.6)] overflow-hidden",
+      "bg-primary-gradient text-white font-black shadow-[0_5px_15px_-5px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_-5px_rgba(236,72,153,0.5)] overflow-hidden",
     secondary:
       "bg-secondary text-secondary-foreground font-bold hover:bg-accent border border-border",
     ghost:
