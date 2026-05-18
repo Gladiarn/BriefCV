@@ -24,6 +24,7 @@ export const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
       {/* Canvas Controls */}
       <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-card/80 backdrop-blur-md border border-border p-1.5 rounded-2xl shadow-xl z-10">
         <button
+          type="button"
           onClick={() => setZoom((prev) => Math.max(50, prev - 10))}
           className="p-2 hover:bg-muted rounded-xl transition-colors"
         >
@@ -31,6 +32,7 @@ export const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
         </button>
         <span className="text-xs font-bold w-12 text-center">{zoom}%</span>
         <button
+          type="button"
           onClick={() => setZoom((prev) => Math.min(150, prev + 10))}
           className="p-2 hover:bg-muted rounded-xl transition-colors"
         >
@@ -38,6 +40,7 @@ export const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
         </button>
         <div className="w-px h-4 bg-border mx-1" />
         <button
+          type="button"
           onClick={() => setZoom(100)}
           className="p-2 hover:bg-muted rounded-xl transition-colors"
         >

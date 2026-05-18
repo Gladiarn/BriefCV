@@ -1,9 +1,20 @@
-export interface Template {
+export type FieldType = "text" | "textarea" | "email" | "tel" | "list";
+
+export interface FormField {
   id: string;
-  name: string;
-  description: string;
-  thumbnailColor: string;
-  component: React.FC<{ data: ResumeData }>;
+  label: string;
+  type: FieldType;
+  placeholder?: string;
+  gridSpan?: 1 | 2;
+}
+
+export interface FormSection {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: any;
+  fields: FormField[];
+  isRepeatable?: boolean;
 }
 
 export interface ExperienceItem {
@@ -21,15 +32,40 @@ export interface EducationItem {
   year: string;
 }
 
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  technologies: string;
+  period: string;
+}
+
 export interface ResumeData {
   name: string;
   role: string;
   email: string;
   phone: string;
   location: string;
+  portfolio: string;
+  github: string;
   summary: string;
   experience: ExperienceItem[];
   education: EducationItem[];
+  projects: ProjectItem[];
   skills: string[];
+  awards: string[];
   templateId: string;
+}
+
+export interface Template {
+  id: string;
+  name: string;
+  description: string;
+  thumbnailColor: string;
+  component: React.FC<{ data: ResumeData }>;
+  sections: FormSection[];
+  features: string[];
+  dimensions: string;
+  previewImage?: string;
+  defaultData: ResumeData;
 }
