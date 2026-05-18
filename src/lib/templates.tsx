@@ -1,4 +1,3 @@
-
 const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   return (
     <div className="h-full text-black flex flex-col space-y-8 text-left font-sans">
@@ -333,6 +332,13 @@ export const templates: Template[] = [
       EDUCATION_SECTION,
       AI_SECTION,
     ],
+    features: [
+      "A4/US-Letter Size",
+      "Fully Editable Text",
+      "Automatic AI Metrics",
+      "Clean Typography",
+    ],
+    dimensions: "210mm x 297mm (A4)",
   },
   {
     id: "minimalist",
@@ -346,5 +352,12 @@ export const templates: Template[] = [
       EDUCATION_SECTION,
       AI_SECTION,
     ],
+    features: [
+      "A4/US-Letter Size",
+      "Editable Text",
+      "Side-column Sidebar",
+      "Serif Typography",
+    ],
+    dimensions: "210mm x 297mm (A4)",
   },
 ];

@@ -24,6 +24,9 @@ export interface Template {
   thumbnailColor: string;
   component: React.FC<{ data: ResumeData }>;
   sections: FormSection[];
+  features: string[];
+  dimensions: string;
+  previewImage?: string;
 }
 
 export interface ExperienceItem {

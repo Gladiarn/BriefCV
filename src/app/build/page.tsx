@@ -65,7 +65,7 @@ export default function BuildPage() {
             </p>
           </div>
 
-          <Link href="/build/new">
+          <Link href="/build/select-template">
             <Button size="xl" className="group shadow-pink-500/20 shadow-xl">
               <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
               Forge New Resume
