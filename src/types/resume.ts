@@ -1,9 +1,29 @@
+export type FieldType = "text" | "textarea" | "email" | "tel" | "list";
+
+export interface FormField {
+  id: string;
+  label: string;
+  type: FieldType;
+  placeholder?: string;
+  gridSpan?: 1 | 2;
+}
+
+export interface FormSection {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: any;
+  fields: FormField[];
+  isRepeatable?: boolean;
+}
+
 export interface Template {
   id: string;
   name: string;
   description: string;
   thumbnailColor: string;
   component: React.FC<{ data: ResumeData }>;
+  sections: FormSection[];
 }
 
 export interface ExperienceItem {

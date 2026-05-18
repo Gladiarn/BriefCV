@@ -1,20 +1,14 @@
 "use client";
 
-import {
-  Briefcase,
-  ChevronLeft,
-  Download,
-  GraduationCap,
-  Sparkles,
-  User,
-} from "lucide-react";
+import { ChevronLeft, Download } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { AIForgeTab } from "@/components/sections/build/AIForgeTab";
 import { EditorSidebar } from "@/components/sections/build/EditorSidebar";
 import { PreviewCanvas } from "@/components/sections/build/PreviewCanvas";
 import { Button } from "@/components/ui/button";
+import { templates } from "@/lib/templates";
 import { resumeService } from "@/services/resumeService";
 import type { ResumeData } from "@/types/resume";
 
@@ -37,6 +31,12 @@ function EditorContent() {
   const [zoom, setZoom] = useState(100);
   const [resumeData, setResumeData] = useState<ResumeData>(DEFAULT_RESUME);
   const [isFetching, setIsFetching] = useState(false);
+
+  const activeTemplate = useMemo(() => {
+    return (
+      templates.find((t) => t.id === resumeData.templateId) || templates[0]
+    );
+  }, [resumeData.templateId]);
 
   useEffect(() => {
     const templateId = searchParams.get("template");
@@ -97,30 +97,35 @@ function EditorContent() {
 
         {/* Navigation Tabs */}
         <nav className="flex border-b border-border bg-muted/20">
-          {[
-            { id: "basics", icon: User, label: "Basics" },
-            { id: "experience", icon: Briefcase, label: "Work" },
-            { id: "education", icon: GraduationCap, label: "Edu" },
-            { id: "ai", icon: Sparkles, label: "AI Forge" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-4 flex flex-col items-center gap-1.5 transition-all relative ${
-                activeTab === tab.id
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <tab.icon className="w-4 h-4" />
-              <span className="text-[10px] font-bold uppercase tracking-tighter">
-                {tab.label}
-              </span>
-              {activeTab === tab.id && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-gradient" />
-              )}
-            </button>
-          ))}
+          {activeTemplate.sections.map((section) => {
+            const Icon = section.icon;
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => setActiveTab(section.id)}
+                className={`flex-1 py-4 flex flex-col items-center gap-1.5 transition-all relative ${
+                  activeTab === section.id
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {Icon && <Icon className="w-4 h-4" />}
+                <span className="text-[10px] font-bold uppercase tracking-tighter">
+                  {section.id === "basics"
+                    ? "Basics"
+                    : section.id === "experience"
+                      ? "Work"
+                      : section.id === "education"
+                        ? "Edu"
+                        : section.title}
+                </span>
+                {activeTab === section.id && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-gradient" />
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Form Content */}

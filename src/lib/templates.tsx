@@ -1,4 +1,3 @@
-import type { ResumeData } from "@/types/resume";
 
 const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   return (
@@ -190,13 +189,150 @@ const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   );
 };
 
-export const templates = [
+import { Briefcase, GraduationCap, Sparkles, User } from "lucide-react";
+import type { FormSection, ResumeData, Template } from "@/types/resume";
+
+const AI_SECTION: FormSection = {
+  id: "ai",
+  title: "AI Forge",
+  description: "Command the AI to optimize your content or add metrics.",
+  icon: Sparkles,
+  fields: [],
+};
+
+const BASICS_SECTION: FormSection = {
+  id: "basics",
+  title: "Personal Identity",
+  description: "Tell us who you are and how to reach you.",
+  icon: User,
+  fields: [
+    {
+      id: "name",
+      label: "Full Name",
+      type: "text",
+      placeholder: "Alex Johnson",
+      gridSpan: 1,
+    },
+    {
+      id: "role",
+      label: "Target Role",
+      type: "text",
+      placeholder: "Senior Product Manager",
+      gridSpan: 1,
+    },
+    {
+      id: "email",
+      label: "Email Address",
+      type: "email",
+      placeholder: "alex@forge.com",
+      gridSpan: 1,
+    },
+    {
+      id: "location",
+      label: "Location",
+      type: "text",
+      placeholder: "San Francisco, CA",
+      gridSpan: 1,
+    },
+    {
+      id: "summary",
+      label: "Professional Summary",
+      type: "textarea",
+      placeholder: "Briefly describe your career impact...",
+      gridSpan: 2,
+    },
+    {
+      id: "skills",
+      label: "Core Skills",
+      type: "list",
+      placeholder: "Enter a skill...",
+      gridSpan: 2,
+    },
+  ],
+};
+
+const EXPERIENCE_SECTION: FormSection = {
+  id: "experience",
+  title: "Work Experience",
+  description: "Your history of professional impact.",
+  icon: Briefcase,
+  isRepeatable: true,
+  fields: [
+    {
+      id: "company",
+      label: "Company Name",
+      type: "text",
+      placeholder: "Forge Corp",
+      gridSpan: 1,
+    },
+    {
+      id: "period",
+      label: "Period",
+      type: "text",
+      placeholder: "2021 - Present",
+      gridSpan: 1,
+    },
+    {
+      id: "title",
+      label: "Job Title",
+      type: "text",
+      placeholder: "Lead Product Manager",
+      gridSpan: 2,
+    },
+    {
+      id: "points",
+      label: "Bullet Points",
+      type: "textarea",
+      placeholder: "• Describe a key achievement...",
+      gridSpan: 2,
+    },
+  ],
+};
+
+const EDUCATION_SECTION: FormSection = {
+  id: "education",
+  title: "Education",
+  description: "Your academic background and certifications.",
+  icon: GraduationCap,
+  isRepeatable: true,
+  fields: [
+    {
+      id: "school",
+      label: "University / School",
+      type: "text",
+      placeholder: "Stanford University",
+      gridSpan: 2,
+    },
+    {
+      id: "degree",
+      label: "Degree / Major",
+      type: "text",
+      placeholder: "B.S. in Computer Science",
+      gridSpan: 1,
+    },
+    {
+      id: "year",
+      label: "Graduation Year",
+      type: "text",
+      placeholder: "2020",
+      gridSpan: 1,
+    },
+  ],
+};
+
+export const templates: Template[] = [
   {
     id: "modern",
     name: "Modern",
     description: "High-impact, center-aligned professional blueprint.",
     thumbnailColor: "bg-primary/10",
     component: ModernTemplate,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
   },
   {
     id: "minimalist",
@@ -204,5 +340,11 @@ export const templates = [
     description: "Elegant, serif-based design with a side-column focus.",
     thumbnailColor: "bg-blue-500/10",
     component: MinimalistTemplate,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
   },
 ];
