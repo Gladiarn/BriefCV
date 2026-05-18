@@ -3,7 +3,8 @@
 import { ChevronLeft, Download } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
 import { AIForgeTab } from "@/components/sections/build/AIForgeTab";
 import { EditorSidebar } from "@/components/sections/build/EditorSidebar";
 import { PreviewCanvas } from "@/components/sections/build/PreviewCanvas";
@@ -31,6 +32,7 @@ const DEFAULT_RESUME: ResumeData = {
 
 function EditorContent() {
   const searchParams = useSearchParams();
+  const canvasRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("basics");
   const [zoom, setZoom] = useState(100);
   const [resumeData, setResumeData] = useState<ResumeData>(DEFAULT_RESUME);
@@ -41,6 +43,11 @@ function EditorContent() {
       templates.find((t) => t.id === resumeData.templateId) || templates[0]
     );
   }, [resumeData.templateId]);
+
+  const handlePrint = useReactToPrint({
+    contentRef: canvasRef,
+    documentTitle: `${resumeData.name || "Resume"} - ${activeTemplate.name}`,
+  });
 
   useEffect(() => {
     const templateId = searchParams.get("template");
@@ -153,6 +160,7 @@ function EditorContent() {
           <Button
             className="w-full gap-2 shadow-xl shadow-pink-500/20"
             size="xl"
+            onClick={handlePrint}
           >
             <Download className="w-5 h-5" />
             Export PDF
@@ -161,7 +169,7 @@ function EditorContent() {
       </aside>
 
       {/* Right Canvas - Preview Area */}
-      <PreviewCanvas resumeData={resumeData} zoom={zoom} setZoom={setZoom} />
+      <PreviewCanvas resumeData={resumeData} zoom={zoom} setZoom={setZoom} ref={canvasRef} />
     </div>
   );
 }
