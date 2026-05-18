@@ -188,7 +188,7 @@ const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   );
 };
 
-import { Briefcase, GraduationCap, Sparkles, User } from "lucide-react";
+import { Briefcase, FolderGit2, GraduationCap, Sparkles, Trophy, User } from "lucide-react";
 import type { FormSection, ResumeData, Template } from "@/types/resume";
 
 const AI_SECTION: FormSection = {
@@ -205,49 +205,16 @@ const BASICS_SECTION: FormSection = {
   description: "Tell us who you are and how to reach you.",
   icon: User,
   fields: [
-    {
-      id: "name",
-      label: "Full Name",
-      type: "text",
-      placeholder: "Alex Johnson",
-      gridSpan: 1,
-    },
-    {
-      id: "role",
-      label: "Target Role",
-      type: "text",
-      placeholder: "Senior Product Manager",
-      gridSpan: 1,
-    },
-    {
-      id: "email",
-      label: "Email Address",
-      type: "email",
-      placeholder: "alex@forge.com",
-      gridSpan: 1,
-    },
-    {
-      id: "location",
-      label: "Location",
-      type: "text",
-      placeholder: "San Francisco, CA",
-      gridSpan: 1,
-    },
-    {
-      id: "summary",
-      label: "Professional Summary",
-      type: "textarea",
-      placeholder: "Briefly describe your career impact...",
-      gridSpan: 2,
-    },
-    {
-      id: "skills",
-      label: "Core Skills",
-      type: "list",
-      placeholder: "Enter a skill...",
-      gridSpan: 2,
-    },
-  ],
+    { id: "name", label: "Full Name", type: "text", placeholder: "Alex Johnson", gridSpan: 1 },
+    { id: "role", label: "Target Role", type: "text", placeholder: "Senior Product Manager", gridSpan: 1 },
+    { id: "email", label: "Email Address", type: "email", placeholder: "alex@forge.com", gridSpan: 1 },
+    { id: "phone", label: "Phone", type: "tel", placeholder: "+1 555 123 4567", gridSpan: 1 },
+    { id: "location", label: "Location", type: "text", placeholder: "San Francisco, CA", gridSpan: 1 },
+    { id: "portfolio", label: "Portfolio URL", type: "text", placeholder: "https://your-portfolio.com", gridSpan: 1 },
+    { id: "github", label: "GitHub URL", type: "text", placeholder: "https://github.com/user", gridSpan: 2 },
+    { id: "summary", label: "Professional Summary", type: "textarea", placeholder: "Briefly describe your career impact...", gridSpan: 2 },
+    { id: "skills", label: "Core Skills", type: "list", placeholder: "Enter a skill...", gridSpan: 2 },
+  ]
 };
 
 const EXPERIENCE_SECTION: FormSection = {
@@ -257,35 +224,11 @@ const EXPERIENCE_SECTION: FormSection = {
   icon: Briefcase,
   isRepeatable: true,
   fields: [
-    {
-      id: "company",
-      label: "Company Name",
-      type: "text",
-      placeholder: "Forge Corp",
-      gridSpan: 1,
-    },
-    {
-      id: "period",
-      label: "Period",
-      type: "text",
-      placeholder: "2021 - Present",
-      gridSpan: 1,
-    },
-    {
-      id: "title",
-      label: "Job Title",
-      type: "text",
-      placeholder: "Lead Product Manager",
-      gridSpan: 2,
-    },
-    {
-      id: "points",
-      label: "Bullet Points",
-      type: "textarea",
-      placeholder: "• Describe a key achievement...",
-      gridSpan: 2,
-    },
-  ],
+    { id: "company", label: "Company Name", type: "text", placeholder: "Forge Corp", gridSpan: 1 },
+    { id: "period", label: "Period", type: "text", placeholder: "2021 - Present", gridSpan: 1 },
+    { id: "title", label: "Job Title", type: "text", placeholder: "Lead Product Manager", gridSpan: 2 },
+    { id: "points", label: "Bullet Points", type: "textarea", placeholder: "• Describe a key achievement...", gridSpan: 2 },
+  ]
 };
 
 const EDUCATION_SECTION: FormSection = {
@@ -295,28 +238,34 @@ const EDUCATION_SECTION: FormSection = {
   icon: GraduationCap,
   isRepeatable: true,
   fields: [
-    {
-      id: "school",
-      label: "University / School",
-      type: "text",
-      placeholder: "Stanford University",
-      gridSpan: 2,
-    },
-    {
-      id: "degree",
-      label: "Degree / Major",
-      type: "text",
-      placeholder: "B.S. in Computer Science",
-      gridSpan: 1,
-    },
-    {
-      id: "year",
-      label: "Graduation Year",
-      type: "text",
-      placeholder: "2020",
-      gridSpan: 1,
-    },
-  ],
+    { id: "school", label: "University / School", type: "text", placeholder: "Stanford University", gridSpan: 2 },
+    { id: "degree", label: "Degree / Major", type: "text", placeholder: "B.S. in Computer Science", gridSpan: 1 },
+    { id: "year", label: "Graduation Year", type: "text", placeholder: "2020", gridSpan: 1 },
+  ]
+};
+
+const PROJECTS_SECTION: FormSection = {
+  id: "projects",
+  title: "Project Experience",
+  description: "Key projects you have worked on.",
+  icon: FolderGit2,
+  isRepeatable: true,
+  fields: [
+    { id: "title", label: "Project Title", type: "text", placeholder: "EcoCycle", gridSpan: 1 },
+    { id: "period", label: "Period", type: "text", placeholder: "2026", gridSpan: 1 },
+    { id: "technologies", label: "Technologies Used", type: "text", placeholder: "Next.js, Tailwind, Supabase", gridSpan: 2 },
+    { id: "description", label: "Project Description", type: "textarea", placeholder: "High-performance inventory system...", gridSpan: 2 },
+  ]
+};
+
+const AWARDS_SECTION: FormSection = {
+  id: "awards",
+  title: "Awards & Recognition",
+  description: "Highlights and achievements.",
+  icon: Trophy,
+  fields: [
+    { id: "awards", label: "Awards List", type: "list", placeholder: "Add an award...", gridSpan: 2 },
+  ]
 };
 
 export const templates: Template[] = [
@@ -345,6 +294,8 @@ export const templates: Template[] = [
       email: "alex@forge.com",
       phone: "+1 (555) 000-1234",
       location: "San Francisco, CA",
+      portfolio: "https://alex-pm.com",
+      github: "https://github.com/alex-pm",
       summary:
         "Results-driven Product Manager with 8+ years of experience leading cross-functional teams in high-growth tech environments. Expert in AI-driven product strategy and user engagement.",
       experience: [
@@ -365,12 +316,16 @@ export const templates: Template[] = [
           year: "2020",
         },
       ],
+      projects: [
+        { id: "1", title: "EcoCycle", description: "High-performance inventory system with carbon impact monitoring.", technologies: "Next.js, Tailwind, Supabase", period: "2026" }
+      ],
       skills: [
         "Product Strategy",
         "AI/ML Integration",
         "User Research",
         "Agile Leadership",
       ],
+      awards: ["PM of the Year 2024", "Top 10 AI Innovation 2023"],
       templateId: "modern",
     },
   },
@@ -384,6 +339,8 @@ export const templates: Template[] = [
       BASICS_SECTION,
       EXPERIENCE_SECTION,
       EDUCATION_SECTION,
+      PROJECTS_SECTION,
+      AWARDS_SECTION,
       AI_SECTION,
     ],
     features: [
@@ -399,6 +356,8 @@ export const templates: Template[] = [
       email: "sam@minimalist.com",
       phone: "+1 (555) 987-6543",
       location: "New York, NY",
+      portfolio: "https://sam-dev.com",
+      github: "https://github.com/sam-dev",
       summary:
         "Passionate Software Engineer specializing in scalable microservices and elegant code architecture.",
       experience: [
@@ -419,12 +378,16 @@ export const templates: Template[] = [
           year: "2019",
         },
       ],
+      projects: [
+        { id: "2", title: "TourConnect", description: "Full-stack booking platform with real-time tracking.", technologies: "Next.js, Node.js, MongoDB", period: "2025" }
+      ],
       skills: [
         "TypeScript",
         "Node.js",
         "System Design",
         "Cloud Infrastructure",
       ],
+      awards: ["Best in Web Development 2022"],
       templateId: "minimalist",
     },
   },

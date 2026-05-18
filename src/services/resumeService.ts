@@ -28,12 +28,17 @@ const DEFAULT_RESUME: ResumeData = {
   email: "",
   phone: "",
   location: "",
+  portfolio: "",
+  github: "",
   summary: "",
   experience: [],
   education: [],
+  projects: [],
   skills: [],
-  templateId: "modern",
+  awards: [],
+  templateId: "modern"
 };
+
 
 export const resumeService = {
   /**

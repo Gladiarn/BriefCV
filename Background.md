@@ -560,3 +560,86 @@ export function DashboardPage() {
     </div>
   );
 }
+
+
+<!-- example of resume -->
+
+Ianne Carl Z. Bulilan
+Full-Stack Web Developer
+bulilaniannecarl​@gmail.com
+ 
++63-918-317-2574
+ 
+Brgy. Malaguicay Tanauan, Leyte
+ 
+https://ianne-portfolio.vercel.app
+ 
+Ianne Carl Bulilan
+ 
+github.com/gladiarn
+ 
+WORK EXPERIENCE
+Frontend Developer Intern, Symphonics Co. Ltd.
+•Collaborated with teams to translate Figma layouts into high-fidelity, production-ready web pages.
+•Built responsive interfaces using Next.js, Tailwind CSS, and shadcn/ui for seamless UX.
+02/2025 – 05/2025
+Marasbaras, Tacloban City
+•Integrated frontend systems with RESTful APIs for dynamic data fetching and state management.
+•Ensured design fidelity by maintaining strict consistency between Figma mockups and code.
+•Upheld clean code standards through PR reviews and scalable TypeScript component architectures.
+•Optimized web performance using Next.js Server Components and image optimization.
+Freelance Full-Stack Developer, Self-Employed
+•Built minimalist, responsive portfolio websites using Django, Vanilla JS, and Tailwind CSS.
+•Engineered SnapJSX, a TypeScript component library, focusing on scalable architecture and developer experience.
+03/2025 – 01/2026
+Remote
+•Modernized a thrift shop system by decoupling a Django API and rebuilding the frontend in React.
+•Developed TourConnect, a full-stack booking platform using Next.js, Express, MongoDB, and JWT.
+•Integrated Google Gemini API to build AI chatbots and automated support systems using agentic logic.
+•Accelerated development speed by implementing CLI-based AI agents and automated "flywheel" workflows.
+•Managed full SDLC for multiple projects: from Figma design to Vercel deployment and CI/CD.
+•Collaborated on team projects using shadcn/ui, handling PR reviews and maintaining clean code standards.
+PROJECT EXPERIENCE
+SnapJSX, Modern JSX Component Library
+•High-performance JSX component library designed for rapid integration, featuring a streamlined root-level architecture for improved scalability and developer experience.
+•Technologies: Next.js, TypeScript, Tailwind CSS, CLI-based AI agents, Agentic Enablement Tooling, Vercel
+02/2026 – 03/2026
+EcoCycle, Multi-Warehouse Inventory Management System
+•Multi-warehouse inventory management system with real-time stock tracking, inter-warehouse transfers, and carbon impact monitoring to support sustainable operations.
+•Technologies: Next.js, TypeScript, Tailwind CSS, Node.js, Express, PostgreSQL, Prisma, Supabase, JWT authentication
+01/2026 – 02/2026
+TourConnect, Capstone Project
+•Full-stack travel platform with hotel booking, role-based access, JWT authentication (access & refresh tokens), and AI chatbot integration.
+•Technologies: Next.js, TypeScript, Node.js, Express, MongoDB, Tailwind CSS, shadcn/ui
+TourVan, Capstone Project
+•Cloud-based van tour booking platform with real-time GPS, seat tracking, and location autocomplete.
+•Technologies: React.js, Node.js, Express, MongoDB, Leaflet.js
+DepHelp, Depression Assessment Platform
+•Full-stack depression assessment platform with Google authentication, dynamic questionnaires, real-time scoring, and personalized results analysis.
+•Technologies: Next.js, TypeScript, Node.js, Express, MongoDB, NextAuth, Tailwind CSS, Mongoose
+SweetStocks, Inventory Management System
+•Real-time inventory dashboard with low-stock alerts and analytics via Chart.js.
+•Technologies: Django, JavaScript, Chart.JS
+SKILLS & INTERESTS
+Frontend Development
+•HTML, CSS, JavaScript, TypeScript, Vanilla JS, React.js (Hooks, Context API), Zustand, Next.js (App Router), Tailwind CSS, shadcn/ui, Framer Motion, GraphQL, TanStack Query, JWT Authentication, Component-Driven Development
+Databases
+•PostgreSQL, MongoDB (NoSQL), MySQL (phpMyAdmin), SQLite, Supabase, Prisma ORM, Django ORM, Entity Framework, Redis, Database Schema Design
+Backend & API Development
+•Node.js, Express.js, Django, Laravel, PHP, C#, .NET Core, REST APIs, GraphQL, Entity Framework, JWT-based Authentication, PostgreSQL, MongoDB, Prisma ORM, Supabase
+Tools
+•Figma, Git (GitHub, GitLab), Vercel, VS Code, Postman, CLI-based AI Agents, Agentic Enablement Tooling, CI/​CD Pipelines, Docker
+EDUCATION
+Bachelor of Science in Information Technology, AMA Computer Learning Center
+Graduation Date: Jul 2025
+
+07/2025
+Tacloban City, Leyte
+Bachelor of Science in Information Technology, 
+University of Rizal System Binangonan
+08/2020 – 12/2022
+Binangonan, Rizal
+AWARDS
+Best in HTML5 & CSS
+Best in Web Development
+Best in Capstone Presenter with the title "Cloud-based Van Travel and Tours Tracking and Monitoring System of Grand Tours Tacloban City"

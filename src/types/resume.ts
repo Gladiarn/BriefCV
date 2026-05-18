@@ -17,19 +17,6 @@ export interface FormSection {
   isRepeatable?: boolean;
 }
 
-export interface Template {
-  id: string;
-  name: string;
-  description: string;
-  thumbnailColor: string;
-  component: React.FC<{ data: ResumeData }>;
-  sections: FormSection[];
-  features: string[];
-  dimensions: string;
-  previewImage?: string;
-  defaultData: ResumeData;
-}
-
 export interface ExperienceItem {
   id: string;
   company: string;
@@ -45,15 +32,40 @@ export interface EducationItem {
   year: string;
 }
 
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  technologies: string;
+  period: string;
+}
+
 export interface ResumeData {
   name: string;
   role: string;
   email: string;
   phone: string;
   location: string;
+  portfolio: string;
+  github: string;
   summary: string;
   experience: ExperienceItem[];
   education: EducationItem[];
+  projects: ProjectItem[];
   skills: string[];
+  awards: string[];
   templateId: string;
+}
+
+export interface Template {
+  id: string;
+  name: string;
+  description: string;
+  thumbnailColor: string;
+  component: React.FC<{ data: ResumeData }>;
+  sections: FormSection[];
+  features: string[];
+  dimensions: string;
+  previewImage?: string;
+  defaultData: ResumeData;
 }
