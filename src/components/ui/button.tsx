@@ -15,20 +15,20 @@ export function Button({
 }: ButtonProps) {
   const variants = {
     primary:
-      "bg-primary-gradient text-white font-black shadow-[0_5px_15px_-5px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_-5px_rgba(236,72,153,0.5)] overflow-hidden",
+      "relative bg-primary-gradient text-white font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 before:absolute before:inset-0 before:bg-white/10 before:rounded-full before:opacity-0 hover:before:opacity-100 before:transition-opacity",
     secondary:
-      "bg-secondary text-secondary-foreground font-bold hover:bg-accent border border-border",
+      "bg-white dark:bg-zinc-900 text-foreground font-bold hover:bg-secondary border border-border/50 shadow-sm",
     ghost:
-      "text-muted-foreground hover:text-primary transition-all relative group/link font-medium",
+      "text-muted-foreground hover:text-primary transition-all font-semibold",
     outline:
-      "bg-transparent border-2 border-primary/20 text-primary hover:bg-primary/5 font-bold",
+      "bg-transparent border-2 border-primary/30 text-primary hover:bg-primary/5 font-bold transition-all",
   };
 
   const sizes = {
-    sm: "px-3 py-1.5 text-xs rounded-lg",
-    md: "px-5 py-2.5 text-sm rounded-xl",
-    lg: "px-6 py-3.5 text-base rounded-xl",
-    xl: "px-8 py-4 text-base rounded-2xl",
+    sm: "px-4 py-2 text-xs rounded-full",
+    md: "px-6 py-3 text-sm rounded-full",
+    lg: "px-8 py-4 text-base rounded-full",
+    xl: "px-10 py-5 text-lg rounded-full",
   };
 
   return (

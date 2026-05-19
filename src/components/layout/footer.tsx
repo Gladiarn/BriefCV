@@ -1,4 +1,4 @@
-import { Code2, Globe, Heart, MessageSquare, Sparkles } from "lucide-react";
+import { Code2, Globe, MessageSquare, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const footerData = {
@@ -44,32 +44,30 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full pt-24 pb-7 mt-20 border-t border-border relative">
-      {/* Background Decorative Glows */}
-
-      <div className="relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-20">
+    <footer className="w-full pt-20 pb-12 mt-20 border-t border-border/40">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="col-span-2 space-y-6">
             <Link href="/" className="flex items-center gap-2 group w-fit">
-              <div className="bg-primary-gradient p-1.5 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+              <div className="bg-primary-gradient p-1.5 rounded-xl transition-transform duration-300 group-hover:rotate-12">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-2xl font-black text-gradient tracking-tight">
+              <span className="text-xl font-bold tracking-tight">
                 {footerData.brand.name}
               </span>
             </Link>
-            <p className="text-muted-foreground text-base max-w-sm leading-relaxed italic">
-              "{footerData.brand.description}"
+            <p className="text-muted-foreground text-sm max-w-xs leading-relaxed">
+              {footerData.brand.description}
             </p>
-            <div className="flex gap-4 pt-2">
+            <div className="flex gap-3">
               {footerData.socials.map((social) => (
                 <a
                   key={social.href}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-card border border-border text-muted-foreground hover:text-primary hover:border-primary/20 hover:shadow-lg transition-all"
+                  className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
@@ -79,16 +77,16 @@ export function Footer() {
 
           {/* Link Columns */}
           {footerData.categories.map((category) => (
-            <div key={category.title} className="space-y-6">
-              <h4 className="text-sm font-black uppercase tracking-widest text-foreground/80">
+            <div key={category.title} className="space-y-4">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
                 {category.title}
               </h4>
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {category.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
+                      className="text-muted-foreground hover:text-foreground transition-colors text-[13px] font-medium"
                     >
                       {link.label}
                     </Link>
@@ -100,28 +98,32 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground/60 uppercase tracking-tighter">
+        <div className="pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60">
+          <div className="flex items-center gap-2">
             <span>
               © {currentYear} {footerData.brand.name}
             </span>
             <span className="w-1 h-1 rounded-full bg-border" />
-            <span className="flex items-center gap-1">
-              Forged with{" "}
-              <Heart className="w-3 h-3 text-primary fill-current" /> by the AI
-              team
-            </span>
+            <span>Built with AI intelligence</span>
           </div>
 
-          {/* AI Status Indicator */}
-          <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 border-dashed">
-            <div className="relative flex h-2 w-2">
-              <div className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <div className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+          <div className="flex items-center gap-6">
+            <Link
+              href="/privacy"
+              className="hover:text-foreground transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="hover:text-foreground transition-colors"
+            >
+              Terms
+            </Link>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-[9px]">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              SYSTEM ACTIVE
             </div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-primary/80">
-              System Online: GPT-4 & Gemini AI
-            </span>
           </div>
         </div>
       </div>

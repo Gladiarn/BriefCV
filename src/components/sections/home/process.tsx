@@ -1,5 +1,5 @@
 import { FileText, MousePointer2, Share2, Wand2 } from "lucide-react";
-import { Card } from "../../ui/card";
+import { cn } from "@/lib/utils";
 
 const steps = [
   {
@@ -34,40 +34,48 @@ const steps = [
 
 export function ProcessSection() {
   return (
-    <section className="py-24 relative">
-      <div className="flex flex-col items-center text-center mb-16 space-y-4">
-        <div className="bg-primary/10 text-primary px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2">
+    <section className="py-24 md:py-32">
+      <div className="flex flex-col items-center text-center mb-20 space-y-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-muted-foreground text-[11px] font-bold uppercase tracking-[0.2em]">
           The Workflow
         </div>
-        <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-gradient py-2 leading-tight">
-          Simple Steps to <br className="hidden md:block" /> Your Next Big Win
+        <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-2xl leading-tight">
+          Simple steps to build your <br className="hidden md:block" />{" "}
+          professional future
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-        {/* Connection Line (Desktop) */}
-        <div className="hidden lg:block absolute top-[2.5rem] left-[10%] right-[10%] h-[1px] bg-border z-0" />
-
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
         {steps.map((step, index) => (
-          <div key={step.title} className="relative z-10">
-            <Card className="group flex flex-col h-full hover:border-primary/40 hover:shadow-lg transition-all duration-500 p-6 rounded-[1.5rem]">
+          <div key={step.title} className="relative group">
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
               <div
-                className={`w-12 h-12 rounded-xl ${step.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 shadow-sm`}
+                className={cn(
+                  "w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-2xl shadow-black/[0.03]",
+                  step.color,
+                )}
               >
-                <step.icon className="w-5 h-5" />
+                <step.icon className="w-6 h-6" />
               </div>
 
-              <div className="absolute top-6 right-6 text-4xl font-black text-muted/5 group-hover:text-primary/10 transition-colors">
-                {index + 1}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-xs font-bold text-primary/40 tracking-widest">
+                  0{index + 1}
+                </span>
+                <h3 className="text-xl font-bold tracking-tight">
+                  {step.title}
+                </h3>
               </div>
 
-              <h3 className="text-lg font-bold mb-3 tracking-tight group-hover:text-primary transition-colors">
-                {step.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed text-xs">
+              <p className="text-muted-foreground leading-relaxed text-[13px]">
                 {step.description}
               </p>
-            </Card>
+            </div>
+
+            {/* Connection Arrow (Desktop) */}
+            {index < steps.length - 1 && (
+              <div className="hidden lg:block absolute top-7 left-[calc(50%+2.5rem)] w-[calc(100%-5rem)] h-[1px] bg-border/40" />
+            )}
           </div>
         ))}
       </div>

@@ -1,5 +1,4 @@
 import { ShieldCheck, Sparkles, Target, Users } from "lucide-react";
-import { Card } from "../../ui/card";
 
 const stats = [
   { label: "Resumes Built", value: "10k+", icon: Users },
@@ -10,25 +9,27 @@ const stats = [
 
 export function StatsStrip() {
   return (
-    <section className="py-12 md:py-16">
-      <Card variant="glass" className="p-0 border-primary/10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-border">
+    <section className="py-12 border-y border-border/40 bg-secondary/30 backdrop-blur-sm">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="flex flex-col items-center justify-center p-6 md:p-8 group hover:bg-primary/[0.02] transition-colors"
+              className="flex flex-col items-center lg:items-start group"
             >
-              <stat.icon className="w-5 h-5 text-primary mb-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <span className="text-3xl font-black mb-1 tracking-tight">
+              <div className="flex items-center gap-2 mb-2">
+                <stat.icon className="w-3.5 h-3.5 text-primary opacity-70 group-hover:opacity-100 transition-opacity" />
+                <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-foreground transition-colors">
+                  {stat.label}
+                </span>
+              </div>
+              <span className="text-3xl md:text-4xl font-bold tracking-tight">
                 {stat.value}
-              </span>
-              <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
-                {stat.label}
               </span>
             </div>
           ))}
         </div>
-      </Card>
+      </div>
     </section>
   );
 }
