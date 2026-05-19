@@ -13,7 +13,7 @@ import {
   ProfessionalTemplate,
 } from "@/templates";
 import { ModernPDFTemplate } from "@/templates/pdf/modern";
-import type { FormSection, ResumeData, Template } from "@/types/resume";
+import type { FormSection, Template } from "@/types/resume";
 
 export const pdfTemplates = {
   modern: ModernPDFTemplate,

@@ -1,11 +1,4 @@
-import {
-  Document,
-  Font,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { ResumeData } from "@/types/resume";
 
 const styles = StyleSheet.create({

@@ -1,29 +1,25 @@
 "use client";
 
-import {
-  ArrowRight,
-  Clock,
-  Download,
-  FileText,
-  LayoutTemplate,
-  MoreVertical,
-  Plus,
-  Search,
-  Sparkles,
-  Trash2,
-} from "lucide-react";
+import { Download, Plus, Rocket, Search, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/layout/footer";
+import { ProjectCard } from "@/components/shared/ProjectCard";
+import { TemplateCard } from "@/components/shared/TemplateCard";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { templates } from "@/lib/templates";
+import { cn } from "@/lib/utils";
 import { type ResumeMetadata, resumeService } from "@/services/resumeService";
+import type { Template } from "@/types/resume";
 
 export default function BuildPage() {
   const [resumes, setResumes] = useState<ResumeMetadata[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
+    null,
+  );
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   useEffect(() => {
     const fetchResumes = async () => {
@@ -46,251 +42,204 @@ export default function BuildPage() {
     );
   }, [resumes, searchQuery]);
 
-  return (
-    <div className="container mx-auto px-4 md:px-6 page-padding relative min-h-screen">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 blur-[120px] rounded-full -z-10" />
-      <div className="absolute bottom-20 left-0 w-72 h-72 bg-primary-purple/5 blur-[100px] rounded-full -z-10" />
+  const handlePreview = (template: Template) => {
+    setSelectedTemplate(template);
+    setIsPreviewOpen(true);
+  };
 
-      <main className="flex flex-col space-y-12 pb-20">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tighter">
-              Your <span className="text-gradient">Professional Forge</span>
+  return (
+    <div className="relative min-h-screen bg-background page-padding isolate">
+      {/* Subtle Background Accent */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-primary/5 blur-[100px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-primary-purple/5 blur-[100px] rounded-full" />
+      </div>
+
+      <main className="relative z-10 flex flex-col">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col gap-24 pb-32 pt-12 md:pt-20">
+          {/* Header Section */}
+          <div className="flex flex-col gap-8 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-muted-foreground text-[10px] font-bold uppercase tracking-[0.2em] w-fit">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              Active Workbench
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              Master Your <br />
+              <span className="text-gradient">Professional Narrative.</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-xl">
-              Manage your high-impact resumes or start a new transformation with
-              AI.
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Your career history, optimized. Forge high-impact achievement sets
+              that bypass filters and captivate recruiters.
             </p>
           </div>
 
-          <Link href="/build/select-template">
-            <Button size="xl" className="group shadow-pink-500/20 shadow-xl">
-              <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
-              Forge New Resume
-            </Button>
-          </Link>
-        </div>
-
-        {/* Search Bar */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1 group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-            <input
-              type="text"
-              placeholder="Search your resumes..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-card border border-border rounded-2xl py-3 px-11 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-            />
-          </div>
-        </div>
-
-        {/* Resumes Grid */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-6 bg-primary rounded-full" />
-            <h2 className="text-xl font-bold tracking-tight">
-              Recent Projects
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {/* Create New Card */}
-            <Link href="/build/select-template" className="group">
-              <Card className="h-full border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center p-8 gap-4 bg-transparent shadow-none">
-                <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                  <Plus className="w-8 h-8 text-primary" />
-                </div>
-                <div className="text-center">
-                  <p className="font-bold">Forge New</p>
-                  <p className="text-xs text-muted-foreground">
-                    Start from scratch
-                  </p>
-                </div>
-              </Card>
-            </Link>
-
-            {isLoading ? (
-              // Loading Skeletons
-              [...Array(3)].map((_, i) => (
-                <Card
-                  key={i}
-                  className="h-[280px] animate-pulse bg-muted/20 border-none"
-                />
-              ))
-            ) : filteredResumes.length > 0 ? (
-              filteredResumes.map((resume) => {
-                const template =
-                  templates.find((t) => t.id === resume.templateId) ||
-                  templates[0];
-                return (
-                  <Card
-                    key={resume.id}
-                    className="group relative p-0 overflow-visible border-primary/5 hover:border-primary/20 hover:shadow-2xl transition-all duration-500 rounded-[2rem]"
-                  >
-                    {/* Thumbnail Preview */}
-                    <div
-                      className={`aspect-[3/4] ${template.thumbnailColor} rounded-t-[2rem] p-6 relative overflow-hidden flex flex-col gap-2`}
-                    >
-                      <div className="w-full h-2 bg-foreground/10 rounded-full" />
-                      <div className="w-2/3 h-2 bg-foreground/5 rounded-full" />
-                      <div className="mt-4 space-y-2">
-                        <div className="w-full h-1.5 bg-foreground/5 rounded-full" />
-                        <div className="w-full h-1.5 bg-foreground/5 rounded-full" />
-                        <div className="w-3/4 h-1.5 bg-foreground/5 rounded-full" />
-                      </div>
-
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                        <Link href={`/build/new?id=${resume.id}`}>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            className="gap-2"
-                          >
-                            Edit Project <ArrowRight className="w-3.5 h-3.5" />
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6 space-y-4">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="space-y-1">
-                          <h3 className="font-bold truncate max-w-[150px]">
-                            {resume.title}
-                          </h3>
-                          <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
-                            <Clock className="w-3 h-3" />
-                            {resume.lastEdited}
-                          </div>
-                        </div>
-                        <button className="p-1.5 rounded-lg hover:bg-muted transition-colors">
-                          <MoreVertical className="w-4 h-4 text-muted-foreground" />
-                        </button>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-2 border-t border-border">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-4 h-4 rounded bg-primary/10 flex items-center justify-center">
-                            <LayoutTemplate className="w-2.5 h-2.5 text-primary" />
-                          </div>
-                          <span className="text-[10px] font-bold text-muted-foreground uppercase">
-                            {template.name}
-                          </span>
-                        </div>
-
-                        <div className="flex gap-1">
-                          <button
-                            className="p-1.5 rounded-lg hover:text-primary transition-colors"
-                            title="Download"
-                          >
-                            <Download className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            className="p-1.5 rounded-lg hover:text-destructive transition-colors"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                );
-              })
-            ) : (
-              <Card className="col-span-full py-20 flex flex-col items-center justify-center border-dashed border-2 bg-muted/5">
-                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <FileText className="w-8 h-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-xl font-bold">No resumes found</h3>
-                <p className="text-muted-foreground mb-6 text-center max-w-xs">
-                  {searchQuery
-                    ? `No resumes match your search "${searchQuery}"`
-                    : "You haven't forged any resumes yet. Start your journey today!"}
+          {/* Projects Section */}
+          <section className="space-y-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b border-border/40">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tight">
+                  Recent Projects
+                </h2>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
+                  Your active transformations
                 </p>
-                {!searchQuery && (
-                  <Link href="/build/select-template">
-                    <Button variant="outline" className="gap-2">
-                      <Plus className="w-4 h-4" /> Forge Your First
-                    </Button>
-                  </Link>
-                )}
-              </Card>
-            )}
-          </div>
-        </section>
+              </div>
 
-        {/* Template Showcase Section */}
-        <section className="pt-8 space-y-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-6 bg-primary-purple rounded-full" />
-              <h2 className="text-xl font-bold tracking-tight">
-                AI-Optimized Blueprints
-              </h2>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {templates.map((template) => (
-              <Card
-                key={template.id}
-                variant="glass"
-                className="group p-6 border-primary/5 hover:border-primary/20 transition-all overflow-hidden relative"
-              >
-                <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-                  <Sparkles className="w-24 h-24" />
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <div className="relative flex-1 md:w-72">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Search projects..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-secondary/50 border border-border/40 rounded-full py-2.5 px-11 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  />
                 </div>
-
-                <div
-                  className={`w-full h-40 rounded-xl ${template.thumbnailColor} mb-6 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-500`}
+                <Button
+                  variant="secondary"
+                  size="md"
+                  className="hidden md:flex"
                 >
-                  <FileText className="w-12 h-12 text-foreground/40" />
-                </div>
+                  <Download className="w-4 h-4 mr-2" />
+                  Import
+                </Button>
+              </div>
+            </div>
 
-                <div className="space-y-4">
-                  <h3 className="font-bold text-lg">{template.name}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    {template.description}
-                  </p>
-                  <div className="space-y-2">
-                    {template.features.slice(0, 2).map((feature, i) => (
-                      <p
-                        key={i}
-                        className="text-[10px] text-primary font-medium flex items-center gap-1.5"
-                      >
-                        <span className="w-1 h-1 rounded-full bg-primary" />{" "}
-                        {feature}
-                      </p>
-                    ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {/* Create New Project Card */}
+              <Link
+                href="/build/select-template"
+                className="group h-full min-h-[400px]"
+              >
+                <div className="h-full border-2 border-dashed border-border/40 hover:border-primary/40 hover:bg-primary/5 transition-all duration-500 flex flex-col items-center justify-center p-8 gap-6 rounded-[2rem] relative overflow-hidden">
+                  <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-2xl shadow-black/[0.03]">
+                    <Plus className="w-8 h-8 text-primary" />
                   </div>
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
-                    {template.dimensions}
-                  </p>
-                  <Link
-                    href={`/build/new?template=${template.id}`}
-                    className="block pt-2"
-                  >
-                    <Button
-                      variant="secondary"
-                      className="w-full text-xs font-bold uppercase tracking-widest"
-                    >
-                      Use Blueprint
-                    </Button>
-                  </Link>
+                  <div className="text-center space-y-2">
+                    <p className="font-bold text-xl tracking-tight">
+                      Forge New
+                    </p>
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+                      Initialize Blueprint
+                    </p>
+                  </div>
                 </div>
-              </Card>
-            ))}
-          </div>
-        </section>
+              </Link>
 
+              {isLoading
+                ? [...Array(3)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-[400px] animate-pulse bg-secondary/30 rounded-[2rem]"
+                    />
+                  ))
+                : filteredResumes.map((resume) => {
+                    const template =
+                      templates.find((t) => t.id === resume.templateId) ||
+                      templates[0];
+                    return (
+                      <ProjectCard
+                        key={resume.id}
+                        resume={resume}
+                        template={template}
+                      />
+                    );
+                  })}
+            </div>
+          </section>
+
+          {/* Templates Gallery */}
+          <section className="space-y-16 pt-16">
+            <div className="flex flex-col items-center text-center space-y-4 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-muted-foreground text-[10px] font-bold uppercase tracking-[0.2em]">
+                Blueprint Library
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Explore New Blueprints
+              </h2>
+              <p className="text-muted-foreground">
+                Every template is meticulously crafted to be ATS-optimized and
+                visually stunning.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {templates.map((template) => (
+                <TemplateCard
+                  key={template.id}
+                  template={template}
+                  onPreview={handlePreview}
+                />
+              ))}
+            </div>
+          </section>
+        </div>
         <Footer />
       </main>
+
+      {/* Preview Modal - Minimalist Overhaul */}
+      {isPreviewOpen && selectedTemplate && (
+        <div className="fixed inset-0 bg-background/40 backdrop-blur-xl z-[1000] flex items-center justify-center p-6 animate-in fade-in duration-300">
+          <div className="bg-card w-full max-w-5xl rounded-[3rem] border border-border/40 shadow-2xl overflow-hidden relative flex flex-col md:flex-row h-full max-h-[85vh] animate-in zoom-in-95 duration-500 ease-out">
+            <button
+              type="button"
+              onClick={() => setIsPreviewOpen(false)}
+              className="absolute top-8 right-8 p-3 hover:bg-secondary rounded-full z-20 transition-all active:scale-95 border border-border/40 bg-background/50 backdrop-blur-md"
+            >
+              <Plus className="w-5 h-5 rotate-45" />
+            </button>
+
+            {/* Visual Side */}
+            <div
+              className={cn(
+                "flex-1 relative flex items-center justify-center p-12 overflow-hidden",
+                selectedTemplate.thumbnailColor,
+              )}
+            >
+              <div className="relative w-full max-w-[320px] aspect-[1/1.414] bg-white shadow-2xl rounded-lg p-10 flex flex-col gap-4 transform -rotate-1">
+                <div className="h-6 w-1/3 bg-slate-100 rounded" />
+                <div className="h-2 w-1/4 bg-slate-50 rounded" />
+                <div className="mt-8 space-y-3">
+                  <div className="h-1.5 w-full bg-slate-50 rounded" />
+                  <div className="h-1.5 w-full bg-slate-50 rounded" />
+                  <div className="h-1.5 w-2/3 bg-slate-50 rounded" />
+                </div>
+              </div>
+            </div>
+
+            {/* Content Side */}
+            <div className="w-full md:w-[450px] p-12 flex flex-col justify-center bg-card border-l border-border/40 overflow-y-auto">
+              <div className="space-y-12">
+                <div className="space-y-6">
+                  <h2 className="text-4xl font-bold tracking-tight leading-tight">
+                    {selectedTemplate.name}
+                  </h2>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {selectedTemplate.description}
+                  </p>
+                </div>
+
+                <div className="pt-12 border-t border-border/40">
+                  <Link
+                    href={`/build/new?template=${selectedTemplate.id}`}
+                    className="block"
+                  >
+                    <Button
+                      size="lg"
+                      className="w-full h-14 text-base font-bold shadow-xl shadow-primary/20 transition-all active:scale-95"
+                    >
+                      Launch Builder
+                      <Rocket className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

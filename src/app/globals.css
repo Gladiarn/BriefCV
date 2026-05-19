@@ -4,84 +4,52 @@
 
 :root {
   --font-size: 16px;
-  --background: #fafafa;
-  --foreground: #0a0a0a;
+  --background: #ffffff;
+  --foreground: #09090b;
   --card: #ffffff;
-  --card-foreground: #0a0a0a;
+  --card-foreground: #09090b;
   --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
+  --popover-foreground: #09090b;
   --primary: #ec4899;
   --primary-purple: #8b5cf6;
   --primary-gradient: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
   --primary-foreground: #ffffff;
   --secondary: #f4f4f5;
-  --secondary-foreground: #0a0a0a;
+  --secondary-foreground: #18181b;
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
-  --accent: #e4e4e7;
-  --accent-foreground: #0a0a0a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
   --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
+  --destructive-foreground: #fafafa;
   --border: #e4e4e7;
-  --input: transparent;
-  --input-background: #ffffff;
-  --switch-background: #e4e4e7;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
+  --input: #e4e4e7;
   --ring: #ec4899;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.5rem;
-  --sidebar: #fafafa;
-  --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #ec4899;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f4f5;
-  --sidebar-accent-foreground: #0a0a0a;
-  --sidebar-border: #e4e4e7;
-  --sidebar-ring: #ec4899;
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: #0a0a0a;
+  --background: #030303;
   --foreground: #fafafa;
-  --card: #171717;
+  --card: #09090b;
   --card-foreground: #fafafa;
-  --popover: #171717;
+  --popover: #09090b;
   --popover-foreground: #fafafa;
   --primary: #f472b6;
   --primary-purple: #a78bfa;
   --primary-gradient: linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
   --primary-foreground: #ffffff;
-  --secondary: #27272a;
+  --secondary: #18181b;
   --secondary-foreground: #fafafa;
-  --muted: #27272a;
+  --muted: #18181b;
   --muted-foreground: #a1a1aa;
-  --accent: #27272a;
+  --accent: #18181b;
   --accent-foreground: #fafafa;
   --destructive: #ef4444;
   --destructive-foreground: #fafafa;
   --border: #27272a;
   --input: #27272a;
   --ring: #f472b6;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: #171717;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #f472b6;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #f472b6;
 }
 
 @theme inline {
@@ -105,26 +73,47 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
-  --color-input-background: var(--input-background);
-  --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground transition-colors duration-300 m-0 p-0 selection:bg-primary/20;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  html {
+    font-size: var(--font-size);
+    scroll-behavior: smooth;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1];
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight leading-tight;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl font-semibold tracking-tight;
+  }
+
+  h4 {
+    @apply text-lg font-semibold tracking-tight;
+  }
+
+  label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
 }
 
 @layer utilities {
@@ -141,79 +130,20 @@
     background: var(--primary-gradient);
   }
 
-  /* Padding to compensate for fixed navbar */
+  .glass {
+    @apply bg-background/60 backdrop-blur-md border border-white/10;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-32;
+  }
+
   .page-padding {
-    @apply pt-20 lg:pt-24;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+    @apply pt-24 md:pt-32;
   }
 
-  body {
-    @apply bg-background text-foreground transition-colors duration-300 m-0 p-0;
-  }
-
-  html {
-    font-size: var(--font-size);
-  }
-
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
-}
-
-@layer utilities {
   .animate-float {
     animation: float 8s ease-in-out infinite;
-  }
-
-  .animate-spin-slow {
-    animation: spin 12s linear infinite;
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   @keyframes float {
@@ -229,13 +159,13 @@
 
 @media print {
   .print\:hidden {
-    display: none !important;
+    display: none;
   }
   body,
   main {
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    background: #ffffff;
+    color: #000000;
+    padding: 0;
+    margin: 0;
   }
 }

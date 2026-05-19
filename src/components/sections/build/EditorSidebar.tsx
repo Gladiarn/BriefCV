@@ -4,7 +4,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { templates } from "@/lib/templates";
-import type { FormField, FormSection, ResumeData } from "@/types/resume";
+import type { FormField, ResumeData } from "@/types/resume";
 
 interface SidebarProps {
   activeTab: string;

@@ -1,8 +1,6 @@
-import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
-import { Card } from "../../ui/card";
 
 const heroContent = {
   badge: "Next-Gen Resume Intelligence",
@@ -23,111 +21,105 @@ const heroContent = {
 
 export function HeroSection() {
   return (
-    <section className="relative w-full py-12 md:py-20">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left Side: Content */}
-        <div className="flex flex-col gap-6 items-center lg:items-start text-center lg:text-left z-10">
-          <Badge>
-            <Sparkles className="w-4 h-4" />
-            {heroContent.badge}
-          </Badge>
+    <section className="relative w-full pt-5 pb-24 md:pb-40 isolate">
+      {/* Background Creative Blurs - Optimized */}
+      <div className="absolute top-0 right-0 w-[50%] h-[100%] bg-primary/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 -z-10" />
+      <div className="absolute bottom-0 left-0 w-[40%] h-[80%] bg-primary-purple/5 blur-[80px] rounded-full -translate-x-1/2 translate-y-1/2 -z-10" />
 
-          <h1 className="text-5xl md:text-6xl font-black tracking-tighter leading-[1] lg:leading-[0.95]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
+        {/* Left Side: Content */}
+        <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-[0.2em] uppercase">
+            <Sparkles className="w-3.5 h-3.5" />
+            {heroContent.badge}
+          </div>
+
+          <h1 className="text-4xl md:text-5xl lg:text-[70px] font-bold tracking-tight leading-[1.05]">
             {heroContent.titleMain} <br />
-            <span className="text-gradient py-2">
-              {heroContent.titleGradient}
-            </span>
+            <span className="text-gradient">{heroContent.titleGradient}</span>
           </h1>
 
-          <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
+          <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
             {heroContent.description}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-5 mt-2 w-full sm:w-auto">
             <Link href={heroContent.primaryCta.href}>
-              <Button size="xl" className="w-full sm:w-auto gap-2">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto px-8 text-sm font-bold transition-all group"
+              >
                 {heroContent.primaryCta.text}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
 
             <Link href={heroContent.secondaryCta.href}>
               <Button
-                variant="secondary"
-                size="xl"
-                className="w-full sm:w-auto"
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto px-8 text-sm font-bold hover:border-primary/50"
               >
                 {heroContent.secondaryCta.text}
               </Button>
             </Link>
           </div>
 
-          <div className="flex items-center gap-6 mt-8 opacity-60">
+          <div className="flex items-center gap-8 mt-4">
             {heroContent.benefits.map((benefit) => (
               <div
                 key={benefit}
-                className="flex items-center gap-2 text-sm font-medium"
+                className="flex items-center gap-2.5 text-[12px] font-bold uppercase tracking-widest text-muted-foreground/70"
               >
-                <CheckCircle2 className="w-4 h-4 text-primary" />
+                <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(236,72,153,0.4)]" />
                 {benefit}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right Side: Decorative AI Preview */}
-        <div className="relative hidden lg:flex items-center justify-center">
-          {/* Static subtle glow - removing pulse on large blur as it kills performance */}
-          <div className="absolute inset-0 bg-primary-gradient blur-[40px] opacity-[0.07] rounded-full will-change-[opacity]" />
+        {/* Right Side: Creative Visual */}
+        <div className="relative hidden lg:block h-[500px]">
+          <div className="absolute inset-0 bg-primary-gradient opacity-[0.05] blur-[100px] rounded-full animate-pulse-slow" />
 
-          {/* Main Floating Card */}
-          <Card
-            className="relative w-full max-w-md animate-float p-6 shadow-md will-change-transform"
-            variant="default"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-primary-gradient p-0.5">
-                <div className="w-full h-full bg-card rounded-full flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-primary" />
+          <div className="relative h-full flex items-center justify-center">
+            {/* Main Abstract Card */}
+            <div className="relative w-full max-w-sm aspect-[4/5] border border-white/20 dark:border-white/5 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl rounded-[3rem] p-10 shadow-2xl shadow-black/10 animate-float">
+              <div className="space-y-8">
+                <div className="flex items-center gap-5">
+                  <div className="w-16 h-16 rounded-full bg-primary-gradient p-[2px]">
+                    <div className="w-full h-full bg-background rounded-full flex items-center justify-center">
+                      <Sparkles className="w-7 h-7 text-primary" />
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="h-4 w-32 bg-secondary rounded-full" />
+                    <div className="h-2 w-20 bg-secondary/60 rounded-full" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div className="h-2.5 w-24 bg-muted rounded-full mb-2" />
-                <div className="h-2 w-16 bg-muted/60 rounded-full" />
+
+                <div className="space-y-4">
+                  <div className="h-2.5 w-full bg-secondary/80 rounded-full" />
+                  <div className="h-2.5 w-full bg-secondary/80 rounded-full" />
+                  <div className="h-2.5 w-3/4 bg-secondary/80 rounded-full" />
+                </div>
+
+                <div className="relative pt-6 border-t border-border/50">
+                  <div className="absolute -top-3 left-0 px-3 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full">
+                    AI OPTIMIZED
+                  </div>
+                  <div className="space-y-3 pt-2">
+                    <div className="h-2.5 w-full bg-primary/10 rounded-full" />
+                    <div className="h-2.5 w-4/5 bg-primary/10 rounded-full" />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="p-4 rounded-2xl bg-muted/30 border border-border">
-                <div className="h-2 w-full bg-muted rounded-full mb-2" />
-                <div className="h-2 w-[80%] bg-muted rounded-full" />
-              </div>
-
-              <div className="relative p-4 rounded-2xl bg-primary/5 border border-primary/20 scale-105">
-                <div className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter">
-                  AI Optimized
-                </div>
-                <div className="h-2 w-full bg-primary/40 rounded-full mb-2" />
-                <div className="h-2 w-full bg-primary/40 rounded-full mb-2" />
-                <div className="h-2 w-[60%] bg-primary/40 rounded-full" />
-              </div>
-
-              <div className="p-4 rounded-2xl bg-muted/30 border border-border">
-                <div className="h-2 w-full bg-muted rounded-full mb-2" />
-                <div className="h-2 w-[40%] bg-muted rounded-full" />
-              </div>
-            </div>
-          </Card>
-
-          {/* Smaller floating accents - simplified (no blurs here) */}
-          <div
-            className="absolute -top-10 -right-4 w-24 h-24 bg-primary/5 border border-primary/10 rounded-3xl rotate-12 animate-float will-change-transform"
-            style={{ animationDelay: "1s" }}
-          />
-          <div
-            className="absolute -bottom-6 -left-6 w-16 h-16 bg-primary-purple/5 border border-primary-purple/10 rounded-2xl -rotate-12 animate-float will-change-transform"
-            style={{ animationDelay: "2s" }}
-          />
+            {/* Smaller decorative accents */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl animate-float-slow" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary-purple/10 rounded-full blur-3xl animate-pulse-slow" />
+          </div>
         </div>
       </div>
     </section>
