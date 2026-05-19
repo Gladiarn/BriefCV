@@ -11,7 +11,7 @@ const homeConfig = {
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-background page-padding">
+    <div className="relative min-h-screen bg-background page-padding overflow-hidden">
       {/* Subtle Background Accent - Optimized blurs */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         <div className="absolute -top-[5%] -left-[10%] w-[40%] h-[40%] bg-primary/5 blur-[80px] rounded-full" />

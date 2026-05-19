@@ -56,7 +56,7 @@ export default function BuildPage() {
       </div>
 
       <main className="relative z-10 flex flex-col">
-        <div className="container mx-auto px-4 md:px-6 flex flex-col gap-24 pb-32 pt-12 md:pt-20">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col gap-24 pb-32 pt-5">
           {/* Header Section */}
           <div className="flex flex-col gap-8 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-muted-foreground text-[10px] font-bold uppercase tracking-[0.2em] w-fit">

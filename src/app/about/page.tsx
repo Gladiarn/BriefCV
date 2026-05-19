@@ -10,7 +10,7 @@ export default function AboutPage() {
       </div>
 
       <main className="relative z-10 flex flex-col">
-        <div className="container mx-auto px-4 md:px-6 pt-12 md:pt-20">
+        <div className="container mx-auto px-4 md:px-6 pt-5">
           <ComingSoon
             title="About StackCV"
             description="StackCV was born from the idea that everyone deserves a high-impact resume. Learn about our mission to democratize career growth with AI."

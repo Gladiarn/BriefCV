@@ -27,7 +27,7 @@ export default function TemplatesPage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[600px] bg-primary/5 blur-[120px] rounded-full -z-10" />
 
       <main className="relative z-10 flex flex-col">
-        <div className="container mx-auto px-4 md:px-6 pb-32 pt-12 md:pt-20">
+        <div className="container mx-auto px-4 md:px-6 pb-32 pt-5">
           <div className="flex flex-col items-center text-center mb-24 space-y-6">
             <Badge
               variant="outline"

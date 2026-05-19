@@ -10,7 +10,7 @@ export default function PricingPage() {
       </div>
 
       <main className="relative z-10 flex flex-col">
-        <div className="container mx-auto px-4 md:px-6 pt-12 md:pt-20">
+        <div className="container mx-auto px-4 md:px-6 pt-5">
           <ComingSoon
             title="Pricing Plans"
             description="StackCV is built to be accessible. We're finalizing our fair pricing models, including a robust free tier for everyone."
