@@ -1,4 +1,10 @@
-export type FieldType = "text" | "textarea" | "email" | "tel" | "list";
+export type FieldType =
+  | "text"
+  | "textarea"
+  | "email"
+  | "tel"
+  | "list"
+  | "image";
 
 export interface FormField {
   id: string;
@@ -43,6 +49,7 @@ export interface ProjectItem {
 export interface ResumeData {
   name: string;
   role: string;
+  image?: string;
   email: string;
   phone: string;
   location: string;

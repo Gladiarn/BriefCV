@@ -28,11 +28,11 @@ export function ComingSoon({ title, description }: ComingSoonProps) {
 
         {/* Text Content */}
         <div className="space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]">
             {title}
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-medium">
             {description ||
               "We're currently deep in the digital forge, crafting a revolutionary AI experience for your career growth. Something spectacular is coming."}
           </p>

@@ -21,15 +21,15 @@ const ctaContent = {
 export function CTASection() {
   return (
     <section className="py-24 md:py-40 relative group isolate">
-      {/* Background Creative Container */}
-      <div className="absolute inset-0 bg-primary-gradient rounded-[3.5rem] md:rounded-[5rem] rotate-1 group-hover:rotate-0 transition-transform duration-700 shadow-2xl shadow-primary/20 -z-20" />
-      <div className="absolute inset-0 bg-zinc-950 rounded-[3.5rem] md:rounded-[5rem] -rotate-1 group-hover:rotate-0 transition-transform duration-700 -z-10" />
+      {/* Background Creative Container - Optimized with will-change and hardware acceleration */}
+      <div className="absolute inset-0 bg-primary-gradient rounded-[3.5rem] md:rounded-[5rem] rotate-1 group-hover:rotate-0 transition-all duration-500 shadow-lg shadow-primary/10 -z-20 will-change-transform transform-gpu" />
+      <div className="absolute inset-0 bg-zinc-950 rounded-[3.5rem] md:rounded-[5rem] -rotate-1 group-hover:rotate-0 transition-all duration-500 -z-10 will-change-transform transform-gpu" />
 
       <div className="relative z-10 px-8 md:px-20 text-center max-w-4xl mx-auto flex flex-col items-center">
-        {/* Animated Accent - Optimized */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-full bg-primary/10 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 -z-10" />
+        {/* Animated Accent - Optimized blur and will-change */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-full bg-primary/5 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10 will-change-opacity pointer-events-none" />
 
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[10px] font-bold uppercase tracking-[0.3em] mb-10 backdrop-blur-md">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[10px] font-bold uppercase tracking-[0.3em] mb-10">
           <Trophy className="w-3.5 h-3.5 text-primary" />
           {ctaContent.badge}
         </div>
@@ -62,7 +62,7 @@ export function CTASection() {
             <Button
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto h-14 px-10 text-base font-bold border-white/20 text-white hover:bg-white/5 hover:border-white/40 rounded-full backdrop-blur-md"
+              className="w-full sm:w-auto h-14 px-10 text-base font-bold border-white/20 text-white hover:bg-white/5 hover:border-white/40 rounded-full"
             >
               {ctaContent.secondaryCta.text}
             </Button>

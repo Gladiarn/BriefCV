@@ -10,7 +10,7 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variants = {
-    primary: "bg-primary/10 border-primary/20 text-primary animate-pulse-slow",
+    primary: "bg-primary/10 border-primary/20 text-primary",
     outline: "bg-primary/5 border-primary/10 text-primary/80",
   };
 

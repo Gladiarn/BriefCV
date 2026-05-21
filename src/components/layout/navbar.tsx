@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowRight,
   Info,
   LayoutTemplate,
   Menu,
@@ -10,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -23,6 +25,7 @@ const navLinks = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -37,103 +40,164 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 print:hidden",
-        isScrolled
-          ? "bg-background/70 backdrop-blur-xl border-b border-border/40 py-3"
-          : "bg-transparent py-6",
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 print:hidden",
+        isScrolled ? "py-3" : "py-5",
       )}
     >
       <div className="container mx-auto px-4 md:px-6">
-        <nav className="flex items-center justify-between">
+        <nav className="relative flex items-center justify-between bg-background/60 backdrop-blur-xl border border-border/40 rounded-[1.5rem] px-4 py-2.5 shadow-2xl shadow-black/5 transition-all duration-500">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-primary-gradient p-1.5 rounded-xl transition-transform duration-300 group-hover:rotate-12">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="bg-primary-gradient p-1.5 rounded-lg transition-transform duration-300 group-hover:rotate-12 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">StackCV</span>
+            <span className="text-base font-bold tracking-tight">StackCV</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-widest"
-              >
-                {link.name}
-              </Link>
-            ))}
+          {/* Desktop Navigation - Hidden on Mobile */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => {
+              const isActive =
+                pathname === link.href ||
+                (link.href !== "/" && pathname.startsWith(link.href));
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "text-[10px] font-bold transition-colors uppercase tracking-[0.2em] relative py-1",
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-primary",
+                  )}
+                >
+                  {link.name}
+                  {isActive && (
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="hidden lg:block">
-              <span className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-widest">
+          <div className="flex items-center gap-2.5">
+            <Link href="/login" className="hidden lg:block mr-2">
+              <span className="text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-[0.2em]">
                 Login
               </span>
             </Link>
 
             <Link href="/build" className="hidden sm:block">
               <Button
-                size="md"
-                className="px-6 h-10 text-sm font-bold shadow-lg shadow-primary/10"
+                size="sm"
+                className="px-5 h-8 text-[10px] font-black shadow-lg shadow-primary/10 rounded-full uppercase tracking-widest"
               >
                 Get Started
               </Button>
             </Link>
 
-            <div className="pl-2 border-l border-border/40">
+            <div className="flex items-center gap-1.5">
               <ModeToggle />
-            </div>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              type="button"
-              className="lg:hidden p-2 text-foreground hover:bg-accent rounded-xl"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+              {/* Mobile Menu Toggle - Small & Sharp */}
+              <button
+                type="button"
+                className="lg:hidden p-1.5 rounded-lg text-foreground hover:bg-secondary transition-all active:scale-90"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-4 h-4" />
+                ) : (
+                  <Menu className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Minimalist Floating Dropdown - Does not take whole screen */}
+          <div
+            className={cn(
+              "absolute top-[calc(100%+0.75rem)] right-0 w-64 bg-background/95 backdrop-blur-2xl border border-border/40 rounded-[2rem] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 origin-top-right lg:hidden",
+              isMobileMenuOpen
+                ? "opacity-100 scale-100 translate-y-0"
+                : "opacity-0 scale-95 -translate-y-2 pointer-events-none",
+            )}
+          >
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link, _i) => {
+                const isActive =
+                  pathname === link.href ||
+                  (link.href !== "/" && pathname.startsWith(link.href));
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={cn(
+                      "group flex items-center justify-between p-3 rounded-[1.25rem] transition-colors",
+                      isActive ? "bg-primary/5" : "hover:bg-primary/5",
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={cn(
+                          "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
+                          isActive
+                            ? "bg-primary/10 text-primary"
+                            : "bg-secondary/50 text-muted-foreground group-hover:text-primary",
+                        )}
+                      >
+                        <link.icon className="w-4 h-4" />
+                      </div>
+                      <span
+                        className={cn(
+                          "text-[13px] font-bold tracking-tight",
+                          isActive ? "text-primary" : "text-foreground",
+                        )}
+                      >
+                        {link.name}
+                      </span>
+                    </div>
+                    <ArrowRight
+                      className={cn(
+                        "w-3.5 h-3.5 transition-all",
+                        isActive
+                          ? "text-primary translate-x-0.5"
+                          : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5",
+                      )}
+                    />
+                  </Link>
+                );
+              })}
+
+              <div className="h-px bg-border/40 my-2 mx-2" />
+
+              <Link
+                href="/login"
+                className="flex items-center gap-3 p-3 rounded-[1.25rem] hover:bg-secondary/50 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                </div>
+                <span className="text-[13px] font-bold tracking-tight">
+                  Member Login
+                </span>
+              </Link>
+
+              <Link
+                href="/build"
+                className="mt-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Button className="w-full h-11 rounded-[1.25rem] text-[11px] font-black uppercase tracking-[0.15em] shadow-lg shadow-primary/20">
+                  Launch Forge
+                </Button>
+              </Link>
+            </div>
           </div>
         </nav>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div
-        className={cn(
-          "lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-2xl border-b border-border transition-all duration-500 ease-in-out overflow-hidden",
-          isMobileMenuOpen ? "max-h-screen py-8 px-6" : "max-h-0",
-        )}
-      >
-        <div className="flex flex-col gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="flex items-center gap-4 text-xl font-bold tracking-tight text-foreground"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <div className="p-2 rounded-lg bg-primary/5 text-primary">
-                <link.icon className="w-5 h-5" />
-              </div>
-              {link.name}
-            </Link>
-          ))}
-          <div className="pt-6 border-t border-border mt-2">
-            <Link
-              href="/build"
-              className="flex items-center justify-center bg-primary-gradient text-white p-4 rounded-2xl font-bold shadow-xl shadow-primary/20"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Create Your Resume
-            </Link>
-          </div>
-        </div>
       </div>
     </header>
   );

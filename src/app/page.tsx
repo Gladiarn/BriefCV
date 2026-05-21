@@ -14,11 +14,11 @@ export default function Home() {
     <div className="relative min-h-screen bg-background page-padding overflow-hidden">
       {/* Subtle Background Accent - Optimized blurs */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute -top-[5%] -left-[10%] w-[40%] h-[40%] bg-primary/5 blur-[80px] rounded-full" />
-        <div className="absolute top-[20%] -right-[10%] w-[35%] h-[35%] bg-primary-purple/5 blur-[80px] rounded-full" />
+        <div className="absolute -top-[5%] -left-[10%] w-[40%] h-[40%] bg-primary/5 blur-[60px] rounded-full" />
+        <div className="absolute top-[20%] -right-[10%] w-[35%] h-[35%] bg-primary-purple/5 blur-[60px] rounded-full" />
       </div>
 
-      <main className="relative z-10 flex flex-col">
+      <main className="relative z-10 flex flex-col pt-5">
         <div className="container mx-auto px-4 md:px-6">
           <HeroSection />
         </div>
