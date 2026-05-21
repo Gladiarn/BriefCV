@@ -4,6 +4,15 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   return (
     <div className="h-full text-black flex flex-col space-y-8 text-left font-sans">
       <div className="border-b-2 border-black pb-4 text-center">
+        {data.image && (
+          <div className="flex justify-center mb-4">
+            <img
+              src={data.image}
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover border-2 border-black p-1 shadow-lg shadow-black/10"
+            />
+          </div>
+        )}
         <h1 className="text-4xl font-black uppercase tracking-tight">
           {data.name || "Your Name"}
         </h1>

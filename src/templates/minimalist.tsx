@@ -23,6 +23,15 @@ export const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({
 
       <div className="grid grid-cols-[1fr_2.5fr] gap-12">
         <aside className="space-y-8">
+          {data.image && (
+            <div className="w-full aspect-square rounded-2xl overflow-hidden border border-black/5 shadow-sm">
+              <img
+                src={data.image}
+                alt="Profile"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+          )}
           <section>
             <h3 className="text-xs font-bold uppercase tracking-widest mb-4">
               Core Focus

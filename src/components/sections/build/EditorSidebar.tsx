@@ -1,9 +1,9 @@
 "use client";
 
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { templates } from "@/lib/templates";
+import { ALL_SECTIONS, templates } from "@/lib/templates";
 import type { FormField, ResumeData } from "@/types/resume";
 
 interface SidebarProps {
@@ -37,14 +37,13 @@ export const EditorSidebar: React.FC<SidebarProps> = ({
         } else {
           (newData as any)[fieldId] = value;
         }
-      } else if (sectionId === "experience") {
-        const newExp = [...newData.experience];
-        (newExp[index!] as any)[fieldId] = value;
-        newData.experience = newExp;
-      } else if (sectionId === "education") {
-        const newEdu = [...newData.education];
-        (newEdu[index!] as any)[fieldId] = value;
-        newData.education = newEdu;
+      } else {
+        const key = sectionId as keyof ResumeData;
+        if (Array.isArray(newData[key])) {
+          const list = [...(newData[key] as any[])];
+          (list[index!] as any)[fieldId] = value;
+          (newData as any)[key] = list;
+        }
       }
 
       return newData;
@@ -54,38 +53,27 @@ export const EditorSidebar: React.FC<SidebarProps> = ({
   const addRepeatable = (sectionId: string) => {
     const newId = Math.random().toString(36).substr(2, 9);
     setResumeData((prev) => {
-      if (sectionId === "experience") {
-        return {
-          ...prev,
-          experience: [
-            ...prev.experience,
-            { id: newId, company: "", title: "", period: "", points: "" },
-          ],
-        };
-      } else if (sectionId === "education") {
-        return {
-          ...prev,
-          education: [
-            ...prev.education,
-            { id: newId, school: "", degree: "", year: "" },
-          ],
-        };
-      }
-      return prev;
+      const key = sectionId as keyof ResumeData;
+      const section = ALL_SECTIONS.find((s) => s.id === sectionId);
+      if (!section) return prev;
+
+      const newItem: any = { id: newId };
+      section.fields.forEach((f) => (newItem[f.id] = ""));
+
+      return {
+        ...prev,
+        [key]: [...(prev[key] as any[]), newItem],
+      };
     });
   };
 
   const removeRepeatable = (sectionId: string, id: string) => {
     setResumeData((prev) => {
-      if (sectionId === "experience") {
+      const key = sectionId as keyof ResumeData;
+      if (Array.isArray(prev[key])) {
         return {
           ...prev,
-          experience: prev.experience.filter((exp) => exp.id !== id),
-        };
-      } else if (sectionId === "education") {
-        return {
-          ...prev,
-          education: prev.education.filter((edu) => edu.id !== id),
+          [key]: (prev[key] as any[]).filter((item) => item.id !== id),
         };
       }
       return prev;
@@ -95,15 +83,48 @@ export const EditorSidebar: React.FC<SidebarProps> = ({
   const renderField = (field: FormField, sectionId: string, index?: number) => {
     let value = "";
     if (sectionId === "basics") {
-      value = (resumeData as any)[field.id];
-    } else if (sectionId === "experience") {
-      value = (resumeData.experience[index!] as any)[field.id];
-    } else if (sectionId === "education") {
-      value = (resumeData.education[index!] as any)[field.id];
+      value = (resumeData as any)[field.id] || "";
+    } else {
+      const list = (resumeData as any)[sectionId];
+      if (Array.isArray(list) && list[index!]) {
+        value = list[index!][field.id] || "";
+      }
     }
 
     const baseInputClasses =
       "w-full bg-muted/30 border border-border rounded-xl py-2.5 px-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all";
+
+    if (field.type === "image") {
+      return (
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-2xl bg-muted/30 border border-dashed border-border flex items-center justify-center overflow-hidden shrink-0">
+            {value ? (
+              <img
+                src={value}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User className="w-6 h-6 text-muted-foreground/40" />
+            )}
+          </div>
+          <div className="flex-1 space-y-2">
+            <input
+              type="text"
+              value={value}
+              onChange={(e) =>
+                updateField(sectionId, field.id, e.target.value, index)
+              }
+              placeholder="Paste image URL..."
+              className={baseInputClasses}
+            />
+            <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-wider ml-1">
+              Supports URL (Upload coming soon)
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     if (field.type === "textarea") {
       return (
@@ -201,10 +222,7 @@ export const EditorSidebar: React.FC<SidebarProps> = ({
 
         {section.isRepeatable ? (
           <div className="space-y-4">
-            {(section.id === "experience"
-              ? resumeData.experience
-              : resumeData.education
-            ).map((item, idx) => (
+            {((resumeData as any)[section.id] as any[]).map((item, idx) => (
               <Card
                 key={item.id}
                 className="p-5 border-primary/5 hover:border-primary/10 transition-all relative group"

@@ -21,7 +21,7 @@ export function FeaturesSection() {
         "Automatically calculate and inject impressive ROI percentages into your bullet points.",
       icon: Sparkles,
       className:
-        "md:row-span-2 bg-primary-gradient text-white border-none shadow-xl shadow-primary/20",
+        "md:row-span-2 bg-primary-gradient text-white border-none shadow-lg shadow-primary/10",
       iconBg: "bg-white/10",
       iconColor: "text-white",
     },
@@ -50,7 +50,7 @@ export function FeaturesSection() {
           <Card
             key={index}
             className={cn(
-              "relative group p-8 border border-border/50 hover:border-primary/20 transition-all duration-300 flex flex-col justify-between overflow-hidden rounded-3xl shadow-sm hover:shadow-xl hover:shadow-black/5",
+              "relative group p-8 border border-border/40 hover:border-primary/20 transition-all duration-300 flex flex-col justify-between overflow-hidden rounded-3xl shadow-sm hover:shadow-md",
               feature.className,
             )}
           >

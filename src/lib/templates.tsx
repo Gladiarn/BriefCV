@@ -20,7 +20,7 @@ export const pdfTemplates = {
   // Add others here as we build them
 };
 
-const AI_SECTION: FormSection = {
+export const AI_SECTION: FormSection = {
   id: "ai",
   title: "AI Forge",
   description: "Command the AI to optimize your content or add metrics.",
@@ -28,12 +28,19 @@ const AI_SECTION: FormSection = {
   fields: [],
 };
 
-const BASICS_SECTION: FormSection = {
+export const BASICS_SECTION: FormSection = {
   id: "basics",
   title: "Personal Identity",
   description: "Tell us who you are and how to reach you.",
   icon: User,
   fields: [
+    {
+      id: "image",
+      label: "Profile Picture",
+      type: "image",
+      placeholder: "Upload or paste image URL",
+      gridSpan: 2,
+    },
     {
       id: "name",
       label: "Full Name",
@@ -100,7 +107,7 @@ const BASICS_SECTION: FormSection = {
   ],
 };
 
-const EXPERIENCE_SECTION: FormSection = {
+export const EXPERIENCE_SECTION: FormSection = {
   id: "experience",
   title: "Work Experience",
   description: "Your history of professional impact.",
@@ -138,7 +145,7 @@ const EXPERIENCE_SECTION: FormSection = {
   ],
 };
 
-const EDUCATION_SECTION: FormSection = {
+export const EDUCATION_SECTION: FormSection = {
   id: "education",
   title: "Education",
   description: "Your academic background and certifications.",
@@ -169,7 +176,7 @@ const EDUCATION_SECTION: FormSection = {
   ],
 };
 
-const PROJECTS_SECTION: FormSection = {
+export const PROJECTS_SECTION: FormSection = {
   id: "projects",
   title: "Project Experience",
   description: "Key projects you have worked on.",
@@ -207,7 +214,7 @@ const PROJECTS_SECTION: FormSection = {
   ],
 };
 
-const AWARDS_SECTION: FormSection = {
+export const AWARDS_SECTION: FormSection = {
   id: "awards",
   title: "Awards & Recognition",
   description: "Highlights and achievements.",
@@ -223,12 +230,21 @@ const AWARDS_SECTION: FormSection = {
   ],
 };
 
+export const ALL_SECTIONS = [
+  BASICS_SECTION,
+  EXPERIENCE_SECTION,
+  EDUCATION_SECTION,
+  PROJECTS_SECTION,
+  AWARDS_SECTION,
+];
+
 export const templates: Template[] = [
   {
     id: "modern",
     name: "Modern",
     description: "High-impact, center-aligned professional blueprint.",
-    thumbnailColor: "bg-primary/10",
+    thumbnailColor:
+      "bg-gradient-to-br from-primary/20 via-primary/5 to-transparent",
     component: ModernTemplate,
     sections: [
       BASICS_SECTION,
@@ -295,7 +311,8 @@ export const templates: Template[] = [
     id: "minimalist",
     name: "Minimalist",
     description: "Elegant, serif-based design with a side-column focus.",
-    thumbnailColor: "bg-blue-500/10",
+    thumbnailColor:
+      "bg-gradient-to-br from-blue-500/20 via-indigo-500/5 to-transparent",
     component: MinimalistTemplate,
     sections: [
       BASICS_SECTION,
@@ -364,7 +381,8 @@ export const templates: Template[] = [
     name: "Executive",
     description:
       "Sophisticated and authoritative design for senior leadership.",
-    thumbnailColor: "bg-slate-800/10",
+    thumbnailColor:
+      "bg-gradient-to-br from-slate-900/40 via-slate-800/10 to-transparent",
     component: ExecutiveTemplate,
     sections: [
       BASICS_SECTION,
@@ -432,7 +450,8 @@ export const templates: Template[] = [
     id: "professional",
     name: "Professional",
     description: "Classic, formal, and corporate-ready format.",
-    thumbnailColor: "bg-blue-800/10",
+    thumbnailColor:
+      "bg-gradient-to-br from-blue-600/20 via-sky-500/5 to-transparent",
     component: ProfessionalTemplate,
     sections: [
       BASICS_SECTION,

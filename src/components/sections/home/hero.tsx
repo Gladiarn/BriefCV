@@ -21,7 +21,7 @@ const heroContent = {
 
 export function HeroSection() {
   return (
-    <section className="relative w-full pt-5 pb-24 md:pb-40 isolate">
+    <section className="relative w-full pb-24 md:pb-40 isolate">
       {/* Background Creative Blurs - Optimized */}
       <div className="absolute top-0 right-0 w-[50%] h-[100%] bg-primary/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 -z-10" />
       <div className="absolute bottom-0 left-0 w-[40%] h-[80%] bg-primary-purple/5 blur-[80px] rounded-full -translate-x-1/2 translate-y-1/2 -z-10" />
@@ -80,11 +80,12 @@ export function HeroSection() {
 
         {/* Right Side: Creative Visual */}
         <div className="relative hidden lg:block h-[500px]">
-          <div className="absolute inset-0 bg-primary-gradient opacity-[0.05] blur-[100px] rounded-full animate-pulse-slow" />
+          {/* Static subtle background instead of pulsing blur */}
+          <div className="absolute inset-0 bg-primary-gradient opacity-[0.03] blur-[80px] rounded-full" />
 
           <div className="relative h-full flex items-center justify-center">
-            {/* Main Abstract Card */}
-            <div className="relative w-full max-w-sm aspect-[4/5] border border-white/20 dark:border-white/5 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl rounded-[3rem] p-10 shadow-2xl shadow-black/10 animate-float">
+            {/* Main Abstract Card - Reduced animation complexity and added hardware acceleration */}
+            <div className="relative w-full max-w-sm aspect-[4/5] border border-white/20 dark:border-white/5 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl rounded-[3rem] p-10 shadow-xl shadow-black/5 animate-float transform-gpu will-change-transform">
               <div className="space-y-8">
                 <div className="flex items-center gap-5">
                   <div className="w-16 h-16 rounded-full bg-primary-gradient p-[2px]">
@@ -116,9 +117,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Smaller decorative accents */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl animate-float-slow" />
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary-purple/10 rounded-full blur-3xl animate-pulse-slow" />
+            {/* Static decorative accents instead of continuous animations */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-xl" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary-purple/5 rounded-full blur-2xl" />
           </div>
         </div>
       </div>
