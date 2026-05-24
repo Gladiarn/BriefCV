@@ -25,16 +25,19 @@ interface CVState {
   addSection: (type: SectionType) => void;
   updateLayoutStructure: (layout: ColumnLayout) => void;
   updateDesign: (design: Partial<CVDocument["settings"]["design"]>) => void;
-}
+  clearStore: () => void;
+  }
 
-export const useCVStore = create<CVState>()(
+  export const useCVStore = create<CVState>()(
   persist(
-    (set, _get) => ({
+    (set, get) => ({
       cvDocument: null,
       isLoading: false,
       error: null,
 
       setCVDocument: (doc) => set({ cvDocument: doc }),
+      clearStore: () => set({ cvDocument: null }),
+
 
       updateField: (sectionId, fieldPath, value) => {
         set((state) => {

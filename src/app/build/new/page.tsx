@@ -9,34 +9,33 @@ import { RightPanel } from "@/components/sections/build/RightPanel";
 import { Button } from "@/components/ui/button";
 import { useCVStore } from "@/lib/store";
 import { cvService } from "@/services/cvService";
+import type { CVDocument } from "@/types/cv";
 
 function EditorContent() {
   const searchParams = useSearchParams();
-  const { setCVDocument } = useCVStore();
+  const { setCVDocument, clearStore } = useCVStore();
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     const init = async () => {
+      clearStore();
       const templateId = searchParams.get("template") || "modern";
       const resumeId = searchParams.get("id");
 
       try {
+        let doc: CVDocument | null = null;
         if (resumeId) {
-          const doc = await cvService.getDocumentById(resumeId);
-          if (doc) {
-            setCVDocument(doc);
-          } else {
-            // Fallback if ID not found
-            const newDoc = await cvService.createDefaultDocument(templateId);
-            setCVDocument(newDoc);
+          doc = await cvService.getDocumentById(resumeId);
+          if (!doc) {
+            doc = await cvService.createDefaultDocument(templateId);
           }
         } else {
-          // Create new
-          const newDoc = await cvService.createDefaultDocument(templateId);
-          setCVDocument(newDoc);
-          // Update URL to include the new ID without refreshing
-          window.history.replaceState(null, "", `/build/new?id=${newDoc.id}`);
+          doc = await cvService.createDefaultDocument(templateId);
+          window.history.replaceState(null, "", `/build/new?id=${doc.id}`);
         }
+        setCVDocument(doc);
+        // Add a small artificial delay to ensure the UI feels polished
+        await new Promise((resolve) => setTimeout(resolve, 600));
       } catch (error) {
         console.error("Failed to initialize Forge:", error);
       } finally {
@@ -45,7 +44,8 @@ function EditorContent() {
     };
 
     init();
-  }, [searchParams, setCVDocument]);
+  }, [searchParams, setCVDocument, clearStore]);
+
 
   if (isInitializing) {
     return (
