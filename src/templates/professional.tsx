@@ -25,7 +25,7 @@ export const ProfessionalTemplate: React.FC<{ data: ResumeData }> = ({
             <div className="text-xs text-slate-500 mb-1">{exp.period}</div>
             <ul className="text-xs space-y-0.5 ml-4">
               {exp.points.split("\n").map((p, i) => (
-                <li key={i}>{p}</li>
+                <li key={`${exp.id}-point-${i}`}>{p}</li>
               ))}
             </ul>
           </div>

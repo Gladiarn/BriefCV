@@ -56,7 +56,7 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                 </p>
                 <ul className="text-[10px] space-y-1.5 list-none text-gray-700">
                   {exp.points.split("\n").map((point, i) => (
-                    <li key={i} className="relative pl-4">
+                    <li key={`${exp.id}-point-${i}`} className="relative pl-4">
                       <span className="absolute left-0 top-1.5 w-1.5 h-1.5 bg-black rounded-full" />
                       {point.startsWith("•")
                         ? point.substring(1).trim()
@@ -95,9 +95,9 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
             Skills
           </h3>
           <div className="flex flex-wrap gap-x-3 gap-y-2">
-            {data.skills.map((skill, idx) => (
+            {data.skills.map((skill) => (
               <span
-                key={idx}
+                key={skill}
                 className="text-[10px] font-bold uppercase tracking-widest bg-gray-100 px-2 py-0.5 rounded"
               >
                 {skill}

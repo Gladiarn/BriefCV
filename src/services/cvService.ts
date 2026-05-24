@@ -1,0 +1,103 @@
+import type { CVDocument } from "@/types/cv";
+
+const STORAGE_KEY = "briefcv_documents";
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const cvService = {
+  async getDocuments(): Promise<CVDocument[]> {
+    await delay(300);
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  },
+
+  async getDocumentById(id: string): Promise<CVDocument | null> {
+    await delay(300);
+    const docs = await this.getDocuments();
+    return docs.find((d) => d.id === id) || null;
+  },
+
+  async saveDocument(doc: CVDocument): Promise<void> {
+    await delay(300);
+    const docs = await this.getDocuments();
+    const index = docs.findIndex((d) => d.id === doc.id);
+
+    if (index >= 0) {
+      docs[index] = doc;
+    } else {
+      docs.push(doc);
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+  },
+
+  async deleteDocument(id: string): Promise<void> {
+    await delay(300);
+    const docs = await this.getDocuments();
+    const filtered = docs.filter((d) => d.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+  },
+
+  async createDefaultDocument(
+    templateId: string = "modern",
+  ): Promise<CVDocument> {
+    const id = crypto.randomUUID();
+    const doc: CVDocument = {
+      id,
+      title: "Untitled CV",
+      settings: {
+        templateId,
+        layoutStructure: "1-column",
+        columnMapping: {
+          leftColumn: [],
+          rightColumn: [],
+          mainColumn: ["header-1", "experience-1", "education-1", "skills-1"],
+        },
+        design: {
+          primaryColor: "#000000",
+          fontSize: "md",
+          spacing: "normal",
+        },
+      },
+      sections: {
+        "header-1": {
+          id: "header-1",
+          type: "header",
+          title: "Personal Information",
+          isVisible: true,
+          content: {
+            fullName: "",
+            jobTitle: "",
+            email: "",
+            phone: "",
+            location: "",
+            links: [],
+          },
+        },
+        "experience-1": {
+          id: "experience-1",
+          type: "experience",
+          title: "Work Experience",
+          isVisible: true,
+          content: [],
+        },
+        "education-1": {
+          id: "education-1",
+          type: "education",
+          title: "Education",
+          isVisible: true,
+          content: [],
+        },
+        "skills-1": {
+          id: "skills-1",
+          type: "skills",
+          title: "Skills",
+          isVisible: true,
+          content: [],
+        },
+      },
+    };
+    await this.saveDocument(doc);
+    return doc;
+  },
+};

@@ -1,3 +1,5 @@
+import type { CVDocument } from "./cv";
+
 export type FieldType =
   | "text"
   | "textarea"
@@ -23,6 +25,20 @@ export interface FormSection {
   isRepeatable?: boolean;
 }
 
+export interface Template {
+  id: string;
+  name: string;
+  description: string;
+  thumbnailColor: string;
+  component: React.FC<{ doc: CVDocument }>;
+  sections: FormSection[];
+  features: string[];
+  dimensions: string;
+  previewImage?: string;
+  defaultData: any; // Using any here to maintain compatibility with existing defaultData structures
+}
+
+// Legacy types to support old services during migration
 export interface ExperienceItem {
   id: string;
   company: string;
@@ -62,17 +78,4 @@ export interface ResumeData {
   skills: string[];
   awards: string[];
   templateId: string;
-}
-
-export interface Template {
-  id: string;
-  name: string;
-  description: string;
-  thumbnailColor: string;
-  component: React.FC<{ data: ResumeData }>;
-  sections: FormSection[];
-  features: string[];
-  dimensions: string;
-  previewImage?: string;
-  defaultData: ResumeData;
 }
