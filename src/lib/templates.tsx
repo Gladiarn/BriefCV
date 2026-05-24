@@ -6,13 +6,11 @@ import {
   Trophy,
   User,
 } from "lucide-react";
-import {
-  ExecutiveTemplate,
-  MinimalistTemplate,
-  ModernTemplate,
-  ProfessionalTemplate,
-} from "@/templates";
 import { ModernPDFTemplate } from "@/templates/pdf/modern";
+import { ExecutiveRenderer } from "@/templates/renderers/ExecutiveRenderer";
+import { MinimalistRenderer } from "@/templates/renderers/MinimalistRenderer";
+import { ModernRenderer } from "@/templates/renderers/ModernRenderer";
+import { ProfessionalRenderer } from "@/templates/renderers/ProfessionalRenderer";
 import type { FormSection, Template } from "@/types/resume";
 
 export const pdfTemplates = {
@@ -245,7 +243,7 @@ export const templates: Template[] = [
     description: "High-impact, center-aligned professional blueprint.",
     thumbnailColor:
       "bg-gradient-to-br from-primary/20 via-primary/5 to-transparent",
-    component: ModernTemplate,
+    component: ModernRenderer as any,
     sections: [
       BASICS_SECTION,
       EXPERIENCE_SECTION,
@@ -313,7 +311,7 @@ export const templates: Template[] = [
     description: "Elegant, serif-based design with a side-column focus.",
     thumbnailColor:
       "bg-gradient-to-br from-blue-500/20 via-indigo-500/5 to-transparent",
-    component: MinimalistTemplate,
+    component: MinimalistRenderer as any,
     sections: [
       BASICS_SECTION,
       EXPERIENCE_SECTION,
@@ -383,7 +381,7 @@ export const templates: Template[] = [
       "Sophisticated and authoritative design for senior leadership.",
     thumbnailColor:
       "bg-gradient-to-br from-slate-900/40 via-slate-800/10 to-transparent",
-    component: ExecutiveTemplate,
+    component: ExecutiveRenderer as any,
     sections: [
       BASICS_SECTION,
       EXPERIENCE_SECTION,
@@ -452,7 +450,7 @@ export const templates: Template[] = [
     description: "Classic, formal, and corporate-ready format.",
     thumbnailColor:
       "bg-gradient-to-br from-blue-600/20 via-sky-500/5 to-transparent",
-    component: ProfessionalTemplate,
+    component: ProfessionalRenderer as any,
     sections: [
       BASICS_SECTION,
       EXPERIENCE_SECTION,

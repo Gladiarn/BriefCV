@@ -37,9 +37,9 @@ export const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({
               Core Focus
             </h3>
             <div className="flex flex-col gap-2">
-              {data.skills.map((skill, idx) => (
+              {data.skills.map((skill) => (
                 <span
-                  key={idx}
+                  key={skill}
                   className="text-[10px] text-gray-700 border-l border-black pl-3"
                 >
                   {skill}
@@ -83,7 +83,7 @@ export const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({
                   </p>
                   <ul className="text-[10px] space-y-1 text-gray-600 list-disc ml-4">
                     {exp.points.split("\n").map((point, i) => (
-                      <li key={i}>
+                      <li key={`${exp.id}-point-${i}`}>
                         {point.startsWith("•")
                           ? point.substring(1).trim()
                           : point.trim()}

@@ -161,9 +161,9 @@ export default function BuildPage() {
               </Link>
 
               {isLoading
-                ? [...Array(3)].map((_, i) => (
+                ? [1, 2, 3].map((skeletonId) => (
                     <div
-                      key={i}
+                      key={skeletonId}
                       className="h-[420px] animate-pulse bg-secondary/30 rounded-[2.5rem]"
                     />
                   ))
@@ -266,9 +266,9 @@ export default function BuildPage() {
                   </p>
 
                   <div className="flex flex-wrap gap-3">
-                    {selectedTemplate.features.map((feature, i) => (
+                    {selectedTemplate.features.map((feature) => (
                       <div
-                        key={i}
+                        key={feature}
                         className="flex items-center gap-2 text-xs font-semibold text-muted-foreground"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-primary/30" />

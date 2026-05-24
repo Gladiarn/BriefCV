@@ -33,7 +33,7 @@ export const ExecutiveTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
             <div className="italic text-xs mb-1">{exp.title}</div>
             <ul className="text-xs list-disc ml-4 space-y-1">
               {exp.points.split("\n").map((p, i) => (
-                <li key={i}>{p}</li>
+                <li key={`${exp.id}-point-${i}`}>{p}</li>
               ))}
             </ul>
           </div>

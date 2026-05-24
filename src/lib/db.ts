@@ -48,13 +48,13 @@ async function dbConnect() {
   }
 
   try {
-    cached!.conn = (await cached!.promise) || null;
+    cached!.conn = (await cached?.promise) || null;
   } catch (e) {
     cached!.promise = null;
     throw e;
   }
 
-  return cached!.conn;
+  return cached?.conn;
 }
 
 export default dbConnect;

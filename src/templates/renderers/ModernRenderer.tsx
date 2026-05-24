@@ -1,0 +1,166 @@
+"use client";
+
+import type {
+  CVDocument,
+  EducationSection,
+  ExperienceSection,
+  HeaderSection,
+  SkillsSection,
+} from "@/types/cv";
+
+export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
+  const { settings, sections } = doc;
+  const primaryColor = settings.design.primaryColor;
+
+  const renderSection = (id: string) => {
+    const section = sections[id];
+    if (!section || !section.isVisible) return null;
+
+    switch (section.type) {
+      case "header": {
+        const content = (section as HeaderSection).content;
+        return (
+          <div
+            key={id}
+            className="text-center space-y-2 border-b-2 pb-6"
+            style={{ borderColor: primaryColor }}
+          >
+            <h1
+              className="text-4xl font-black uppercase tracking-tighter"
+              style={{ color: primaryColor }}
+            >
+              {content.fullName || "Your Name"}
+            </h1>
+            <p className="text-xl font-bold text-muted-foreground">
+              {content.jobTitle || "Target Role"}
+            </p>
+            <div className="flex justify-center flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80">
+              {content.email && <span>{content.email}</span>}
+              {content.phone && <span>• {content.phone}</span>}
+              {content.location && <span>• {content.location}</span>}
+            </div>
+          </div>
+        );
+      }
+
+      case "experience": {
+        const content = (section as ExperienceSection).content;
+        return (
+          <div key={id} className="space-y-4">
+            <h3
+              className="text-sm font-black uppercase tracking-widest border-b pb-1"
+              style={{ color: primaryColor, borderColor: `${primaryColor}20` }}
+            >
+              {section.title}
+            </h3>
+            <div className="space-y-6">
+              {content.map((exp) => (
+                <div key={exp.id} className="space-y-1">
+                  <div className="flex justify-between items-baseline">
+                    <h4 className="font-bold text-sm uppercase tracking-tight">
+                      {exp.company}
+                    </h4>
+                    <span className="text-[10px] font-black opacity-60">
+                      {exp.startDate} - {exp.endDate}
+                    </span>
+                  </div>
+                  <p className="text-xs font-bold italic opacity-80">
+                    {exp.role}
+                  </p>
+                  <ul className="text-[10px] space-y-1.5 list-none">
+                    {exp.description.map((bullet, i) => (
+                      <li key={i} className="relative pl-4">
+                        <span
+                          className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full"
+                          style={{ backgroundColor: primaryColor }}
+                        />
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      case "education": {
+        const content = (section as EducationSection).content;
+        return (
+          <div key={id} className="space-y-4">
+            <h3
+              className="text-sm font-black uppercase tracking-widest border-b pb-1"
+              style={{ color: primaryColor, borderColor: `${primaryColor}20` }}
+            >
+              {section.title}
+            </h3>
+            <div className="space-y-4">
+              {content.map((edu) => (
+                <div key={edu.id} className="space-y-0.5">
+                  <div className="flex justify-between items-baseline">
+                    <h4 className="font-bold text-[11px] uppercase tracking-tight">
+                      {edu.institution}
+                    </h4>
+                    <span className="text-[10px] font-black opacity-60">
+                      {edu.startDate} - {edu.endDate}
+                    </span>
+                  </div>
+                  <p className="text-[10px] font-medium opacity-80">
+                    {edu.degree}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      case "skills": {
+        const content = (section as SkillsSection).content;
+        return (
+          <div key={id} className="space-y-4">
+            <h3
+              className="text-sm font-black uppercase tracking-widest border-b pb-1"
+              style={{ color: primaryColor, borderColor: `${primaryColor}20` }}
+            >
+              {section.title}
+            </h3>
+            <div className="flex flex-wrap gap-x-3 gap-y-2">
+              {content.map((skill, i) => (
+                <span
+                  key={i}
+                  className="text-[10px] font-bold uppercase tracking-widest bg-muted/50 px-2 py-0.5 rounded border border-border/40"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="h-full flex flex-col gap-8">
+      {settings.layoutStructure === "1-column" ? (
+        <div className="space-y-8">
+          {settings.columnMapping.mainColumn.map(renderSection)}
+        </div>
+      ) : (
+        <div className="grid grid-cols-[1fr_2.5fr] gap-10 h-full">
+          <div className="space-y-8">
+            {settings.columnMapping.leftColumn.map(renderSection)}
+          </div>
+          <div className="space-y-8">
+            {settings.columnMapping.rightColumn.map(renderSection)}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

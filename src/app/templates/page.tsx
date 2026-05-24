@@ -76,12 +76,12 @@ export default function TemplatesPage() {
 
         {/* Preview Modal - Creative Overhaul */}
         {isOpen && selectedTemplate && (
-          <div className="fixed inset-0 bg-background/60 backdrop-blur-2xl z-[1000] flex items-center justify-center p-6 animate-in fade-in duration-500">
-            <div className="bg-card w-full max-w-5xl rounded-[3.5rem] border border-border/50 shadow-[0_32px_128px_rgba(0,0,0,0.12)] overflow-hidden relative flex flex-col md:flex-row h-full max-h-[85vh] animate-in zoom-in-95 duration-700 ease-out">
+          <div className="fixed inset-0 bg-background/80 z-[1000] flex items-center justify-center p-6">
+            <div className="bg-card w-full max-w-4xl rounded-[2rem] border border-border shadow-2xl overflow-hidden relative flex flex-col md:flex-row max-h-[85vh]">
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="absolute top-8 right-8 p-3 hover:bg-secondary rounded-full z-20 transition-all active:scale-95 border border-border/40 bg-background/50 backdrop-blur-md"
+                className="absolute top-6 right-6 p-2 hover:bg-secondary rounded-full z-20 border border-border/40 bg-background/50"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -89,7 +89,7 @@ export default function TemplatesPage() {
               {/* Visual Side */}
               <div
                 className={cn(
-                  "flex-1 relative flex items-center justify-center p-12 overflow-hidden",
+                  "flex-1 relative flex items-center justify-center p-8 md:p-12 overflow-hidden",
                   selectedTemplate.thumbnailColor,
                 )}
               >
@@ -97,7 +97,7 @@ export default function TemplatesPage() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-                <div className="relative w-full max-w-[340px] aspect-[1/1.414] bg-white shadow-[0_40px_80px_rgba(0,0,0,0.12)] rounded-[1.5rem] p-12 flex flex-col gap-6 transform -rotate-2 hover:rotate-0 transition-transform duration-700">
+                <div className="relative w-full max-w-[320px] aspect-[1/1.414] bg-white shadow-xl rounded-[1rem] p-10 flex flex-col gap-6">
                   <div className="h-8 w-1/2 bg-slate-100 rounded-lg" />
                   <div className="h-3 w-1/3 bg-slate-50 rounded-md" />
                   <div className="mt-12 space-y-4">
@@ -113,34 +113,34 @@ export default function TemplatesPage() {
               </div>
 
               {/* Content Side */}
-              <div className="w-full md:w-[480px] p-12 md:p-16 flex flex-col justify-center bg-card border-l border-border/40 overflow-y-auto">
-                <div className="space-y-12">
-                  <div className="space-y-8">
+              <div className="w-full md:w-[420px] p-10 md:p-12 flex flex-col justify-center bg-card border-l border-border/40 overflow-y-auto">
+                <div className="space-y-10">
+                  <div className="space-y-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em] w-fit">
                       {templatesConfig.modal.badge}
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+                    <h2 className="text-3xl md:text-4xl font-black tracking-tight leading-tight">
                       {selectedTemplate.name}
                     </h2>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-base text-muted-foreground leading-relaxed">
                       {selectedTemplate.description}
                     </p>
 
-                    <div className="space-y-6 pt-2">
+                    <div className="space-y-4 pt-2">
                       <h4 className="font-bold flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-primary/80">
                         <Sparkles className="w-4 h-4 text-primary" />
                         {templatesConfig.modal.featuresTitle}
                       </h4>
-                      <ul className="grid grid-cols-1 gap-4">
-                        {selectedTemplate.features.map((feature, i) => (
+                      <ul className="grid grid-cols-1 gap-3">
+                        {selectedTemplate.features.map((feature) => (
                           <li
-                            key={i}
-                            className="text-sm font-semibold flex items-center gap-3 group/item"
+                            key={feature}
+                            className="text-sm font-semibold flex items-center gap-3"
                           >
-                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                            <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <CheckCircle2 className="w-3 text-primary" />
                             </div>
-                            <span className="text-muted-foreground/80 group-hover/item:text-foreground transition-colors">
+                            <span className="text-muted-foreground/80">
                               {feature}
                             </span>
                           </li>
@@ -149,7 +149,7 @@ export default function TemplatesPage() {
                     </div>
                   </div>
 
-                  <div className="pt-10 border-t border-border/40 space-y-8">
+                  <div className="pt-8 border-t border-border/40 space-y-6">
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-muted-foreground font-bold uppercase tracking-[0.2em]">
                         {templatesConfig.modal.dimensionsLabel}
@@ -165,7 +165,7 @@ export default function TemplatesPage() {
                     >
                       <Button
                         size="lg"
-                        className="w-full h-16 text-lg font-bold shadow-2xl shadow-primary/20 transition-all active:scale-[0.98] group"
+                        className="w-full h-14 text-lg font-bold shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group"
                       >
                         {templatesConfig.modal.ctaText} {selectedTemplate.name}
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

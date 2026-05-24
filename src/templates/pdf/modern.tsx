@@ -70,7 +70,7 @@ export const ModernPDFTemplate = ({ data }: { data: ResumeData }) => (
           </View>
           <Text style={styles.title}>{exp.title}</Text>
           {exp.points.split("\n").map((point, i) => (
-            <Text key={i} style={styles.text}>
+            <Text key={`${exp.id}-point-${i}`} style={styles.text}>
               • {point.replace("•", "").trim()}
             </Text>
           ))}
