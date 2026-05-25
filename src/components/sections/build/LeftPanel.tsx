@@ -94,6 +94,7 @@ export const LeftPanel: React.FC = () => {
         ].map((tab) => (
           <Button
             key={tab.id}
+            type="button"
             variant={activeTab === tab.id ? "secondary" : "ghost"}
             size="sm"
             className="flex-1 rounded-xl text-[10px] font-bold uppercase tracking-widest gap-2"
@@ -158,6 +159,7 @@ export const LeftPanel: React.FC = () => {
               {(["experience", "education", "skills"] as const).map((type) => (
                 <Button
                   key={type}
+                  type="button"
                   variant="outline"
                   size="sm"
                   className="rounded-full border-dashed border-border/60 text-[9px] font-black uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all"
@@ -185,6 +187,7 @@ export const LeftPanel: React.FC = () => {
               {(["1-column", "2-column", "3-column"] as const).map((layout) => (
                 <button
                   key={layout}
+                  type="button"
                   onClick={() => updateLayoutStructure(layout)}
                   className={cn(
                     "flex flex-col items-center gap-3 p-4 rounded-3xl border transition-all",
@@ -219,6 +222,7 @@ export const LeftPanel: React.FC = () => {
                   {["#000000", "#2563eb", "#db2777", "#059669", "#7c3aed"].map((color) => (
                     <button
                       key={color}
+                      type="button"
                       onClick={() => updateDesign({ primaryColor: color })}
                       className={cn(
                         "w-full aspect-square rounded-2xl border-2 transition-all",
@@ -249,7 +253,7 @@ export const LeftPanel: React.FC = () => {
             </div>
             <div className="flex gap-2">
               <Input placeholder="Describe your experience..." className="rounded-xl" />
-              <Button size="sm" className="h-9 w-9 shrink-0 rounded-lg p-0">
+              <Button size="sm" type="button" className="h-9 w-9 shrink-0 rounded-lg p-0">
                 <Send className="w-3.5 h-3.5" />
               </Button>
             </div>
@@ -259,6 +263,7 @@ export const LeftPanel: React.FC = () => {
 
       <footer className="p-6 border-t border-border bg-background/50 backdrop-blur-md">
         <Button
+          type="button"
           className="w-full h-12 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl shadow-primary/10"
           onClick={async () => {
             if (cvDocument) {
