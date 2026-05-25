@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
   ColumnLayout,
+  ColumnMapping,
   CVDocument,
   CVSection,
   SectionType,
@@ -16,19 +17,20 @@ interface CVState {
   setCVDocument: (doc: CVDocument) => void;
   updateField: (sectionId: string, fieldPath: string, value: any) => void;
   reorderSections: (
-    sourceColumn: keyof CVDocument["settings"]["columnMapping"],
-    destinationColumn: keyof CVDocument["settings"]["columnMapping"],
+    sourceColumn: keyof ColumnMapping,
+    destinationColumn: keyof ColumnMapping,
     startIndex: number,
     endIndex: number,
   ) => void;
   toggleVisibility: (sectionId: string) => void;
   addSection: (type: SectionType) => void;
+  removeSection: (sectionId: string) => void;
   updateLayoutStructure: (layout: ColumnLayout) => void;
   updateDesign: (design: Partial<CVDocument["settings"]["design"]>) => void;
   clearStore: () => void;
-  }
+}
 
-  export const useCVStore = create<CVState>()(
+export const useCVStore = create<CVState>()(
   persist(
     (set, get) => ({
       cvDocument: null,
@@ -38,6 +40,32 @@ interface CVState {
       setCVDocument: (doc) => set({ cvDocument: doc }),
       clearStore: () => set({ cvDocument: null }),
 
+      removeSection: (sectionId) => {
+        set((state) => {
+          if (!state.cvDocument) return state;
+
+          const newSections = { ...state.cvDocument.sections };
+          delete newSections[sectionId];
+
+          const newMapping = { ...state.cvDocument.settings.columnMapping };
+          for (const key in newMapping) {
+            newMapping[key as keyof typeof newMapping] = newMapping[
+              key as keyof typeof newMapping
+            ].filter((id) => id !== sectionId);
+          }
+
+          return {
+            cvDocument: {
+              ...state.cvDocument,
+              sections: newSections,
+              settings: {
+                ...state.cvDocument.settings,
+                columnMapping: newMapping,
+              },
+            },
+          };
+        });
+      },
 
       updateField: (sectionId, fieldPath, value) => {
         set((state) => {
@@ -47,21 +75,44 @@ interface CVState {
           if (!section) return state;
 
           const newSections = { ...state.cvDocument.sections };
-          const pathParts = fieldPath.split(".");
 
-          let current: any = { ...section.content };
-          const root = current;
+          if (fieldPath === "title") {
+            // Special handling for top-level properties like 'title'
+            newSections[sectionId] = {
+              ...section,
+              title: value,
+            };
+          } else if (fieldPath === "") {
+            // Direct content update
+            newSections[sectionId] = {
+              ...section,
+              content: Array.isArray(value)
+                ? [...value]
+                : typeof value === "object"
+                  ? { ...value }
+                  : value,
+            } as CVSection;
+          } else {
+            // Path-based object update within content
+            const pathParts = fieldPath.split(".");
+            // Deep copy the content
+            const newContent =
+              typeof section.content === "object"
+                ? JSON.parse(JSON.stringify(section.content))
+                : section.content;
 
-          for (let i = 0; i < pathParts.length - 1; i++) {
-            current[pathParts[i]] = { ...current[pathParts[i]] };
-            current = current[pathParts[i]];
+            let current: any = newContent;
+            for (let i = 0; i < pathParts.length - 1; i++) {
+              current[pathParts[i]] = { ...current[pathParts[i]] };
+              current = current[pathParts[i]];
+            }
+            current[pathParts[pathParts.length - 1]] = value;
+
+            newSections[sectionId] = {
+              ...section,
+              content: newContent,
+            } as CVSection;
           }
-          current[pathParts[pathParts.length - 1]] = value;
-
-          newSections[sectionId] = {
-            ...section,
-            content: root,
-          } as CVSection;
 
           return {
             cvDocument: {

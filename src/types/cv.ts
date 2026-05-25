@@ -1,23 +1,26 @@
 export type ColumnLayout = "1-column" | "2-column" | "3-column";
 
+export interface ColumnMapping {
+  leftColumn: string[];
+  middleColumn: string[];
+  rightColumn: string[];
+  mainColumn: string[];
+}
+
 export interface CVDocument {
   id: string;
   title: string;
   settings: {
     templateId: string;
     layoutStructure: ColumnLayout;
-    columnMapping: {
-      leftColumn: string[]; // Array of Section IDs
-      rightColumn: string[]; // Array of Section IDs
-      mainColumn: string[]; // Used if 1-column layout is selected
-    };
+    columnMapping: ColumnMapping;
     design: {
       primaryColor: string;
       fontSize: "sm" | "md" | "lg";
       spacing: "compact" | "normal" | "relaxed";
     };
   };
-  sections: Record<string, CVSection>; // Normalized lookup dictionary [id: string]: CVSection
+  sections: Record<string, CVSection>;
 }
 
 export type SectionType =

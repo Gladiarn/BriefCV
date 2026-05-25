@@ -1,3 +1,4 @@
+import { templates } from "@/lib/templates";
 import type { CVDocument } from "@/types/cv";
 
 const STORAGE_KEY = "briefcv_documents";
@@ -42,16 +43,26 @@ export const cvService = {
     templateId: string = "modern",
   ): Promise<CVDocument> {
     const id = crypto.randomUUID();
+    const template = templates.find((t) => t.id === templateId) || templates[0];
+    const layout = template.defaultLayout || "1-column";
+
     const doc: CVDocument = {
       id,
       title: "Untitled CV",
       settings: {
         templateId,
-        layoutStructure: "1-column",
+        layoutStructure: layout,
         columnMapping: {
-          leftColumn: [],
-          rightColumn: [],
-          mainColumn: ["header-1", "experience-1", "education-1", "skills-1"],
+          leftColumn: layout !== "1-column" ? ["header-1"] : [],
+          middleColumn: [],
+          rightColumn:
+            layout !== "1-column"
+              ? ["experience-1", "education-1", "skills-1"]
+              : [],
+          mainColumn:
+            layout === "1-column"
+              ? ["header-1", "experience-1", "education-1", "skills-1"]
+              : [],
         },
         design: {
           primaryColor: "#000000",
