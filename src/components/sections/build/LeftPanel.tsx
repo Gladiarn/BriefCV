@@ -7,10 +7,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCVStore } from "@/lib/store";
-import { cvService } from "@/services/cvService";
 import { cn } from "@/lib/utils";
-import { SectionForm } from "./forms/SectionForm";
+import { cvService } from "@/services/cvService";
 import type { ColumnMapping } from "@/types/cv";
+import { SectionForm } from "./forms/SectionForm";
 
 export const LeftPanel: React.FC = () => {
   const {
@@ -140,15 +140,21 @@ export const LeftPanel: React.FC = () => {
               ) : (
                 <div className="space-y-12">
                   <div className="space-y-4">
-                    <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Left</h3>
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
+                      Left
+                    </h3>
                     {renderSectionList("leftColumn")}
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Middle</h3>
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
+                      Middle
+                    </h3>
                     {renderSectionList("middleColumn")}
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Right</h3>
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
+                      Right
+                    </h3>
                     {renderSectionList("rightColumn")}
                   </div>
                 </div>
@@ -197,11 +203,26 @@ export const LeftPanel: React.FC = () => {
                   )}
                 >
                   <div className="w-full aspect-[3/4] bg-muted/30 rounded-lg flex gap-1 p-2">
-                    {layout === "1-column" && <div className="w-full bg-primary/20 rounded-sm" />}
-                    {layout === "2-column" && <><div className="w-1/3 bg-primary/20 rounded-sm" /><div className="w-2/3 bg-primary/20 rounded-sm" /></>}
-                    {layout === "3-column" && <><div className="w-1/4 bg-primary/20 rounded-sm" /><div className="w-1/2 bg-primary/20 rounded-sm" /><div className="w-1/4 bg-primary/20 rounded-sm" /></>}
+                    {layout === "1-column" && (
+                      <div className="w-full bg-primary/20 rounded-sm" />
+                    )}
+                    {layout === "2-column" && (
+                      <>
+                        <div className="w-1/3 bg-primary/20 rounded-sm" />
+                        <div className="w-2/3 bg-primary/20 rounded-sm" />
+                      </>
+                    )}
+                    {layout === "3-column" && (
+                      <>
+                        <div className="w-1/4 bg-primary/20 rounded-sm" />
+                        <div className="w-1/2 bg-primary/20 rounded-sm" />
+                        <div className="w-1/4 bg-primary/20 rounded-sm" />
+                      </>
+                    )}
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest">{layout.split("-")[0]} Col</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">
+                    {layout.split("-")[0]} Col
+                  </span>
                 </button>
               ))}
             </div>
@@ -211,28 +232,36 @@ export const LeftPanel: React.FC = () => {
         {activeTab === "design" && (
           <div className="space-y-8 animate-in fade-in slide-in-from-left-4 duration-500">
             <div className="space-y-1">
-              <h2 className="text-xl font-black tracking-tight">Visual Identity</h2>
-              <p className="text-xs text-muted-foreground">Customize colors and typography</p>
+              <h2 className="text-xl font-black tracking-tight">
+                Visual Identity
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                Customize colors and typography
+              </p>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-3">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">Primary Color</h3>
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
+                  Primary Color
+                </h3>
                 <div className="grid grid-cols-5 gap-3">
-                  {["#000000", "#2563eb", "#db2777", "#059669", "#7c3aed"].map((color) => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => updateDesign({ primaryColor: color })}
-                      className={cn(
-                        "w-full aspect-square rounded-2xl border-2 transition-all",
-                        cvDocument.settings.design.primaryColor === color
-                          ? "border-primary scale-110 shadow-lg shadow-primary/20"
-                          : "border-transparent",
-                      )}
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
+                  {["#000000", "#2563eb", "#db2777", "#059669", "#7c3aed"].map(
+                    (color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() => updateDesign({ primaryColor: color })}
+                        className={cn(
+                          "w-full aspect-square rounded-2xl border-2 transition-all",
+                          cvDocument.settings.design.primaryColor === color
+                            ? "border-primary scale-110 shadow-lg shadow-primary/20"
+                            : "border-transparent",
+                        )}
+                        style={{ backgroundColor: color }}
+                      />
+                    ),
+                  )}
                 </div>
               </div>
             </div>
@@ -242,18 +271,31 @@ export const LeftPanel: React.FC = () => {
         {activeTab === "ai" && (
           <div className="flex flex-col h-full gap-4 animate-in fade-in slide-in-from-left-4 duration-500">
             <div className="space-y-1">
-              <h2 className="text-xl font-black tracking-tight">AI Assistant</h2>
-              <p className="text-xs text-muted-foreground">Chat to populate your CV</p>
+              <h2 className="text-xl font-black tracking-tight">
+                AI Assistant
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                Chat to populate your CV
+              </p>
             </div>
             <div className="flex-1 overflow-hidden bg-muted/20 rounded-2xl p-4 flex flex-col gap-4">
               <div className="flex items-center gap-2 p-3 bg-background rounded-xl border">
                 <Bot className="w-4 h-4 text-primary" />
-                <p className="text-xs font-medium">How can I help build your CV today?</p>
+                <p className="text-xs font-medium">
+                  How can I help build your CV today?
+                </p>
               </div>
             </div>
             <div className="flex gap-2">
-              <Input placeholder="Describe your experience..." className="rounded-xl" />
-              <Button size="sm" type="button" className="h-9 w-9 shrink-0 rounded-lg p-0">
+              <Input
+                placeholder="Describe your experience..."
+                className="rounded-xl"
+              />
+              <Button
+                size="sm"
+                type="button"
+                className="h-9 w-9 shrink-0 rounded-lg p-0"
+              >
                 <Send className="w-3.5 h-3.5" />
               </Button>
             </div>
@@ -268,11 +310,26 @@ export const LeftPanel: React.FC = () => {
           onClick={async () => {
             if (cvDocument) {
               await cvService.saveDocument(cvDocument);
-              
+
+              // Get the innerHTML of the preview div
+              const previewElement =
+                document.getElementById("cv-preview-content");
+              const htmlContent = previewElement
+                ? `
+                <html>
+                    <head>
+                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                        <style>body { padding: 20px; }</style>
+                    </head>
+                    <body>${previewElement.innerHTML}</body>
+                </html>
+              `
+                : "";
+
               const response = await fetch("/api/export", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ resumeData: cvDocument }),
+                body: JSON.stringify({ resumeData: cvDocument, htmlContent }),
               });
 
               if (response.ok) {

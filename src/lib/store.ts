@@ -12,9 +12,11 @@ interface CVState {
   cvDocument: CVDocument | null;
   isLoading: boolean;
   error: string | null;
+  exportToPdfTrigger: boolean;
 
   // Actions
   setCVDocument: (doc: CVDocument) => void;
+  setExportToPdfTrigger: (trigger: boolean) => void;
   updateField: (sectionId: string, fieldPath: string, value: any) => void;
   reorderSections: (
     sourceColumn: keyof ColumnMapping,
@@ -36,8 +38,10 @@ export const useCVStore = create<CVState>()(
       cvDocument: null,
       isLoading: false,
       error: null,
+      exportToPdfTrigger: false,
 
       setCVDocument: (doc) => set({ cvDocument: doc }),
+      setExportToPdfTrigger: (trigger) => set({ exportToPdfTrigger: trigger }),
       clearStore: () => set({ cvDocument: null }),
 
       removeSection: (sectionId) => {
@@ -234,10 +238,12 @@ export const useCVStore = create<CVState>()(
           if (layout === "1-column") {
             newMapping.mainColumn = [
               ...oldMapping.leftColumn,
+              ...oldMapping.middleColumn,
               ...oldMapping.rightColumn,
               ...oldMapping.mainColumn,
             ].filter((v, i, a) => a.indexOf(v) === i); // Unique
             newMapping.leftColumn = [];
+            newMapping.middleColumn = [];
             newMapping.rightColumn = [];
           } else if (state.cvDocument.settings.layoutStructure === "1-column") {
             newMapping.leftColumn = [...oldMapping.mainColumn];

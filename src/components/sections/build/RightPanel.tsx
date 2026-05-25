@@ -2,22 +2,32 @@
 
 import { Minus, Plus, RefreshCw } from "lucide-react";
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePDF } from "react-to-pdf";
+import { UnifiedRenderer } from "@/components/shared/UnifiedRenderer";
 import { Button } from "@/components/ui/button";
 import { useCVStore } from "@/lib/store";
-import { templates } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 
 export const RightPanel: React.FC = () => {
-  const { cvDocument } = useCVStore();
+  const { cvDocument, exportToPdfTrigger } = useCVStore();
+
+  // Use react-to-pdf
+  const { toPDF, targetRef } = usePDF({
+    filename: `${cvDocument?.title || "resume"}.pdf`,
+    page: { format: "a4" },
+  });
+
+  // Effect to trigger export when store trigger is called
+  useEffect(() => {
+    if (exportToPdfTrigger) {
+      toPDF();
+    }
+  }, [exportToPdfTrigger, toPDF]);
+
   const [zoom, setZoom] = useState(1);
 
   if (!cvDocument) return null;
-
-  const { settings, sections } = cvDocument;
-  const activeTemplate =
-    templates.find((t) => t.id === settings.templateId) || templates[0];
-  const TemplateRenderer = activeTemplate.component;
 
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.1, 2));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.1, 0.4));
@@ -60,15 +70,17 @@ export const RightPanel: React.FC = () => {
       <div className="flex-1 w-full overflow-auto p-12 custom-scrollbar flex flex-col items-center">
         {/* A4 Sheet */}
         <div
+          id="cv-preview-content"
+          ref={targetRef}
           className={cn(
             "bg-white shadow-2xl origin-top transition-all duration-300 p-[15mm] mb-20",
-            "w-[210mm] min-h-[297mm]",
+            "w-[210mm] min-h-[297mm] !block",
           )}
           style={{
             transform: `scale(${zoom})`,
           }}
         >
-          <TemplateRenderer doc={cvDocument} />
+          <UnifiedRenderer doc={cvDocument} />
         </div>
       </div>
     </div>

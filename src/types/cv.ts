@@ -18,6 +18,8 @@ export interface CVDocument {
       primaryColor: string;
       fontSize: "sm" | "md" | "lg";
       spacing: "compact" | "normal" | "relaxed";
+      fontFamily: "sans" | "serif" | "mono";
+      sectionGap: number;
     };
   };
   sections: Record<string, CVSection>;

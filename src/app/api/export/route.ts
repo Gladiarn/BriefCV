@@ -1,40 +1,39 @@
-import { renderToStream } from "@react-pdf/renderer";
 import { NextResponse } from "next/server";
-import React from "react";
-import { templates, pdfTemplates } from "@/lib/templates";
-import { ModernPDFTemplate } from "@/templates/pdf/modern";
-import type { CVDocument } from "@/types/cv";
+import puppeteer from "puppeteer";
 
 export async function POST(req: Request) {
   try {
-    const { resumeData } = await req.json();
-    const doc = resumeData as CVDocument;
+    const { resumeData, htmlContent } = await req.json();
 
-    // Use pdfTemplates correctly
-    const TemplateComponent = (pdfTemplates as any)[doc.settings.templateId] || ModernPDFTemplate;
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
 
-    // Render to stream
-    const stream = await renderToStream(
-      React.createElement(TemplateComponent as any, { doc: doc }) as any
-    );
+    const page = await browser.newPage();
 
-    // Convert stream to Buffer
-    const chunks: Uint8Array[] = [];
-    for await (const chunk of stream) {
-      chunks.push(chunk as Uint8Array);
-    }
-    const pdfBuffer = Buffer.concat(chunks);
+    // Set the HTML content
+    await page.setContent(htmlContent, { waitUntil: "networkidle0" as any });
 
-    return new NextResponse(pdfBuffer, {
+    // Generate PDF
+    const pdfBuffer = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" },
+    });
+
+    await browser.close();
+
+    return new NextResponse(pdfBuffer as any, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${doc.title || "resume"}.pdf"`,
+        "Content-Disposition": `attachment; filename="${resumeData.title || "resume"}.pdf"`,
       },
     });
   } catch (error) {
-    console.error("PDF Generation failed:", error);
+    console.error("Puppeteer PDF Error:", error);
     return NextResponse.json(
-      { error: "Failed to generate PDF" },
+      { error: "Failed to generate high-fidelity PDF" },
       { status: 500 },
     );
   }
