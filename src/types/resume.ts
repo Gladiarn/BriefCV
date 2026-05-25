@@ -34,6 +34,7 @@ export interface Template {
   sections: FormSection[];
   features: string[];
   dimensions: string;
+  defaultLayout: "1-column" | "2-column" | "3-column";
   previewImage?: string;
   defaultData: any; // Using any here to maintain compatibility with existing defaultData structures
 }
@@ -77,5 +78,9 @@ export interface ResumeData {
   projects: ProjectItem[];
   skills: string[];
   awards: string[];
+  sectionTitles: {
+    experience: string;
+    education: string;
+  };
   templateId: string;
 }

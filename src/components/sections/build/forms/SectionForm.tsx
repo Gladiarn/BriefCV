@@ -1,14 +1,16 @@
 "use client";
 
 import {
+  Check,
   ChevronDown,
   ChevronUp,
   Eye,
   EyeOff,
   GripVertical,
+  Trash2,
 } from "lucide-react";
 import type React from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { useCVStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import type { CVSection } from "@/types/cv";
@@ -30,6 +32,8 @@ export const SectionForm: React.FC<Props> = ({
 }) => {
   const toggleVisibility = useCVStore((state) => state.toggleVisibility);
   const updateField = useCVStore((state) => state.updateField);
+  const removeSection = useCVStore((state) => state.removeSection);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const renderInputs = () => {
     switch (section.type) {
@@ -41,7 +45,6 @@ export const SectionForm: React.FC<Props> = ({
         return <EducationInputs section={section} />;
       case "skills":
         return <SkillsInputs section={section} />;
-      // Add other cases
       default:
         return (
           <div className="text-xs text-muted-foreground p-4 bg-muted/20 rounded-xl">
@@ -60,7 +63,6 @@ export const SectionForm: React.FC<Props> = ({
           : "bg-card/50",
       )}
     >
-      {/* Header */}
       <div className="p-4 flex items-center justify-between gap-4 select-none">
         <div className="flex items-center gap-3 flex-1">
           <div className="cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground transition-colors p-1">
@@ -75,43 +77,69 @@ export const SectionForm: React.FC<Props> = ({
           />
         </div>
 
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "w-8 h-8 rounded-full transition-all",
-              section.isVisible
-                ? "text-primary hover:bg-primary/10"
-                : "text-muted-foreground hover:bg-muted",
-            )}
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               toggleVisibility(section.id);
             }}
+            className={cn(
+              "p-2 rounded-full transition-all border",
+              section.isVisible
+                ? "text-primary border-primary/20 hover:bg-primary/10"
+                : "text-muted-foreground border-border hover:bg-muted",
+            )}
           >
             {section.isVisible ? (
-              <Eye className="w-4 h-4" />
+              <Eye className="w-3.5 h-3.5" />
             ) : (
-              <EyeOff className="w-4 h-4" />
+              <EyeOff className="w-3.5 h-3.5" />
             )}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-8 h-8 rounded-full text-muted-foreground hover:bg-muted"
-            onClick={onToggleExpand}
+          </button>
+          {section.type !== "header" && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (isConfirmingDelete) {
+                  removeSection(section.id);
+                } else {
+                  setIsConfirmingDelete(true);
+                  setTimeout(() => setIsConfirmingDelete(false), 2000);
+                }
+              }}
+              className={cn(
+                "p-2 rounded-full transition-all border",
+                isConfirmingDelete
+                  ? "text-white bg-destructive border-destructive"
+                  : "text-destructive border-destructive/20 hover:bg-destructive/10",
+              )}
+            >
+              {isConfirmingDelete ? (
+                <Check className="w-3.5 h-3.5" />
+              ) : (
+                <Trash2 className="w-3.5 h-3.5" />
+              )}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleExpand();
+            }}
+            className="p-2 rounded-full text-foreground border border-border hover:bg-muted transition-all"
           >
             {isExpanded ? (
-              <ChevronUp className="w-4 h-4" />
+              <ChevronUp className="w-3.5 h-3.5" />
             ) : (
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="w-3.5 h-3.5" />
             )}
-          </Button>
+          </button>
         </div>
       </div>
 
-      {/* Content */}
       {isExpanded && (
         <div className="p-6 pt-2 border-t border-border/40 bg-gradient-to-b from-transparent to-primary/[0.01]">
           {renderInputs()}

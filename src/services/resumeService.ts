@@ -36,6 +36,10 @@ const DEFAULT_RESUME: ResumeData = {
   projects: [],
   skills: [],
   awards: [],
+  sectionTitles: {
+    experience: "Experience",
+    education: "Education",
+  },
   templateId: "modern",
 };
 

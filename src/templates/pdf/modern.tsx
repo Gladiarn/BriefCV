@@ -1,5 +1,11 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
-import type { ResumeData } from "@/types/resume";
+import type {
+  CVDocument,
+  EducationSection,
+  ExperienceSection,
+  HeaderSection,
+  SkillsSection,
+} from "@/types/cv";
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontFamily: "Helvetica" },
@@ -45,47 +51,81 @@ const styles = StyleSheet.create({
   title: { fontSize: 10, fontStyle: "italic", marginBottom: 4 },
 });
 
-export const ModernPDFTemplate = ({ data }: { data: ResumeData }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.name}>{data.name}</Text>
-        <Text style={styles.role}>{data.role}</Text>
-        <View style={styles.contact}>
-          <Text>
-            {data.email} • {data.phone} • {data.location}
-          </Text>
-        </View>
-      </View>
+export const ModernPDFTemplate = ({ doc }: { doc: CVDocument }) => {
+  const sections = Object.values(doc.sections).filter((s) => s.isVisible);
 
-      <Text style={styles.sectionTitle}>Summary</Text>
-      <Text style={styles.text}>{data.summary}</Text>
+  const header = sections.find((s) => s.type === "header") as
+    | HeaderSection
+    | undefined;
+  const experience = sections.find((s) => s.type === "experience") as
+    | ExperienceSection
+    | undefined;
+  const education = sections.find((s) => s.type === "education") as
+    | EducationSection
+    | undefined;
+  const skills = sections.find((s) => s.type === "skills") as
+    | SkillsSection
+    | undefined;
 
-      <Text style={styles.sectionTitle}>Experience</Text>
-      {data.experience.map((exp) => (
-        <View key={exp.id} style={styles.expItem}>
-          <View style={styles.expHeader}>
-            <Text style={styles.company}>{exp.company}</Text>
-            <Text style={styles.period}>{exp.period}</Text>
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {header && (
+          <View style={styles.header}>
+            <Text style={styles.name}>{header.content.fullName}</Text>
+            <Text style={styles.role}>{header.content.jobTitle}</Text>
+            <View style={styles.contact}>
+              <Text>
+                {header.content.email} • {header.content.phone} •{" "}
+                {header.content.location}
+              </Text>
+            </View>
           </View>
-          <Text style={styles.title}>{exp.title}</Text>
-          {exp.points.split("\n").map((point, i) => (
-            <Text key={`${exp.id}-point-${i}`} style={styles.text}>
-              • {point.replace("•", "").trim()}
-            </Text>
-          ))}
-        </View>
-      ))}
+        )}
 
-      <Text style={styles.sectionTitle}>Education</Text>
-      {data.education.map((edu) => (
-        <View key={edu.id} style={styles.text}>
-          <Text style={{ fontWeight: "bold" }}>{edu.school}</Text>
-          <Text>
-            {edu.degree} ({edu.year})
-          </Text>
-        </View>
-      ))}
-    </Page>
-  </Document>
-);
+        {experience && (
+          <>
+            <Text style={styles.sectionTitle}>{experience.title}</Text>
+            {experience.content.map((exp) => (
+              <View key={exp.id} style={styles.expItem}>
+                <View style={styles.expHeader}>
+                  <Text style={styles.company}>{exp.company}</Text>
+                  <Text style={styles.period}>
+                    {exp.startDate} - {exp.isCurrent ? "Present" : exp.endDate}
+                  </Text>
+                </View>
+                <Text style={styles.title}>{exp.role}</Text>
+                {exp.description.map((point, i) => (
+                  <Text key={`${exp.id}-point-${i}`} style={styles.text}>
+                    • {point.trim()}
+                  </Text>
+                ))}
+              </View>
+            ))}
+          </>
+        )}
+
+        {education && (
+          <>
+            <Text style={styles.sectionTitle}>{education.title}</Text>
+            {education.content.map((edu) => (
+              <View key={edu.id} style={styles.text}>
+                <Text style={{ fontWeight: "bold" }}>{edu.institution}</Text>
+                <Text>
+                  {edu.degree} ({edu.startDate} - {edu.endDate})
+                </Text>
+              </View>
+            ))}
+          </>
+        )}
+
+        {skills && (
+          <>
+            <Text style={styles.sectionTitle}>{skills.title}</Text>
+            <Text style={styles.text}>{skills.content.join(" • ")}</Text>
+          </>
+        )}
+      </Page>
+    </Document>
+  );
+};

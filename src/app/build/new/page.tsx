@@ -46,7 +46,6 @@ function EditorContent() {
     init();
   }, [searchParams, setCVDocument, clearStore]);
 
-
   if (isInitializing) {
     return (
       <div className="h-screen w-full flex flex-col items-center justify-center bg-background gap-6">
@@ -67,9 +66,9 @@ function EditorContent() {
   }
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden relative">
+    <div className="flex h-screen bg-muted/20 overflow-hidden relative">
       {/* Sidebar - Left Panel */}
-      <aside className="w-[480px] h-full z-20 flex flex-col shadow-2xl">
+      <aside className="w-[480px] h-full z-20 flex flex-col shadow-2xl bg-background border-r border-border">
         <header className="p-4 border-b border-border flex items-center justify-between bg-background/50 backdrop-blur-md">
           <Link href="/build">
             <Button
@@ -95,7 +94,7 @@ function EditorContent() {
       </aside>
 
       {/* Main Area - Right Panel (Preview) */}
-      <main className="flex-1 h-full relative bg-secondary/5 overflow-hidden">
+      <main className="flex-1 h-full relative bg-muted/10 overflow-hidden">
         <RightPanel />
       </main>
     </div>
