@@ -68,6 +68,8 @@ export const cvService = {
           primaryColor: "#000000",
           fontSize: "md",
           spacing: "normal",
+          fontFamily: "sans",
+          sectionGap: 15,
         },
       },
       sections: {

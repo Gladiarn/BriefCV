@@ -22,21 +22,16 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         return (
           <div
             key={id}
-            className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-4 pb-8"
+            className="pb-6 border-b-2"
             style={{ borderColor: primaryColor }}
           >
-            <div className="space-y-1">
-              <h1
-                className="text-5xl font-black tracking-tighter uppercase"
-                style={{ color: primaryColor }}
-              >
-                {content.fullName || "Your Name"}
-              </h1>
-              <p className="text-2xl font-bold tracking-tight opacity-70">
-                {content.jobTitle || "Target Role"}
-              </p>
-            </div>
-            <div className="flex flex-col items-start md:items-end gap-1 text-xs font-bold uppercase tracking-widest opacity-60">
+            <h1 className="text-5xl font-extrabold tracking-tighter text-gray-900 uppercase">
+              {content.fullName || "Your Name"}
+            </h1>
+            <p className="text-lg font-medium mt-2 uppercase tracking-[0.2em] opacity-70">
+              {content.jobTitle || "Executive Leader"}
+            </p>
+            <div className="flex gap-6 mt-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">
               {content.email && <span>{content.email}</span>}
               {content.phone && <span>{content.phone}</span>}
               {content.location && <span>{content.location}</span>}
@@ -44,91 +39,74 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
           </div>
         );
       }
-
       case "experience": {
         const content = (section as ExperienceSection).content;
         return (
           <div key={id} className="space-y-6">
-            <h3
-              className="text-lg font-black uppercase tracking-tighter border-l-4 pl-4"
-              style={{ borderLeftColor: primaryColor }}
-            >
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
               {section.title}
             </h3>
-            <div className="space-y-10">
-              {content.map((exp) => (
-                <div key={exp.id} className="space-y-3">
-                  <div className="flex justify-between items-baseline border-b border-border/40 pb-1">
-                    <h4 className="font-black text-base uppercase tracking-tight">
-                      {exp.company}
-                    </h4>
-                    <span className="text-xs font-black opacity-50 tabular-nums">
-                      {exp.startDate} — {exp.endDate}
-                    </span>
+            {content.map((exp) => (
+              <div key={exp.id} className="grid grid-cols-[120px_1fr] gap-4">
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mt-1">
+                  {exp.startDate} - {exp.isCurrent ? "Present" : exp.endDate}
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-bold text-gray-900">
+                    {exp.company}
                   </div>
-                  <p className="text-sm font-bold uppercase tracking-wide opacity-80">
+                  <div
+                    className="text-xs font-semibold"
+                    style={{ color: primaryColor }}
+                  >
                     {exp.role}
-                  </p>
-                  <ul className="text-xs space-y-2 list-none">
-                    {exp.description.map((bullet, i) => (
-                      <li key={i} className="relative pl-6 leading-relaxed">
-                        <span
-                          className="absolute left-0 top-1.5 w-2 h-2 rotate-45"
-                          style={{ backgroundColor: primaryColor }}
-                        />
-                        {bullet}
-                      </li>
+                  </div>
+                  <ul className="text-xs space-y-1 list-disc ml-4 text-gray-600">
+                    {exp.description.map((point, i) => (
+                      <li key={i}>{point}</li>
                     ))}
                   </ul>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         );
       }
-
       case "education": {
         const content = (section as EducationSection).content;
         return (
           <div key={id} className="space-y-6">
-            <h3
-              className="text-lg font-black uppercase tracking-tighter border-l-4 pl-4"
-              style={{ borderLeftColor: primaryColor }}
-            >
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
               {section.title}
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {content.map((edu) => (
-                <div key={edu.id} className="space-y-1">
-                  <h4 className="font-black text-xs uppercase tracking-tight">
-                    {edu.institution}
-                  </h4>
-                  <p className="text-xs font-bold opacity-70">{edu.degree}</p>
-                  <div className="text-[10px] font-black opacity-40 uppercase tracking-widest">
-                    {edu.startDate} - {edu.endDate}
-                  </div>
+            {content.map((edu) => (
+              <div key={edu.id} className="grid grid-cols-[120px_1fr] gap-4">
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mt-1">
+                  {edu.startDate} - {edu.endDate}
                 </div>
-              ))}
-            </div>
+                <div>
+                  <div className="text-sm font-bold text-gray-900">
+                    {edu.institution}
+                  </div>
+                  <div className="text-xs text-gray-600">{edu.degree}</div>
+                </div>
+              </div>
+            ))}
           </div>
         );
       }
-
       case "skills": {
         const content = (section as SkillsSection).content;
         return (
-          <div key={id} className="space-y-6">
-            <h3
-              className="text-lg font-black uppercase tracking-tighter border-l-4 pl-4"
-              style={{ borderLeftColor: primaryColor }}
-            >
+          <div key={id} className="space-y-4">
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-2">
               {content.map((skill, i) => (
                 <span
                   key={i}
-                  className="text-[10px] font-black uppercase tracking-[0.15em] bg-secondary px-3 py-1.5 rounded-sm"
+                  className="text-[10px] font-bold border-b border-gray-300 pb-0.5"
                 >
                   {skill}
                 </span>
@@ -137,22 +115,33 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
           </div>
         );
       }
-
       default:
         return null;
     }
   };
 
   return (
-    <div className="h-full flex flex-col gap-12 font-sans">
+    <div className="h-full flex flex-col gap-12 font-serif text-gray-900">
       {settings.layoutStructure === "1-column" ? (
         <div className="space-y-12">
           {settings.columnMapping.mainColumn.map(renderSection)}
         </div>
-      ) : (
-        <div className="grid grid-cols-[1fr_2fr] gap-12 h-full">
-          <div className="space-y-12 bg-secondary/5 p-6 rounded-xl border border-border/20">
+      ) : settings.layoutStructure === "2-column" ? (
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-12">
             {settings.columnMapping.leftColumn.map(renderSection)}
+          </div>
+          <div className="space-y-12">
+            {settings.columnMapping.rightColumn.map(renderSection)}
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-6">
+          <div className="space-y-12">
+            {settings.columnMapping.leftColumn.map(renderSection)}
+          </div>
+          <div className="space-y-12">
+            {settings.columnMapping.middleColumn.map(renderSection)}
           </div>
           <div className="space-y-12">
             {settings.columnMapping.rightColumn.map(renderSection)}

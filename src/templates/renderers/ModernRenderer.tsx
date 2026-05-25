@@ -152,7 +152,7 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
           {settings.columnMapping.mainColumn.map(renderSection)}
         </div>
       ) : settings.layoutStructure === "2-column" ? (
-        <div className="grid grid-cols-[1fr_2.5fr] gap-10 h-full">
+        <div className="grid grid-cols-2 gap-6 h-full">
           <div className="space-y-8">
             {settings.columnMapping.leftColumn.map(renderSection)}
           </div>

@@ -6,15 +6,24 @@ import {
   Trophy,
   User,
 } from "lucide-react";
+import { ExecutivePDFTemplate } from "@/templates/pdf/executive";
+import { MinimalistPDFTemplate } from "@/templates/pdf/minimalist";
 import { ModernPDFTemplate } from "@/templates/pdf/modern";
+import { ProfessionalPDFTemplate } from "@/templates/pdf/professional";
+import { AcademicRenderer } from "@/templates/renderers/AcademicRenderer";
+import { CreativeRenderer } from "@/templates/renderers/CreativeRenderer";
 import { ExecutiveRenderer } from "@/templates/renderers/ExecutiveRenderer";
 import { MinimalistRenderer } from "@/templates/renderers/MinimalistRenderer";
 import { ModernRenderer } from "@/templates/renderers/ModernRenderer";
 import { ProfessionalRenderer } from "@/templates/renderers/ProfessionalRenderer";
+import { SidebarRenderer } from "@/templates/renderers/SidebarRenderer";
 import type { FormSection, Template } from "@/types/resume";
 
 export const pdfTemplates = {
   modern: ModernPDFTemplate,
+  minimalist: MinimalistPDFTemplate,
+  executive: ExecutivePDFTemplate,
+  professional: ProfessionalPDFTemplate,
 };
 
 export const AI_SECTION: FormSection = {
@@ -188,6 +197,74 @@ export const ALL_SECTIONS = [
 
 export const templates: Template[] = [
   {
+    id: "sidebar",
+    name: "Sidebar",
+    description: "Modern layout with a colored sidebar.",
+    thumbnailColor: "bg-gradient-to-br from-indigo-500/20 to-transparent",
+    component: SidebarRenderer as any,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
+    features: ["A4", "Two-tone design"],
+    dimensions: "210mm x 297mm",
+    defaultLayout: "2-column",
+    defaultData: {},
+  },
+  {
+    id: "academic",
+    name: "Academic",
+    description: "Refined, serif-based layout for researchers.",
+    thumbnailColor: "bg-gradient-to-br from-amber-500/20 to-transparent",
+    component: AcademicRenderer as any,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
+    features: ["A4", "Academic Focus"],
+    dimensions: "210mm x 297mm",
+    defaultLayout: "1-column",
+    defaultData: {},
+  },
+  {
+    id: "creative",
+    name: "Creative",
+    description: "Bold, modern typography-focused layout.",
+    thumbnailColor: "bg-gradient-to-br from-purple-500/20 to-transparent",
+    component: CreativeRenderer as any,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
+    features: ["A4", "Creative typography"],
+    dimensions: "210mm x 297mm",
+    defaultLayout: "2-column",
+    defaultData: {},
+  },
+  {
+    id: "minimalist",
+    name: "Minimalist",
+    description: "High-end, whitespace-heavy professional layout.",
+    thumbnailColor: "bg-gradient-to-br from-gray-500/20 to-transparent",
+    component: MinimalistRenderer as any,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
+    features: ["A4", "Whitespace-focused"],
+    dimensions: "210mm x 297mm",
+    defaultLayout: "2-column",
+    defaultData: {},
+  },
+  {
     id: "modern",
     name: "Modern",
     description: "High-impact, center-aligned.",
@@ -202,23 +279,6 @@ export const templates: Template[] = [
     features: ["A4", "AI Metrics"],
     dimensions: "210mm x 297mm",
     defaultLayout: "1-column",
-    defaultData: {},
-  },
-  {
-    id: "minimalist",
-    name: "Minimalist",
-    description: "Elegant, serif-based design.",
-    thumbnailColor: "bg-gradient-to-br from-blue-500/20 to-transparent",
-    component: MinimalistRenderer as any,
-    sections: [
-      BASICS_SECTION,
-      EXPERIENCE_SECTION,
-      EDUCATION_SECTION,
-      AI_SECTION,
-    ],
-    features: ["A4", "Serif Typography"],
-    dimensions: "210mm x 297mm",
-    defaultLayout: "2-column",
     defaultData: {},
   },
   {
