@@ -93,7 +93,7 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
     <div className="grid grid-cols-12 w-full h-full bg-white text-gray-900">
       {/* Sidebar - Full Bleed */}
       <div
-        className="col-span-4 text-white h-full py-[15mm] px-6"
+        className="col-span-5 text-white h-full py-[15mm] px-6"
         style={{ backgroundColor: primaryColor }}
       >
         <div className="pt-4">
@@ -106,7 +106,7 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
       </div>
 
       {/* Content */}
-      <div className="col-span-8 pt-[15mm] px-8 h-full">
+      <div className="col-span-7 pt-[15mm] px-8 h-full">
         {settings.layoutStructure === "2-column" ? (
           <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
         ) : (

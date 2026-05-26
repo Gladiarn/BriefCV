@@ -128,10 +128,10 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         </div>
       ) : settings.layoutStructure === "2-column" ? (
         <div className="grid grid-cols-12 gap-10">
-          <div className="col-span-4 space-y-12">
+          <div className="col-span-5 space-y-12">
             {settings.columnMapping.leftColumn.map(renderSection)}
           </div>
-          <div className="col-span-8 space-y-12">
+          <div className="col-span-7 space-y-12">
             {settings.columnMapping.rightColumn.map(renderSection)}
           </div>
         </div>
