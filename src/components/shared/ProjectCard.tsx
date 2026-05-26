@@ -1,9 +1,19 @@
 "use client";
 
-import { Clock, Download, Sparkles, Trash2 } from "lucide-react";
+import {
+  Check,
+  Clock,
+  Download,
+  Edit3,
+  Loader2,
+  Sparkles,
+  Trash2,
+  X,
+} from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type ResumeMetadata, resumeService } from "@/services/resumeService";
 import type { Template } from "@/types/resume";
@@ -16,21 +26,58 @@ interface ProjectCardProps {
 
 export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState(resume.title);
+  const [currentTitle, setCurrentTitle] = useState(resume.title);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [status, setStatus] = useState<"idle" | "processing">("idle");
+
+  useEffect(() => {
+    if (isConfirmingDelete) {
+      const timer = setTimeout(() => setIsConfirmingDelete(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isConfirmingDelete]);
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (confirm("Are you sure you want to delete this project?")) {
-      setIsDeleting(true);
+    if (isConfirmingDelete) {
+      setStatus("processing");
       try {
         await resumeService.deleteResume(resume.id);
         onDelete?.(resume.id);
       } catch (error) {
         console.error("Failed to delete project:", error);
-      } finally {
-        setIsDeleting(false);
+        setIsConfirmingDelete(false);
+        setStatus("idle");
       }
+    } else {
+      setIsConfirmingDelete(true);
+    }
+  };
+
+  const handleRename = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (newTitle.trim() === "" || newTitle === currentTitle) {
+      setIsEditing(false);
+      return;
+    }
+
+    setStatus("processing");
+    try {
+      await resumeService.renameResume(resume.id, newTitle);
+      setCurrentTitle(newTitle);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Failed to rename project:", error);
+      setNewTitle(currentTitle);
+      setIsEditing(false);
+    } finally {
+      setStatus("idle");
     }
   };
 
@@ -44,9 +91,21 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
     <div
       className={cn(
         "group relative flex flex-col h-full bg-card border border-border/40 rounded-[2.5rem] overflow-hidden transition-all duration-200 hover:border-primary/20 hover:shadow-md",
-        isDeleting && "opacity-50 pointer-events-none",
+        (isDeleting || status === "processing") && "pointer-events-none",
       )}
     >
+      {/* Processing Overlay */}
+      {status === "processing" && (
+        <div className="absolute inset-0 z-[100] bg-background/60 backdrop-blur-sm flex flex-col items-center justify-center gap-3 animate-in fade-in duration-300">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <Loader2 className="w-6 h-6 text-primary animate-spin" />
+          </div>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+            Processing
+          </p>
+        </div>
+      )}
+
       {/* Visual Area - Enlarged & Minimalist */}
       <div
         className={cn(
@@ -83,13 +142,21 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
               <Download className="w-3.5 h-3.5 mr-2" />
               Export
             </Button>
-            <Button
+            <button
               onClick={handleDelete}
-              variant="secondary"
-              className="w-11 h-11 rounded-full p-0 bg-background/80 hover:bg-destructive hover:text-destructive-foreground border-border/40 transition-colors"
+              className={cn(
+                "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 border shadow-sm",
+                isConfirmingDelete
+                  ? "bg-destructive text-white border-destructive"
+                  : "bg-background text-destructive border-border/40 hover:bg-destructive/10",
+              )}
             >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+              {isConfirmingDelete ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                <Trash2 className="w-4 h-4" />
+              )}
+            </button>
           </div>
         </div>
       </div>
@@ -98,15 +165,56 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
       <div className="p-6 flex flex-col flex-grow">
         <div className="space-y-4">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-lg font-bold tracking-tight line-clamp-1 group-hover:text-primary transition-colors">
-              {resume.title}
-            </h3>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10 shrink-0">
-              <Sparkles className="w-3 h-3 text-primary" />
-              <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                {template.name}
-              </span>
+            <div className="flex-1">
+              {isEditing ? (
+                <div
+                  className="flex items-center gap-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Input
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="h-8 text-sm font-bold p-2"
+                    autoFocus
+                  />
+                  <button
+                    onClick={handleRename}
+                    className="p-1 hover:bg-primary/10 rounded-full text-primary"
+                  >
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsEditing(false);
+                      setNewTitle(currentTitle);
+                    }}
+                    className="p-1 hover:bg-destructive/10 rounded-full text-destructive"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 group/title">
+                  <h3 className="text-lg font-bold tracking-tight line-clamp-1 group-hover:text-primary transition-colors">
+                    {currentTitle}
+                  </h3>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="opacity-0 group-hover/title:opacity-100 p-1 hover:bg-secondary rounded-lg transition-all"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-muted-foreground" />
+                  </button>
+                </div>
+              )}
             </div>
+            {!isEditing && (
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10 shrink-0">
+                <Sparkles className="w-3 h-3 text-primary" />
+                <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                  {template.name}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-2 text-[11px] text-muted-foreground font-semibold uppercase tracking-widest opacity-60">

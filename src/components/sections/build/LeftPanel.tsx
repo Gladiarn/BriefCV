@@ -1,9 +1,20 @@
 "use client";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { Bot, Layout, Palette, Plus, Send, Settings } from "lucide-react";
+import {
+  AlertCircle,
+  Bot,
+  CheckCircle2,
+  Edit3,
+  Layout,
+  Loader2,
+  Palette,
+  Plus,
+  Send,
+  Settings,
+} from "lucide-react";
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCVStore } from "@/lib/store";
@@ -19,6 +30,7 @@ export const LeftPanel: React.FC = () => {
     addSection,
     updateLayoutStructure,
     updateDesign,
+    updateTitle,
   } = useCVStore();
   const [expandedSection, setExpandedSection] = useState<string | null>(
     "header-1",
@@ -26,6 +38,17 @@ export const LeftPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     "content" | "layout" | "design" | "ai"
   >("content");
+  const [saveStatus, setSaveStatus] = useState<
+    "idle" | "processing" | "saved" | "error"
+  >("idle");
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+
+  useEffect(() => {
+    if (saveStatus === "saved" || saveStatus === "error") {
+      const timer = setTimeout(() => setSaveStatus("idle"), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [saveStatus]);
 
   if (!cvDocument) return null;
 
@@ -82,8 +105,55 @@ export const LeftPanel: React.FC = () => {
     );
   };
 
+  const getButtonContent = () => {
+    switch (saveStatus) {
+      case "processing":
+        return (
+          <span className="flex items-center gap-2">
+            <Loader2 className="w-4 h-4 animate-spin" /> Processing...
+          </span>
+        );
+      case "saved":
+        return (
+          <span className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4" /> Saved Successfully
+          </span>
+        );
+      case "error":
+        return (
+          <span className="flex items-center gap-2">
+            <AlertCircle className="w-4 h-4" /> Export Failed
+          </span>
+        );
+      default:
+        return "Finish & Export";
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-background border-r border-border">
+      {/* Title Bar */}
+      <div className="p-4 border-b border-border bg-muted/10 flex items-center justify-between gap-4">
+        {isEditingTitle ? (
+          <Input
+            value={cvDocument.title}
+            onChange={(e) => updateTitle(e.target.value)}
+            onBlur={() => setIsEditingTitle(false)}
+            onKeyDown={(e) => e.key === "Enter" && setIsEditingTitle(false)}
+            autoFocus
+            className="h-8 text-xs font-bold rounded-lg border-primary/30"
+          />
+        ) : (
+          <h2
+            className="text-xs font-bold uppercase tracking-widest truncate cursor-pointer hover:text-primary transition-colors flex items-center gap-2"
+            onClick={() => setIsEditingTitle(true)}
+          >
+            {cvDocument.title}
+            <Edit3 className="w-3 h-3 text-muted-foreground" />
+          </h2>
+        )}
+      </div>
+
       {/* Tab Navigation */}
       <div className="flex border-b border-border bg-muted/5 p-1 gap-1">
         {[
@@ -306,97 +376,114 @@ export const LeftPanel: React.FC = () => {
       <footer className="p-6 border-t border-border bg-background/50 backdrop-blur-md">
         <Button
           type="button"
-          className="w-full h-12 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl shadow-primary/10"
+          disabled={saveStatus === "processing" || saveStatus === "saved"}
+          className={cn(
+            "w-full h-12 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl shadow-primary/10 transition-all duration-300",
+            saveStatus === "saved"
+              ? "bg-green-600 hover:bg-green-700"
+              : saveStatus === "error"
+                ? "bg-destructive hover:bg-destructive/90"
+                : "",
+          )}
           onClick={async () => {
             if (cvDocument) {
-              await cvService.saveDocument(cvDocument);
-
-              // 1. Capture ALL styles as raw text to ensure 100% parity in Puppeteer
-              let cssText = "";
+              setSaveStatus("processing");
               try {
-                // Get all style tags
-                const styleTags = Array.from(
-                  document.querySelectorAll("style"),
-                );
-                styleTags.forEach((tag) => {
-                  cssText += tag.textContent + "\n";
+                // 1. Save to Database
+                await cvService.saveDocument(cvDocument);
+
+                // 2. Capture ALL styles as raw text to ensure 100% parity in Puppeteer
+                let cssText = "";
+                try {
+                  const styleTags = Array.from(
+                    document.querySelectorAll("style"),
+                  );
+                  styleTags.forEach((tag) => {
+                    cssText += tag.textContent + "\n";
+                  });
+
+                  const linkTags = Array.from(
+                    document.querySelectorAll('link[rel="stylesheet"]'),
+                  ) as HTMLLinkElement[];
+                  for (const link of linkTags) {
+                    try {
+                      const response = await fetch(link.href);
+                      if (response.ok) {
+                        cssText += (await response.text()) + "\n";
+                      }
+                    } catch (e) {
+                      console.warn("Could not fetch stylesheet:", link.href);
+                    }
+                  }
+                } catch (e) {
+                  console.error("Error capturing styles:", e);
+                }
+
+                // 3. Get the innerHTML of the preview div
+                const previewElement =
+                  document.getElementById("cv-preview-content");
+                if (!previewElement) {
+                  setSaveStatus("error");
+                  return;
+                }
+
+                // 4. Construct standalone HTML
+                const htmlContent = `
+                  <!DOCTYPE html>
+                  <html>
+                      <head>
+                          <meta charset="utf-8">
+                          <style>
+                            ${cssText}
+                            body { margin: 0; padding: 0; background: white; }
+                            #cv-preview-content { 
+                              width: 210mm !important; 
+                              min-height: 297mm !important;
+                              transform: scale(1) !important;
+                              margin: 0 !important;
+                              box-shadow: none !important;
+                            }
+                          </style>
+                      </head>
+                      <body>
+                        <div id="cv-preview-content">
+                          ${previewElement.innerHTML}
+                        </div>
+                      </body>
+                  </html>
+                `;
+
+                // 5. Send to high-fidelity Puppeteer API
+                const response = await fetch("/api/export", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    resumeData: cvDocument,
+                    htmlContent,
+                  }),
                 });
 
-                // Fetch all external stylesheets to inline them
-                const linkTags = Array.from(
-                  document.querySelectorAll('link[rel="stylesheet"]'),
-                ) as HTMLLinkElement[];
-                for (const link of linkTags) {
-                  try {
-                    const response = await fetch(link.href);
-                    if (response.ok) {
-                      cssText += (await response.text()) + "\n";
-                    }
-                  } catch (e) {
-                    console.warn("Could not fetch stylesheet:", link.href);
-                  }
+                if (response.ok) {
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${cvDocument.title || "resume"}.pdf`;
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  setSaveStatus("saved");
+                } else {
+                  setSaveStatus("error");
                 }
-              } catch (e) {
-                console.error("Error capturing styles:", e);
-              }
-
-              // 2. Get the innerHTML of the preview div
-              const previewElement =
-                document.getElementById("cv-preview-content");
-              if (!previewElement) return;
-
-              // 3. Construct a full standalone HTML document with inlined styles
-              const htmlContent = `
-                <!DOCTYPE html>
-                <html>
-                    <head>
-                        <meta charset="utf-8">
-                        <style>
-                          ${cssText}
-                          body { margin: 0; padding: 0; background: white; }
-                          #cv-preview-content { 
-                            width: 210mm !important; 
-                            min-height: 297mm !important;
-                            transform: scale(1) !important;
-                            margin: 0 !important;
-                            box-shadow: none !important;
-                          }
-                        </style>
-                    </head>
-                    <body>
-                      <div id="cv-preview-content">
-                        ${previewElement.innerHTML}
-                      </div>
-                    </body>
-                </html>
-              `;
-
-              // 4. Send to high-fidelity Puppeteer API
-              const response = await fetch("/api/export", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  resumeData: cvDocument,
-                  htmlContent,
-                }),
-              });
-
-              if (response.ok) {
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = `${cvDocument.title || "resume"}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-              } else {
-                alert("Failed to export PDF.");
+              } catch (error) {
+                console.error("Finish & Export Error:", error);
+                setSaveStatus("error");
               }
             }
           }}
         >
-          Finish & Export
+          {getButtonContent()}
         </Button>
       </footer>
     </div>

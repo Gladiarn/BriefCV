@@ -4,15 +4,18 @@ import {
   ArrowRight,
   Info,
   LayoutTemplate,
+  LogOut,
   Menu,
   MessageSquareQuote,
   Plus,
   Sparkles,
+  User as UserIcon,
   X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "@/lib/auth-store";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../ui/mode-toggle";
@@ -28,17 +31,24 @@ export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, logout, checkSession } = useAuthStore();
 
   useEffect(() => {
+    checkSession();
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [checkSession]);
 
   // Hide Navbar on the Forge (Editor) page, Login and Signup pages
-  if (pathname === "/build/new" || pathname === "/login" || pathname === "/signup") return null;
+  if (
+    pathname === "/build/new" ||
+    pathname === "/login" ||
+    pathname === "/signup"
+  )
+    return null;
 
   return (
     <header
@@ -85,18 +95,32 @@ export function Navbar() {
 
           {/* Right side actions */}
           <div className="flex items-center gap-2.5">
-            <Link href="/login" className="hidden lg:block mr-2">
-              <span className="text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-[0.2em]">
-                Login
-              </span>
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-4 mr-2">
+                <span className="hidden xl:block text-[10px] font-bold text-muted-foreground uppercase tracking-widest truncate max-w-[120px]">
+                  {user.email}
+                </span>
+                <button
+                  onClick={() => logout()}
+                  className="text-[10px] font-bold text-muted-foreground hover:text-destructive transition-colors uppercase tracking-[0.2em] flex items-center gap-1.5"
+                >
+                  <LogOut className="w-3 h-3" /> Logout
+                </button>
+              </div>
+            ) : (
+              <Link href="/login" className="hidden lg:block mr-2">
+                <span className="text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-[0.2em]">
+                  Login
+                </span>
+              </Link>
+            )}
 
             <Link href="/build" className="hidden sm:block">
               <Button
                 size="sm"
                 className="px-5 h-8 text-[10px] font-black shadow-lg shadow-primary/10 rounded-full uppercase tracking-widest"
               >
-                Get Started
+                {user ? "Dashboard" : "Get Started"}
               </Button>
             </Link>
 
@@ -128,6 +152,17 @@ export function Navbar() {
             )}
           >
             <div className="flex flex-col gap-1">
+              {user && (
+                <div className="p-4 mb-2 rounded-[1.25rem] bg-primary/5 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary-gradient flex items-center justify-center">
+                    <UserIcon className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-xs font-bold truncate">
+                    {user.email}
+                  </span>
+                </div>
+              )}
+
               {navLinks.map((link, _i) => {
                 const isActive =
                   pathname === link.href ||
@@ -176,18 +211,35 @@ export function Navbar() {
 
               <div className="h-px bg-border/40 my-2 mx-2" />
 
-              <Link
-                href="/login"
-                className="flex items-center gap-3 p-3 rounded-[1.25rem] hover:bg-secondary/50 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                </div>
-                <span className="text-[13px] font-bold tracking-tight">
-                  Member Login
-                </span>
-              </Link>
+              {user ? (
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 p-3 rounded-[1.25rem] hover:bg-destructive/5 text-destructive transition-colors text-left"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center">
+                    <LogOut className="w-4 h-4" />
+                  </div>
+                  <span className="text-[13px] font-bold tracking-tight">
+                    Logout
+                  </span>
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="flex items-center gap-3 p-3 rounded-[1.25rem] hover:bg-secondary/50 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  </div>
+                  <span className="text-[13px] font-bold tracking-tight">
+                    Member Login
+                  </span>
+                </Link>
+              )}
 
               <Link
                 href="/build"
@@ -195,7 +247,7 @@ export function Navbar() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <Button className="w-full h-11 rounded-[1.25rem] text-[11px] font-black uppercase tracking-[0.15em] shadow-lg shadow-primary/20">
-                  Launch Forge
+                  {user ? "Go to Dashboard" : "Launch Forge"}
                 </Button>
               </Link>
             </div>

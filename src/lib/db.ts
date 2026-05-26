@@ -8,11 +8,8 @@ if (!MONGODB_URI) {
   );
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
+const DB_NAME = "BriefCV";
+
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -34,15 +31,30 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached?.conn) {
-    return cached.conn;
+    // Check if the connection is already pointed to the right DB
+    if (cached.conn.connection.name === DB_NAME) {
+      return cached.conn;
+    }
+    // If name mismatch (e.g. stayed as 'test'), clear and reconnect
+    console.log(
+      `[Database] Connection mismatch (found ${cached.conn.connection.name}, expected ${DB_NAME}). Reconnecting...`,
+    );
+    await mongoose.disconnect();
+    cached.conn = null;
+    cached.promise = null;
   }
 
   if (!cached?.promise) {
     const opts = {
       bufferCommands: false,
+      dbName: DB_NAME,
     };
 
+    console.log(`[Database] Connecting to ${DB_NAME}...`);
     cached!.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+      console.log(
+        `[Database] Successfully connected to: ${mongoose.connection.name}`,
+      );
       return mongoose;
     });
   }
