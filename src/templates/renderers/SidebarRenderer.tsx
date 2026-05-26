@@ -90,27 +90,23 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
   };
 
   return (
-    <div className="flex w-full h-full bg-white text-gray-900">
+    <div className="grid grid-cols-12 w-full h-full bg-white text-gray-900">
       {/* Sidebar - Full Bleed */}
       <div
-        className="w-1/3 text-white flex-shrink-0 h-full py-[15mm] px-6"
+        className="col-span-4 text-white h-full py-[15mm] px-6"
         style={{ backgroundColor: primaryColor }}
       >
         <div className="pt-4">
-            {settings.columnMapping.leftColumn.map((id) => {
-               const section = sections[id];
-               if (!section || !section.isVisible) return null;
-               return (
-                 <div key={id}>
-                   {renderSection(id)}
-                 </div>
-               )
-            })}
+          {settings.columnMapping.leftColumn.map((id) => {
+            const section = sections[id];
+            if (!section || !section.isVisible) return null;
+            return <div key={id}>{renderSection(id)}</div>;
+          })}
         </div>
       </div>
 
       {/* Content */}
-      <div className="w-2/3 pt-[15mm] px-8 h-full">
+      <div className="col-span-8 pt-[15mm] px-8 h-full">
         {settings.layoutStructure === "2-column" ? (
           <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
         ) : (

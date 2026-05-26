@@ -107,9 +107,13 @@ export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
           {settings.columnMapping.mainColumn.map(renderSection)}
         </div>
       ) : settings.layoutStructure === "2-column" ? (
-        <div className="grid grid-cols-[1fr_2.5fr] gap-12">
-          <div>{settings.columnMapping.leftColumn.map(renderSection)}</div>
-          <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
+        <div className="grid grid-cols-12 gap-12">
+          <div className="col-span-4 space-y-12">
+            {settings.columnMapping.leftColumn.map(renderSection)}
+          </div>
+          <div className="col-span-8 space-y-12">
+            {settings.columnMapping.rightColumn.map(renderSection)}
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-8">
