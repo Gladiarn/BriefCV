@@ -9,7 +9,7 @@ import type {
 
 export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
   const { settings, sections } = doc;
-  const primaryColor = settings.design.primaryColor;
+  const _primaryColor = settings.design.primaryColor;
 
   const renderSection = (id: string) => {
     const section = sections[id];

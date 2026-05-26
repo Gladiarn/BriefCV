@@ -101,11 +101,12 @@ export function Navbar() {
                   {user.email}
                 </span>
                 <button
+                  type="button"
                   onClick={() => logout()}
                   className="text-[10px] font-bold text-muted-foreground hover:text-destructive transition-colors uppercase tracking-[0.2em] flex items-center gap-1.5"
                 >
                   <LogOut className="w-3 h-3" /> Logout
-                </button>
+                </button>{" "}
               </div>
             ) : (
               <Link href="/login" className="hidden lg:block mr-2">
@@ -213,6 +214,7 @@ export function Navbar() {
 
               {user ? (
                 <button
+                  type="button"
                   onClick={() => {
                     logout();
                     setIsMobileMenuOpen(false);

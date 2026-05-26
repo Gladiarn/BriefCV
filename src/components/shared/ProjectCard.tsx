@@ -25,7 +25,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleting, _setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(resume.title);
   const [currentTitle, setCurrentTitle] = useState(resume.title);
@@ -143,6 +143,7 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
               Export
             </Button>
             <button
+              type="button"
               onClick={handleDelete}
               className={cn(
                 "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 border shadow-sm",
@@ -152,9 +153,9 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
               )}
             >
               {isConfirmingDelete ? (
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4 pointer-events-none" />
               ) : (
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-4 h-4 pointer-events-none" />
               )}
             </button>
           </div>
@@ -168,8 +169,11 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
             <div className="flex-1">
               {isEditing ? (
                 <div
+                  role="button"
+                  tabIndex={0}
                   className="flex items-center gap-2"
                   onClick={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.key === "Enter" && e.stopPropagation()}
                 >
                   <Input
                     value={newTitle}
@@ -178,12 +182,14 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
                     autoFocus
                   />
                   <button
+                    type="button"
                     onClick={handleRename}
                     className="p-1 hover:bg-primary/10 rounded-full text-primary"
                   >
                     <Check className="w-4 h-4" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => {
                       setIsEditing(false);
                       setNewTitle(currentTitle);
@@ -199,6 +205,7 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
                     {currentTitle}
                   </h3>
                   <button
+                    type="button"
                     onClick={() => setIsEditing(true)}
                     className="opacity-0 group-hover/title:opacity-100 p-1 hover:bg-secondary rounded-lg transition-all"
                   >

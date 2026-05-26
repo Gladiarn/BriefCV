@@ -35,7 +35,7 @@ interface CVState {
 
 export const useCVStore = create<CVState>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       cvDocument: null,
       isLoading: false,
       error: null,

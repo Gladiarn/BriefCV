@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     });
     await browser.close();
 
-    return new NextResponse(pdfBuffer as any, {
+    return new NextResponse(pdfBuffer as unknown as BodyInit, {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="${resumeData.title || "resume"}.pdf"`,
