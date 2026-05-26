@@ -67,13 +67,13 @@ export const RightPanel: React.FC = () => {
         </Button>
       </div>
 
-      <div className="flex-1 w-full overflow-auto custom-scrollbar flex flex-col items-center">
+      <div className="flex-1 w-full overflow-auto custom-scrollbar flex flex-col items-center py-16">
         {/* A4 Sheet */}
         <div
           id="cv-preview-content"
           ref={targetRef}
           className={cn(
-            "bg-white shadow-2xl origin-top transition-all duration-300 mb-20",
+            "bg-white shadow-2xl origin-top transition-all duration-300",
             "w-[210mm] min-h-[297mm] !block",
           )}
           style={{
