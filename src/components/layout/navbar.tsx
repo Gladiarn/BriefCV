@@ -37,8 +37,8 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Hide Navbar on the Forge (Editor) page
-  if (pathname === "/build/new") return null;
+  // Hide Navbar on the Forge (Editor) page, Login and Signup pages
+  if (pathname === "/build/new" || pathname === "/login" || pathname === "/signup") return null;
 
   return (
     <header
