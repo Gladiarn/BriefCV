@@ -209,3 +209,15 @@
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
+
+/* Force sRGB color space for PDF capture engines that don't support lab/oklch */
+@media screen {
+  :root {
+    color-interpolation-filters: sRGB;
+  }
+}
+
+/* Ensure captured colors are simple RGB for html2canvas compatibility */
+.is-exporting-pdf * {
+  color-scheme: light !important;
+}

@@ -332,7 +332,16 @@ export const LeftPanel: React.FC = () => {
               };
 
               // Use professional library for high-fidelity export
-              html2pdf().set(opt).from(element).save();
+              document.documentElement.classList.add('is-exporting-pdf');
+              
+              try {
+                await html2pdf().set(opt).from(element).save();
+              } finally {
+                // Remove the class after a short delay to ensure capture is finished
+                setTimeout(() => {
+                  document.documentElement.classList.remove('is-exporting-pdf');
+                }, 500);
+              }
             }
           }}
         >
