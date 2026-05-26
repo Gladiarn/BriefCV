@@ -101,13 +101,13 @@ export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
   };
 
   return (
-    <div className="p-12 bg-white text-gray-900 leading-relaxed tracking-wide">
+    <div className="p-[15mm] bg-white text-gray-900 leading-relaxed tracking-wide">
       {settings.layoutStructure === "1-column" ? (
         <div className="space-y-6">
           {settings.columnMapping.mainColumn.map(renderSection)}
         </div>
       ) : settings.layoutStructure === "2-column" ? (
-        <div className="grid grid-cols-2 gap-12">
+        <div className="grid grid-cols-[1fr_2.5fr] gap-12">
           <div>{settings.columnMapping.leftColumn.map(renderSection)}</div>
           <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
         </div>

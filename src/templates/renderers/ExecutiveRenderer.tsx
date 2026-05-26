@@ -121,19 +121,15 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
   };
 
   return (
-    <div className="h-full flex flex-col gap-12 font-serif text-gray-900">
+    <div className="h-full flex flex-col gap-12 font-serif text-gray-900 p-[15mm]">
       {settings.layoutStructure === "1-column" ? (
         <div className="space-y-12">
           {settings.columnMapping.mainColumn.map(renderSection)}
         </div>
       ) : settings.layoutStructure === "2-column" ? (
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-12">
-            {settings.columnMapping.leftColumn.map(renderSection)}
-          </div>
-          <div className="space-y-12">
-            {settings.columnMapping.rightColumn.map(renderSection)}
-          </div>
+        <div className="grid grid-cols-[1fr_2.5fr] gap-10">
+            <div className="space-y-12">{settings.columnMapping.leftColumn.map(renderSection)}</div>
+            <div className="space-y-12">{settings.columnMapping.rightColumn.map(renderSection)}</div>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-6">

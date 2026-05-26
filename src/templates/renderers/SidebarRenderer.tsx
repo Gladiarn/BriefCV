@@ -33,7 +33,7 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as ExperienceSection).content;
         return (
           <div key={id} className="mb-8">
-            <h3 className="text-xs font-bold uppercase tracking-widest border-b border-white/20 pb-2 mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-center bg-gray-100 text-gray-900 py-2 mb-4 rounded">
               {section.title}
             </h3>
             {content.map((exp) => (
@@ -52,7 +52,7 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as EducationSection).content;
         return (
           <div key={id} className="mb-8">
-            <h3 className="text-xs font-bold uppercase tracking-widest border-b border-white/20 pb-2 mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-center bg-gray-100 text-gray-900 py-2 mb-4 rounded">
               {section.title}
             </h3>
             {content.map((edu) => (
@@ -68,7 +68,7 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as SkillsSection).content;
         return (
           <div key={id} className="mb-8">
-            <h3 className="text-xs font-bold uppercase tracking-widest border-b border-white/20 pb-2 mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-center bg-gray-100 text-gray-900 py-2 mb-4 rounded">
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -91,16 +91,26 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
 
   return (
     <div className="flex w-full h-full bg-white text-gray-900">
-      {/* Sidebar */}
+      {/* Sidebar - Full Bleed */}
       <div
-        className="w-1/3 p-6 text-white flex-shrink-0 h-full"
+        className="w-1/3 text-white flex-shrink-0 h-full py-[15mm] px-6"
         style={{ backgroundColor: primaryColor }}
       >
-        {settings.columnMapping.leftColumn.map(renderSection)}
+        <div className="pt-4">
+            {settings.columnMapping.leftColumn.map((id) => {
+               const section = sections[id];
+               if (!section || !section.isVisible) return null;
+               return (
+                 <div key={id}>
+                   {renderSection(id)}
+                 </div>
+               )
+            })}
+        </div>
       </div>
 
       {/* Content */}
-      <div className="w-2/3 p-8 h-full">
+      <div className="w-2/3 pt-[15mm] px-8 h-full">
         {settings.layoutStructure === "2-column" ? (
           <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
         ) : (
@@ -110,5 +120,4 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         )}
       </div>
     </div>
-  );
-};
+  );};
