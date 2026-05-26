@@ -31,7 +31,7 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             <p className="text-lg font-medium mt-2 uppercase tracking-[0.2em] text-gray-900">
               {content.jobTitle || "Executive Leader"}
             </p>
-            <div className="flex gap-6 mt-4 text-[10px] font-bold uppercase tracking-widest text-gray-900">
+            <div className="flex gap-6 mt-4 text-xs font-bold uppercase tracking-widest text-gray-900">
               {content.email && <span>{content.email}</span>}
               {content.phone && <span>{content.phone}</span>}
               {content.location && <span>{content.location}</span>}
@@ -48,7 +48,7 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             </h3>
             {content.map((exp) => (
               <div key={exp.id} className="grid grid-cols-[120px_1fr] gap-4">
-                <div className="text-[10px] font-bold text-gray-900 uppercase tracking-wider mt-1">
+                <div className="text-xs font-bold text-gray-900 uppercase tracking-wider mt-1">
                   {exp.startDate} - {exp.isCurrent ? "Present" : exp.endDate}
                 </div>
                 <div className="space-y-1">
@@ -61,7 +61,7 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                   >
                     {exp.role}
                   </div>
-                  <ul className="text-xs space-y-1 list-disc ml-4 text-gray-900">
+                  <ul className="text-sm space-y-1 list-disc ml-4 text-gray-900">
                     {exp.description.map((point, i) => (
                       <li key={i}>{point}</li>
                     ))}
@@ -81,7 +81,7 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             </h3>
             {content.map((edu) => (
               <div key={edu.id} className="grid grid-cols-[120px_1fr] gap-4">
-                <div className="text-[10px] font-bold text-gray-900 uppercase tracking-wider mt-1">
+                <div className="text-xs font-bold text-gray-900 uppercase tracking-wider mt-1">
                   {edu.startDate} - {edu.endDate}
                 </div>
                 <div>
@@ -106,7 +106,7 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.map((skill, i) => (
                 <span
                   key={i}
-                  className="text-[10px] font-bold border-b border-gray-400 pb-0.5 text-gray-900"
+                  className="text-xs font-bold border-b border-gray-400 pb-0.5 text-gray-900"
                 >
                   {skill}
                 </span>

@@ -51,7 +51,7 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                   </span>
                 </div>
                 <div className="text-xs italic text-gray-900">{exp.role}</div>
-                <ul className="text-xs text-gray-900 list-square ml-4 mt-1">
+                <ul className="text-sm text-gray-900 list-square ml-4 mt-1">
                   {exp.description.map((b, i) => (
                     <li key={i}>{b}</li>
                   ))}

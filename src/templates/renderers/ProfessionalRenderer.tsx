@@ -56,7 +56,7 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
                 <div key={exp.id} className="space-y-2">
                   <div className="flex justify-between items-baseline font-bold text-sm">
                     <span className="text-gray-900">{exp.company}</span>
-                    <span className="text-gray-900 font-medium text-[11px]">
+                    <span className="text-gray-900 font-medium text-xs">
                       {exp.startDate} - {exp.endDate}
                     </span>
                   </div>
@@ -66,7 +66,7 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
                   >
                     {exp.role}
                   </div>
-                  <ul className="text-xs space-y-1.5 list-disc list-outside ml-4 text-gray-900 leading-relaxed">
+                  <ul className="text-sm space-y-1.5 list-disc list-outside ml-4 text-gray-900 leading-relaxed">
                     {exp.description.map((bullet, i) => (
                       <li key={i}>{bullet}</li>
                     ))}
@@ -94,7 +94,7 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
                     </div>
                     <div className="text-xs">{edu.degree}</div>
                   </div>
-                  <div className="text-[11px] font-medium whitespace-nowrap">
+                  <div className="text-xs font-medium whitespace-nowrap">
                     {edu.startDate} - {edu.endDate}
                   </div>
                 </div>

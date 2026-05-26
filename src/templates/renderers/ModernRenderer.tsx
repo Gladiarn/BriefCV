@@ -34,7 +34,7 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             <p className="text-xl font-bold text-gray-900">
               {content.jobTitle || "Target Role"}
             </p>
-            <div className="flex justify-center flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold uppercase tracking-widest text-gray-900">
+            <div className="flex justify-center flex-wrap gap-x-4 gap-y-1 text-xs font-bold uppercase tracking-widest text-gray-900">
               {content.email && <span>{content.email}</span>}
               {content.phone && <span>• {content.phone}</span>}
               {content.location && <span>• {content.location}</span>}
@@ -60,14 +60,14 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                     <h4 className="font-bold text-sm uppercase tracking-tight text-gray-900">
                       {exp.company}
                     </h4>
-                    <span className="text-[10px] font-black text-gray-900">
+                    <span className="text-xs font-black text-gray-900">
                       {exp.startDate} - {exp.endDate}
                     </span>
                   </div>
                   <p className="text-xs font-bold italic text-gray-900">
                     {exp.role}
                   </p>
-                  <ul className="text-[10px] space-y-1.5 list-none text-gray-900">
+                  <ul className="text-sm space-y-1.5 list-none text-gray-900">
                     {exp.description.map((bullet, i) => (
                       <li key={i} className="relative pl-4">
                         <span
@@ -99,14 +99,14 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.map((edu) => (
                 <div key={edu.id} className="space-y-0.5">
                   <div className="flex justify-between items-baseline text-gray-900">
-                    <h4 className="font-bold text-[11px] uppercase tracking-tight">
+                    <h4 className="font-bold text-sm uppercase tracking-tight">
                       {edu.institution}
                     </h4>
-                    <span className="text-[10px] font-black">
+                    <span className="text-xs font-black">
                       {edu.startDate} - {edu.endDate}
                     </span>
                   </div>
-                  <p className="text-[10px] font-medium text-gray-900">
+                  <p className="text-xs font-medium text-gray-900">
                     {edu.degree}
                   </p>
                 </div>
@@ -130,7 +130,7 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.map((skill, i) => (
                 <span
                   key={i}
-                  className="text-[10px] font-bold uppercase tracking-widest bg-gray-100 text-gray-900 px-2 py-0.5 rounded border border-gray-200"
+                  className="text-xs font-bold uppercase tracking-widest bg-gray-100 text-gray-900 px-2 py-0.5 rounded border border-gray-200"
                 >
                   {skill}
                 </span>

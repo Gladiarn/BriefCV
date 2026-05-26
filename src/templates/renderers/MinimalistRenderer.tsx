@@ -42,14 +42,14 @@ export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                   <h4 className="font-bold text-sm text-gray-900">
                     {exp.company}
                   </h4>
-                  <span className="text-[10px] text-gray-900 font-mono">
+                  <span className="text-xs text-gray-900 font-mono">
                     {exp.startDate} - {exp.endDate}
                   </span>
                 </div>
                 <div className="text-xs italic text-gray-700 mb-2">
                   {exp.role}
                 </div>
-                <ul className="text-xs text-gray-900 space-y-1">
+                <ul className="text-sm text-gray-900 space-y-1">
                   {exp.description.map((b, i) => (
                     <li key={i}>— {b}</li>
                   ))}
@@ -86,7 +86,7 @@ export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.map((s, i) => (
                 <span
                   key={i}
-                  className="text-[10px] font-medium text-gray-900 hover:text-black transition-colors"
+                  className="text-xs font-medium text-gray-900 hover:text-black transition-colors"
                 >
                   {s}
                 </span>
