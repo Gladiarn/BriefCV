@@ -1,13 +1,6 @@
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local",
-  );
-}
-
 const DB_NAME = "BriefCV";
 
 interface MongooseCache {
@@ -30,6 +23,13 @@ if (!cached) {
 }
 
 async function dbConnect() {
+  // Move check here to avoid crashing during Next.js build/static analysis
+  if (!MONGODB_URI) {
+    throw new Error(
+      "Please define the MONGODB_URI environment variable inside .env.local",
+    );
+  }
+
   if (cached?.conn) {
     // Check if the connection is already pointed to the right DB
     if (cached.conn.connection.name === DB_NAME) {
@@ -51,7 +51,7 @@ async function dbConnect() {
     };
 
     console.log(`[Database] Connecting to ${DB_NAME}...`);
-    cached!.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+    cached!.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       console.log(
         `[Database] Successfully connected to: ${mongoose.connection.name}`,
       );
