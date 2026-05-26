@@ -1,4 +1,3 @@
-import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,39 +6,43 @@ import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <div className="relative min-h-screen bg-background flex flex-col justify-between">
-      {/* Background Accent */}
-      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full" />
-      </div>
+    <div className="flex min-h-screen w-full items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4">
+      {/* Subtle Background Grain/Blur */}
+      <div className="absolute inset-0 pointer-events-none -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background" />
 
-      <main className="flex-1 flex flex-col items-center justify-center p-4">
-        <Card className="w-full max-w-sm rounded-3xl border border-border/40 shadow-xl shadow-black/5 p-6">
-          <div className="space-y-1 mb-6">
-            <h1 className="text-2xl font-black uppercase tracking-tight">Login</h1>
-            <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground">
-              Welcome back to Forge
+      <Card className="w-full max-w-[400px] bg-white/50 backdrop-blur-xl border border-white/50 p-8 shadow-2xl shadow-black/5 rounded-[2.5rem]">
+        <div className="flex flex-col space-y-2 mb-8 text-center">
+            <h1 className="text-3xl font-black uppercase tracking-tighter text-zinc-900">Sign In</h1>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                Continue to Forge
             </p>
-          </div>
-          <div className="space-y-4">
+        </div>
+        
+        <div className="space-y-6">
             <div className="space-y-2">
-              <Label className="text-[10px] font-bold uppercase tracking-widest ml-1">Email</Label>
-              <Input type="email" placeholder="john@example.com" className="rounded-xl bg-muted/30" />
+                <Label className="text-[9px] font-bold uppercase tracking-widest ml-1 text-zinc-500">Email Address</Label>
+                <Input type="email" placeholder="name@company.com" className="h-12 rounded-xl bg-white/50 border-zinc-200 focus-visible:ring-primary/20" />
             </div>
             <div className="space-y-2">
-              <Label className="text-[10px] font-bold uppercase tracking-widest ml-1">Password</Label>
-              <Input type="password" placeholder="••••••••" className="rounded-xl bg-muted/30" />
+                <div className="flex items-center justify-between ml-1">
+                    <Label className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Password</Label>
+                    <Link href="/forgot" className="text-[9px] font-bold uppercase tracking-widest text-primary hover:underline">Forgot?</Link>
+                </div>
+                <Input type="password" placeholder="••••••••" className="h-12 rounded-xl bg-white/50 border-zinc-200 focus-visible:ring-primary/20" />
             </div>
-            <Button className="w-full rounded-xl font-bold uppercase tracking-widest text-[11px] mt-2">
-              Sign In
+            
+            <Button className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[11px] bg-zinc-900 hover:bg-zinc-800 text-white shadow-lg shadow-zinc-900/20">
+                Sign In
             </Button>
-            <div className="text-center text-[10px] text-muted-foreground mt-4">
-                Don't have an account? <Link href="/signup" className="text-primary font-bold hover:underline">Sign up</Link>
+            
+            <div className="text-center">
+                <p className="text-[10px] font-medium text-zinc-500">
+                    Don't have an account?{" "}
+                    <Link href="/signup" className="font-black uppercase tracking-widest text-primary hover:underline">Sign up</Link>
+                </p>
             </div>
-          </div>
-        </Card>
-      </main>
-      <Footer />
+        </div>
+      </Card>
     </div>
   );
 }
