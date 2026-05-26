@@ -50,34 +50,37 @@ export default function AuthPage() {
             </div>
 
             <div className="space-y-5">
-              <div className="space-y-2">
-                <Label className="text-[9px] font-bold uppercase tracking-widest ml-1 text-zinc-500">Email Address</Label>
-                <Input type="email" placeholder="name@company.com" className="h-14 rounded-2xl bg-zinc-50 border-zinc-100 focus:border-primary/50 transition-all" />
+              <div className="relative group">
+                <Input type="email" placeholder=" " className="peer w-full bg-transparent border-b-2 border-zinc-200 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+                <label className="absolute left-0 -top-4 text-[9px] font-black uppercase tracking-widest text-zinc-400 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-zinc-400 peer-focus:-top-4 peer-focus:text-[9px] peer-focus:text-primary transition-all pointer-events-none">
+                    Email Address
+                </label>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between ml-1">
-                    <Label className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Password</Label>
-                    {isLogin && <Link href="/forgot" className="text-[9px] font-bold uppercase tracking-widest text-primary hover:underline">Forgot?</Link>}
-                </div>
-                <div className="relative">
-                    <Input 
-                        type={showPassword ? "text" : "password"} 
-                        placeholder="••••••••" 
-                        className="h-14 rounded-2xl bg-zinc-50 border-zinc-100 pr-12 focus:border-primary/50 transition-all" 
-                    />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-4 text-zinc-400 hover:text-primary transition-colors">
-                        {showPassword ? <EyeOff className="w-4 h-4"/> : <Eye className="w-4 h-4"/>}
-                    </button>
-                </div>
+              
+              <div className="relative group">
+                <Input 
+                    type={showPassword ? "text" : "password"} 
+                    placeholder=" " 
+                    className="peer w-full bg-transparent border-b-2 border-zinc-200 py-3 text-sm focus:outline-none focus:border-primary transition-colors pr-8" 
+                />
+                <label className="absolute left-0 -top-4 text-[9px] font-black uppercase tracking-widest text-zinc-400 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-zinc-400 peer-focus:-top-4 peer-focus:text-[9px] peer-focus:text-primary transition-all pointer-events-none">
+                    Password
+                </label>
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-0 top-3 text-zinc-400 hover:text-primary transition-colors">
+                    {showPassword ? <EyeOff className="w-4 h-4"/> : <Eye className="w-4 h-4"/>}
+                </button>
               </div>
+
               {!isLogin && (
-                <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
-                    <Label className="text-[9px] font-bold uppercase tracking-widest ml-1 text-zinc-500">Confirm Password</Label>
-                    <Input type="password" placeholder="••••••••" className="h-14 rounded-2xl bg-zinc-50 border-zinc-100 focus:border-primary/50" />
+                <div className="relative group animate-in fade-in slide-in-from-top-2">
+                    <Input type="password" placeholder=" " className="peer w-full bg-transparent border-b-2 border-zinc-200 py-3 text-sm focus:outline-none focus:border-primary transition-colors" />
+                    <label className="absolute left-0 -top-4 text-[9px] font-black uppercase tracking-widest text-zinc-400 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-zinc-400 peer-focus:-top-4 peer-focus:text-[9px] peer-focus:text-primary transition-all pointer-events-none">
+                        Confirm Password
+                    </label>
                 </div>
               )}
               
-              <Button className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-[11px] bg-primary-gradient text-white hover:opacity-90 shadow-xl shadow-primary/20 hover:scale-[1.02] transition-all">
+              <Button className="w-full h-14 rounded-full font-black uppercase tracking-widest text-[11px] bg-primary-gradient text-white hover:opacity-90 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all mt-8">
                 {isLogin ? "Sign In" : "Create Account"}
               </Button>
             </div>
