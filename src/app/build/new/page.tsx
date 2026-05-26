@@ -94,7 +94,7 @@ function EditorContent() {
       </aside>
 
       {/* Main Area - Right Panel (Preview) */}
-      <main className="flex-1 h-full relative bg-muted/10 overflow-hidden">
+      <main className="flex-1 h-full relative bg-muted/5 overflow-hidden">
         <RightPanel />
       </main>
     </div>

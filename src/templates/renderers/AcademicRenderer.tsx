@@ -19,16 +19,20 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
       case "header": {
         const content = (section as HeaderSection).content;
         return (
-          <div key={id} className="mb-8 border-b border-gray-300 pb-6">
-            <h1 className="text-4xl font-serif text-gray-900">
+          <div key={id} className="mb-8 border-b border-gray-400 pb-6">
+            <h1 className="text-4xl font-serif text-gray-900 font-bold">
               {content.fullName}
             </h1>
-            <p className="text-sm text-gray-600 mt-1 italic">
+            <p className="text-sm text-gray-900 mt-1 italic">
               {content.jobTitle}
             </p>
-            <div className="text-xs text-gray-500 mt-2 space-x-2">
-              <span>{content.email}</span> • <span>{content.phone}</span> •{" "}
-              <span>{content.location}</span>
+            <div className="text-xs text-gray-900 mt-2 space-x-2">
+              {content.contacts.map((contact, i) => (
+                <span key={contact.id}>
+                  {i > 0 && " • "}
+                  {contact.value}
+                </span>
+              ))}
             </div>
           </div>
         );
@@ -37,21 +41,19 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as ExperienceSection).content;
         return (
           <div key={id} className="mb-6">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-800 mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">
               {section.title}
             </h3>
             {content.map((exp) => (
               <div key={exp.id} className="mb-4">
-                <div className="flex justify-between">
-                  <span className="font-bold text-sm text-gray-900">
-                    {exp.company}
-                  </span>
-                  <span className="text-xs text-gray-500">
+                <div className="flex justify-between text-gray-900">
+                  <span className="font-bold text-sm">{exp.company}</span>
+                  <span className="text-xs">
                     {exp.startDate} - {exp.endDate}
                   </span>
                 </div>
-                <div className="text-xs italic text-gray-700">{exp.role}</div>
-                <ul className="text-xs text-gray-600 list-square ml-4 mt-1">
+                <div className="text-xs italic text-gray-900">{exp.role}</div>
+                <ul className="text-sm text-gray-900 list-square ml-4 mt-1">
                   {exp.description.map((b, i) => (
                     <li key={i}>{b}</li>
                   ))}
@@ -65,11 +67,11 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as EducationSection).content;
         return (
           <div key={id} className="mb-6">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-800 mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">
               {section.title}
             </h3>
             {content.map((edu) => (
-              <div key={edu.id} className="mb-2 text-xs">
+              <div key={edu.id} className="mb-2 text-xs text-gray-900">
                 <span className="font-bold">{edu.institution}</span>,{" "}
                 {edu.degree} ({edu.startDate} - {edu.endDate})
               </div>
@@ -81,10 +83,10 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as SkillsSection).content;
         return (
           <div key={id} className="mb-6">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-800 mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">
               {section.title}
             </h3>
-            <div className="text-xs text-gray-700">{content.join(", ")}</div>
+            <div className="text-xs text-gray-900">{content.join(", ")}</div>
           </div>
         );
       }

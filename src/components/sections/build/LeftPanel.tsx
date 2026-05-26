@@ -311,25 +311,74 @@ export const LeftPanel: React.FC = () => {
             if (cvDocument) {
               await cvService.saveDocument(cvDocument);
 
-              // Get the innerHTML of the preview div
+              // 1. Capture ALL styles as raw text to ensure 100% parity in Puppeteer
+              let cssText = "";
+              try {
+                // Get all style tags
+                const styleTags = Array.from(
+                  document.querySelectorAll("style"),
+                );
+                styleTags.forEach((tag) => {
+                  cssText += tag.textContent + "\n";
+                });
+
+                // Fetch all external stylesheets to inline them
+                const linkTags = Array.from(
+                  document.querySelectorAll('link[rel="stylesheet"]'),
+                ) as HTMLLinkElement[];
+                for (const link of linkTags) {
+                  try {
+                    const response = await fetch(link.href);
+                    if (response.ok) {
+                      cssText += (await response.text()) + "\n";
+                    }
+                  } catch (e) {
+                    console.warn("Could not fetch stylesheet:", link.href);
+                  }
+                }
+              } catch (e) {
+                console.error("Error capturing styles:", e);
+              }
+
+              // 2. Get the innerHTML of the preview div
               const previewElement =
                 document.getElementById("cv-preview-content");
-              const htmlContent = previewElement
-                ? `
+              if (!previewElement) return;
+
+              // 3. Construct a full standalone HTML document with inlined styles
+              const htmlContent = `
+                <!DOCTYPE html>
                 <html>
                     <head>
-                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        <style>body { padding: 20px; }</style>
+                        <meta charset="utf-8">
+                        <style>
+                          ${cssText}
+                          body { margin: 0; padding: 0; background: white; }
+                          #cv-preview-content { 
+                            width: 210mm !important; 
+                            min-height: 297mm !important;
+                            transform: scale(1) !important;
+                            margin: 0 !important;
+                            box-shadow: none !important;
+                          }
+                        </style>
                     </head>
-                    <body>${previewElement.innerHTML}</body>
+                    <body>
+                      <div id="cv-preview-content">
+                        ${previewElement.innerHTML}
+                      </div>
+                    </body>
                 </html>
-              `
-                : "";
+              `;
 
+              // 4. Send to high-fidelity Puppeteer API
               const response = await fetch("/api/export", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ resumeData: cvDocument, htmlContent }),
+                body: JSON.stringify({
+                  resumeData: cvDocument,
+                  htmlContent,
+                }),
               });
 
               if (response.ok) {

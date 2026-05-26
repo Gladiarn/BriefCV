@@ -81,10 +81,26 @@ export const cvService = {
           content: {
             fullName: "",
             jobTitle: "",
-            email: "",
-            phone: "",
-            location: "",
-            links: [],
+            contacts: [
+              {
+                id: crypto.randomUUID(),
+                type: "email",
+                label: "Email",
+                value: "",
+              },
+              {
+                id: crypto.randomUUID(),
+                type: "phone",
+                label: "Phone",
+                value: "",
+              },
+              {
+                id: crypto.randomUUID(),
+                type: "location",
+                label: "Location",
+                value: "",
+              },
+            ],
           },
         },
         "experience-1": {

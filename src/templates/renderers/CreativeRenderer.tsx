@@ -26,16 +26,21 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             >
               {content.fullName}
             </h1>
-            <p className="text-xl font-light text-gray-500 uppercase tracking-widest mt-2">
+            <p className="text-xl font-light text-gray-900 uppercase tracking-widest mt-2">
               {content.jobTitle}
             </p>
+            <div className="flex justify-center flex-wrap gap-4 text-[10px] uppercase tracking-widest text-gray-600 mt-4 font-bold">
+              {content.contacts.map((contact) => (
+                <span key={contact.id}>{contact.value}</span>
+              ))}
+            </div>
           </div>
         );
       }
       case "experience": {
         const content = (section as ExperienceSection).content;
         return (
-          <div key={id} className="mb-8">
+          <div key={id} className="mb-8 text-gray-900">
             <h3
               className="text-sm font-bold uppercase tracking-widest border-l-4 pl-4 mb-4"
               style={{ borderColor: primaryColor }}
@@ -47,10 +52,10 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                 <h4 className="font-bold text-gray-900">
                   {exp.role} | {exp.company}
                 </h4>
-                <p className="text-xs text-gray-500 italic">
+                <p className="text-xs italic text-gray-900">
                   {exp.startDate} - {exp.endDate}
                 </p>
-                <ul className="text-sm text-gray-700 mt-2 list-disc ml-5">
+                <ul className="text-sm mt-2 list-disc ml-5 text-gray-900">
                   {exp.description.map((b, i) => (
                     <li key={i}>{b}</li>
                   ))}
@@ -63,7 +68,7 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
       case "education": {
         const content = (section as EducationSection).content;
         return (
-          <div key={id} className="mb-8">
+          <div key={id} className="mb-8 text-gray-900">
             <h3
               className="text-sm font-bold uppercase tracking-widest border-l-4 pl-4 mb-4"
               style={{ borderColor: primaryColor }}
@@ -71,9 +76,9 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {section.title}
             </h3>
             {content.map((edu) => (
-              <div key={edu.id} className="mb-2">
+              <div key={edu.id} className="mb-2 text-xs">
                 <h4 className="font-bold">{edu.institution}</h4>
-                <p className="text-xs text-gray-500">
+                <p>
                   {edu.degree} ({edu.startDate} - {edu.endDate})
                 </p>
               </div>
@@ -84,7 +89,7 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
       case "skills": {
         const content = (section as SkillsSection).content;
         return (
-          <div key={id} className="mb-8">
+          <div key={id} className="mb-8 text-gray-900">
             <h3
               className="text-sm font-bold uppercase tracking-widest border-l-4 pl-4 mb-4"
               style={{ borderColor: primaryColor }}
@@ -95,7 +100,7 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.map((s, i) => (
                 <span
                   key={i}
-                  className="bg-gray-100 px-3 py-1 text-xs rounded-full"
+                  className="bg-gray-200 text-gray-900 px-3 py-1 text-xs rounded-full font-medium"
                 >
                   {s}
                 </span>
@@ -110,21 +115,31 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
   };
 
   return (
-    <div className="p-8 bg-white text-gray-900">
+    <div className="p-[15mm] bg-white text-gray-900">
       {settings.layoutStructure === "1-column" ? (
         <div className="space-y-6">
           {settings.columnMapping.mainColumn.map(renderSection)}
         </div>
       ) : settings.layoutStructure === "2-column" ? (
-        <div className="grid grid-cols-2 gap-8">
-          <div>{settings.columnMapping.leftColumn.map(renderSection)}</div>
-          <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
+        <div className="grid grid-cols-12 gap-8">
+          <div className="col-span-5 flex flex-col gap-6">
+            {settings.columnMapping.leftColumn.map(renderSection)}
+          </div>
+          <div className="col-span-7 flex flex-col gap-6">
+            {settings.columnMapping.rightColumn.map(renderSection)}
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-6">
-          <div>{settings.columnMapping.leftColumn.map(renderSection)}</div>
-          <div>{settings.columnMapping.middleColumn.map(renderSection)}</div>
-          <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
+          <div className="flex flex-col gap-6">
+            {settings.columnMapping.leftColumn.map(renderSection)}
+          </div>
+          <div className="flex flex-col gap-6">
+            {settings.columnMapping.middleColumn.map(renderSection)}
+          </div>
+          <div className="flex flex-col gap-6">
+            {settings.columnMapping.rightColumn.map(renderSection)}
+          </div>
         </div>
       )}
     </div>
