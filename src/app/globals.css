@@ -169,3 +169,43 @@
     margin: 0;
   }
 }
+
+/* CV Printing Optimization */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide UI elements during print */
+  aside, header, footer, .no-print, nav, button:not([type="submit"]) {
+    display: none !important;
+  }
+
+  /* Target the A4 sheet container specifically */
+  #cv-preview-content {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+/* Force background colors to print */
+* {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}

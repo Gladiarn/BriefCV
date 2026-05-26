@@ -20,7 +20,12 @@ export async function POST(req: Request) {
     });
 
     // Set the HTML content
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" as any });
+    await page.setContent(htmlContent, { 
+      waitUntil: ["load", "networkidle0"] as any 
+    });
+
+    // Wait for all styles to be applied
+    await page.evaluateHandle('document.fonts.ready');
 
     // Generate PDF with zero margins because the template now handles its own padding
     const pdfBuffer = await page.pdf({
@@ -28,8 +33,8 @@ export async function POST(req: Request) {
       printBackground: true,
       margin: { top: "0", bottom: "0", left: "0", right: "0" },
       scale: 1,
-    });
-    await browser.close();
+      preferCSSPageSize: true,
+    });    await browser.close();
 
     return new NextResponse(pdfBuffer as any, {
       headers: {

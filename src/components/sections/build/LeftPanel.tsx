@@ -310,40 +310,19 @@ export const LeftPanel: React.FC = () => {
           onClick={async () => {
             if (cvDocument) {
               await cvService.saveDocument(cvDocument);
-
-              // Get the innerHTML of the preview div
-              const previewElement =
-                document.getElementById("cv-preview-content");
-              const htmlContent = previewElement
-                ? `
-                <html>
-                    <head>
-                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        <style>body { padding: 20px; }</style>
-                    </head>
-                    <body>${previewElement.innerHTML}</body>
-                </html>
-              `
-                : "";
-
-              const response = await fetch("/api/export", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ resumeData: cvDocument, htmlContent }),
-              });
-
-              if (response.ok) {
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = `${cvDocument.title || "resume"}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-              } else {
-                alert("Failed to export PDF.");
-              }
+              
+              // Native high-fidelity print
+              // We use window.print() because it is the ONLY way to guarantee
+              // 100% style parity including Tailwind v4, local fonts, and complex grids.
+              
+              // 1. Add a printing class to body to hide sidebar/UI via CSS
+              document.body.classList.add('is-printing-cv');
+              
+              // 2. Trigger native print dialog
+              window.print();
+              
+              // 3. Cleanup
+              document.body.classList.remove('is-printing-cv');
             }
           }}
         >
