@@ -310,19 +310,29 @@ export const LeftPanel: React.FC = () => {
           onClick={async () => {
             if (cvDocument) {
               await cvService.saveDocument(cvDocument);
-              
-              // Native high-fidelity print
-              // We use window.print() because it is the ONLY way to guarantee
-              // 100% style parity including Tailwind v4, local fonts, and complex grids.
-              
-              // 1. Add a printing class to body to hide sidebar/UI via CSS
-              document.body.classList.add('is-printing-cv');
-              
-              // 2. Trigger native print dialog
-              window.print();
-              
-              // 3. Cleanup
-              document.body.classList.remove('is-printing-cv');
+
+              const element = document.getElementById("cv-preview-content");
+              if (!element) return;
+
+              // Dynamically import html2pdf on the client only to avoid SSR errors
+              // @ts-ignore
+              const html2pdf = (await import("html2pdf.js")).default;
+
+              const opt = {
+                margin: 0,
+                filename: `${cvDocument.title || "resume"}.pdf`,
+                image: { type: 'jpeg' as const, quality: 0.98 },
+                html2canvas: { 
+                  scale: 2, 
+                  useCORS: true, 
+                  letterRendering: true,
+                  logging: false
+                },
+                jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
+              };
+
+              // Use professional library for high-fidelity export
+              html2pdf().set(opt).from(element).save();
             }
           }}
         >
