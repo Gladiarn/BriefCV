@@ -14,7 +14,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-6">
           <ComingSoon
             title="About StackCV"
-            description="StackCV was born from the idea that everyone deserves a high-impact resume. Learn about our mission to democratize career growth with AI."
+            description="StackCV was born from the idea that everyone deserves a high-impact resume. Learn about our mission to democratize career growth using AI."
           />
         </div>
         <Footer />
