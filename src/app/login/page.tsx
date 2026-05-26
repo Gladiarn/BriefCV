@@ -15,8 +15,7 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <main className="flex-1 flex flex-col items-center justify-center p-6 relative">
-        {/* Background Gradient */}
-        <div className="absolute inset-0 pointer-events-none -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background" />
+        <div className="absolute inset-0 pointer-events-none -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
 
         <div className="w-full max-w-[420px]">
             <Link href="/" className="inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary mb-8 transition-colors">
@@ -48,12 +47,6 @@ export default function AuthPage() {
                 </div>
 
                 <div className="space-y-4">
-                  {!isLogin && (
-                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
-                        <Label className="text-[9px] font-bold uppercase tracking-widest ml-1">First Name</Label>
-                        <Input type="text" placeholder="John" className="h-12 rounded-xl bg-background border-border" />
-                    </div>
-                  )}
                   <div className="space-y-2">
                     <Label className="text-[9px] font-bold uppercase tracking-widest ml-1">Email Address</Label>
                     <Input type="email" placeholder="name@company.com" className="h-12 rounded-xl bg-background border-border" />
