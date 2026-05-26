@@ -43,7 +43,7 @@ export const SkillsInputs: React.FC<Props> = ({ section }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-muted-foreground">
+        <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-foreground">
           Add Skills
         </Label>
         <div className="flex gap-2">
@@ -52,7 +52,7 @@ export const SkillsInputs: React.FC<Props> = ({ section }) => {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="React, TypeScript, Node.js..."
-            className="bg-muted/30 border-border rounded-xl"
+            className="bg-muted/30 border-border rounded-xl text-foreground"
           />
           <Button
             size="sm"

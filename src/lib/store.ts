@@ -29,6 +29,7 @@ interface CVState {
   removeSection: (sectionId: string) => void;
   updateLayoutStructure: (layout: ColumnLayout) => void;
   updateDesign: (design: Partial<CVDocument["settings"]["design"]>) => void;
+  updateTitle: (title: string) => void;
   clearStore: () => void;
 }
 
@@ -43,6 +44,18 @@ export const useCVStore = create<CVState>()(
       setCVDocument: (doc) => set({ cvDocument: doc }),
       setExportToPdfTrigger: (trigger) => set({ exportToPdfTrigger: trigger }),
       clearStore: () => set({ cvDocument: null }),
+
+      updateTitle: (title) => {
+        set((state) => {
+          if (!state.cvDocument) return state;
+          return {
+            cvDocument: {
+              ...state.cvDocument,
+              title: title,
+            },
+          };
+        });
+      },
 
       removeSection: (sectionId) => {
         set((state) => {

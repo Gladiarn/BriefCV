@@ -52,32 +52,32 @@ export const HeaderInputs: React.FC<Props> = ({ section }) => {
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2 space-y-1.5">
-          <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-gray-900">
+          <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-foreground">
             Full Name
           </Label>
           <Input
             value={section.content.fullName}
             onChange={(e) => handleChange("fullName", e.target.value)}
             placeholder="John Doe"
-            className="bg-muted/30 border-border rounded-xl text-gray-900 font-bold"
+            className="bg-muted/30 border-border rounded-xl text-foreground font-bold"
           />
         </div>
         <div className="col-span-2 space-y-1.5">
-          <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-gray-900">
+          <Label className="text-[10px] font-bold uppercase tracking-widest ml-1 text-foreground">
             Job Title
           </Label>
           <Input
             value={section.content.jobTitle}
             onChange={(e) => handleChange("jobTitle", e.target.value)}
             placeholder="Software Engineer"
-            className="bg-muted/30 border-border rounded-xl text-gray-900"
+            className="bg-muted/30 border-border rounded-xl text-foreground"
           />
         </div>
       </div>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between px-1">
-          <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-900">
+          <Label className="text-[10px] font-bold uppercase tracking-widest text-foreground">
             Contact Information
           </Label>
           <Button
@@ -104,7 +104,7 @@ export const HeaderInputs: React.FC<Props> = ({ section }) => {
                       updateContact(contact.id, "label", e.target.value)
                     }
                     placeholder="Label"
-                    className="h-8 text-[10px] bg-muted/20 border-transparent focus:border-primary/20 rounded-lg font-bold uppercase tracking-wider"
+                    className="h-8 text-[10px] bg-muted/20 border-transparent focus:border-primary/20 rounded-lg font-bold uppercase tracking-wider text-foreground"
                   />
                 </div>
                 <div className="col-span-8 space-y-1">
@@ -114,7 +114,7 @@ export const HeaderInputs: React.FC<Props> = ({ section }) => {
                       updateContact(contact.id, "value", e.target.value)
                     }
                     placeholder="Value (e.g. email, phone, link)"
-                    className="h-8 text-[11px] bg-muted/20 border-transparent focus:border-primary/20 rounded-lg text-gray-900"
+                    className="h-8 text-[11px] bg-muted/20 border-transparent focus:border-primary/20 rounded-lg text-foreground"
                   />
                 </div>
               </div>

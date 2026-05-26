@@ -3,7 +3,7 @@
 import { ChevronLeft, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { LeftPanel } from "@/components/sections/build/LeftPanel";
 import { RightPanel } from "@/components/sections/build/RightPanel";
 import { Button } from "@/components/ui/button";
@@ -13,28 +13,47 @@ import type { CVDocument } from "@/types/cv";
 
 function EditorContent() {
   const searchParams = useSearchParams();
-  const { setCVDocument, clearStore } = useCVStore();
+  const { cvDocument: storedDoc, setCVDocument, clearStore } = useCVStore();
   const [isInitializing, setIsInitializing] = useState(true);
+  const initialized = useRef(false);
 
   useEffect(() => {
+    // Prevent double initialization in StrictMode and repeated runs
+    if (initialized.current) return;
+
     const init = async () => {
-      clearStore();
+      initialized.current = true;
+
       const templateId = searchParams.get("template") || "modern";
       const resumeId = searchParams.get("id");
 
       try {
         let doc: CVDocument | null = null;
+
+        // 1. Check if we are opening an existing resume by ID
         if (resumeId) {
-          doc = await cvService.getDocumentById(resumeId);
+          // Check if it's already in our store first (faster/offline)
+          if (storedDoc && storedDoc.id === resumeId) {
+            doc = storedDoc;
+          } else {
+            // Otherwise fetch from service (backend/localStorage)
+            doc = await cvService.getDocumentById(resumeId);
+          }
+
+          // If ID was provided but not found, create a new one with that template
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
           }
         } else {
+          // 2. No ID provided, this is a fresh template selection
+          clearStore();
           doc = await cvService.createDefaultDocument(templateId);
+          // Sync URL with the new UUID
           window.history.replaceState(null, "", `/build/new?id=${doc.id}`);
         }
+
         setCVDocument(doc);
-        // Add a small artificial delay to ensure the UI feels polished
+        // Small delay for perceived performance/polish
         await new Promise((resolve) => setTimeout(resolve, 600));
       } catch (error) {
         console.error("Failed to initialize Forge:", error);
@@ -44,7 +63,7 @@ function EditorContent() {
     };
 
     init();
-  }, [searchParams, setCVDocument, clearStore]);
+  }, [searchParams, setCVDocument, clearStore, storedDoc]);
 
   if (isInitializing) {
     return (

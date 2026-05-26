@@ -7,19 +7,47 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const cvService = {
   async getDocuments(): Promise<CVDocument[]> {
-    await delay(300);
+    try {
+      const res = await fetch("/api/resumes");
+      if (res.ok) {
+        const data = await res.json();
+        return data.map((resume: any) => ({
+          id: resume._id,
+          title: resume.title,
+          settings: resume.settings,
+          sections: resume.sections,
+        }));
+      }
+    } catch (e) {
+      console.warn(
+        "Failed to fetch from backend, falling back to localStorage",
+        e,
+      );
+    }
+
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
   },
 
   async getDocumentById(id: string): Promise<CVDocument | null> {
-    await delay(300);
     const docs = await this.getDocuments();
     return docs.find((d) => d.id === id) || null;
   },
 
   async saveDocument(doc: CVDocument): Promise<void> {
-    await delay(300);
+    // 1. Save to Backend if possible
+    try {
+      const res = await fetch("/api/resumes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(doc),
+      });
+      if (!res.ok) throw new Error("Backend save failed");
+    } catch (e) {
+      console.warn("Failed to save to backend, saving only to localStorage", e);
+    }
+
+    // 2. Save to LocalStorage (Fallback/Hybrid)
     const docs = await this.getDocuments();
     const index = docs.findIndex((d) => d.id === doc.id);
 
@@ -33,7 +61,6 @@ export const cvService = {
   },
 
   async deleteDocument(id: string): Promise<void> {
-    await delay(300);
     const docs = await this.getDocuments();
     const filtered = docs.filter((d) => d.id !== id);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
@@ -126,7 +153,7 @@ export const cvService = {
         },
       },
     };
-    await this.saveDocument(doc);
+    // Removed automatic backend save to prevent duplication on initialization
     return doc;
   },
 };

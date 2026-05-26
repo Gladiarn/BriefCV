@@ -71,7 +71,7 @@ export const SectionForm: React.FC<Props> = ({
           <input
             value={section.title}
             onChange={(e) => updateField(section.id, "title", e.target.value)}
-            className="bg-transparent font-bold tracking-tight text-sm outline-none focus:text-primary transition-colors w-full"
+            className="bg-transparent font-bold tracking-tight text-sm outline-none focus:text-primary transition-colors w-full text-foreground"
             placeholder="Section Title"
             onClick={(e) => e.stopPropagation()}
           />
