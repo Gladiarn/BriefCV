@@ -32,9 +32,9 @@ export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.jobTitle || "Executive Leader"}
             </p>
             <div className="flex gap-6 mt-4 text-xs font-bold uppercase tracking-widest text-gray-900">
-              {content.email && <span>{content.email}</span>}
-              {content.phone && <span>{content.phone}</span>}
-              {content.location && <span>{content.location}</span>}
+              {content.contacts.map((contact) => (
+                <span key={contact.id}>{contact.value}</span>
+              ))}
             </div>
           </div>
         );

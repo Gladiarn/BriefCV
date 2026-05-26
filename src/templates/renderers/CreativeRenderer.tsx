@@ -1,9 +1,9 @@
-import React from "react";
+import type React from "react";
 import type {
   CVDocument,
-  HeaderSection,
-  ExperienceSection,
   EducationSection,
+  ExperienceSection,
+  HeaderSection,
   SkillsSection,
 } from "@/types/cv";
 
@@ -29,6 +29,11 @@ export const CreativeRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             <p className="text-xl font-light text-gray-900 uppercase tracking-widest mt-2">
               {content.jobTitle}
             </p>
+            <div className="flex justify-center flex-wrap gap-4 text-[10px] uppercase tracking-widest text-gray-600 mt-4 font-bold">
+              {content.contacts.map((contact) => (
+                <span key={contact.id}>{contact.value}</span>
+              ))}
+            </div>
           </div>
         );
       }

@@ -27,8 +27,12 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.jobTitle}
             </p>
             <div className="text-xs text-gray-900 mt-2 space-x-2">
-              <span>{content.email}</span> • <span>{content.phone}</span> •{" "}
-              <span>{content.location}</span>
+              {content.contacts.map((contact, i) => (
+                <span key={contact.id}>
+                  {i > 0 && " • "}
+                  {contact.value}
+                </span>
+              ))}
             </div>
           </div>
         );
@@ -43,9 +47,7 @@ export const AcademicRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             {content.map((exp) => (
               <div key={exp.id} className="mb-4">
                 <div className="flex justify-between text-gray-900">
-                  <span className="font-bold text-sm">
-                    {exp.company}
-                  </span>
+                  <span className="font-bold text-sm">{exp.company}</span>
                   <span className="text-xs">
                     {exp.startDate} - {exp.endDate}
                   </span>

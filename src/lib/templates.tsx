@@ -6,10 +6,6 @@ import {
   Trophy,
   User,
 } from "lucide-react";
-import { ExecutivePDFTemplate } from "@/templates/pdf/executive";
-import { MinimalistPDFTemplate } from "@/templates/pdf/minimalist";
-import { ModernPDFTemplate } from "@/templates/pdf/modern";
-import { ProfessionalPDFTemplate } from "@/templates/pdf/professional";
 import { AcademicRenderer } from "@/templates/renderers/AcademicRenderer";
 import { CreativeRenderer } from "@/templates/renderers/CreativeRenderer";
 import { ExecutiveRenderer } from "@/templates/renderers/ExecutiveRenderer";
@@ -18,13 +14,6 @@ import { ModernRenderer } from "@/templates/renderers/ModernRenderer";
 import { ProfessionalRenderer } from "@/templates/renderers/ProfessionalRenderer";
 import { SidebarRenderer } from "@/templates/renderers/SidebarRenderer";
 import type { FormSection, Template } from "@/types/resume";
-
-export const pdfTemplates = {
-  modern: ModernPDFTemplate,
-  minimalist: MinimalistPDFTemplate,
-  executive: ExecutivePDFTemplate,
-  professional: ProfessionalPDFTemplate,
-};
 
 export const AI_SECTION: FormSection = {
   id: "ai",

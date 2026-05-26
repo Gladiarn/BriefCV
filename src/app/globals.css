@@ -176,7 +176,7 @@
     size: A4;
     margin: 0;
   }
-  
+
   body {
     background: white !important;
     -webkit-print-color-adjust: exact !important;
@@ -184,7 +184,12 @@
   }
 
   /* Hide UI elements during print */
-  aside, header, footer, .no-print, nav, button:not([type="submit"]) {
+  aside,
+  header,
+  footer,
+  .no-print,
+  nav,
+  button:not([type="submit"]) {
     display: none !important;
   }
 

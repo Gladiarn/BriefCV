@@ -26,6 +26,11 @@ export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             <p className="text-sm text-gray-900 uppercase tracking-widest mt-2">
               {content.jobTitle}
             </p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] uppercase tracking-widest text-gray-500 mt-4">
+              {content.contacts.map((contact) => (
+                <span key={contact.id}>{contact.value}</span>
+              ))}
+            </div>
           </div>
         );
       }
@@ -68,7 +73,9 @@ export const MinimalistRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             </h3>
             {content.map((edu) => (
               <div key={edu.id} className="mb-4">
-                <h4 className="font-bold text-sm text-gray-900">{edu.institution}</h4>
+                <h4 className="font-bold text-sm text-gray-900">
+                  {edu.institution}
+                </h4>
                 <p className="text-xs text-gray-900">{edu.degree}</p>
               </div>
             ))}

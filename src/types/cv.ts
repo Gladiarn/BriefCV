@@ -39,15 +39,19 @@ export interface BaseSection {
   isVisible: boolean;
 }
 
+export interface ContactItem {
+  id: string;
+  type: "email" | "phone" | "location" | "link" | "custom";
+  label: string;
+  value: string;
+}
+
 export interface HeaderSection extends BaseSection {
   type: "header";
   content: {
     fullName: string;
     jobTitle: string;
-    email: string;
-    phone: string;
-    location: string;
-    links: { label: string; url: string }[];
+    contacts: ContactItem[];
   };
 }
 

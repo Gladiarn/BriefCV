@@ -24,9 +24,17 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
             <h1 className="text-3xl font-extrabold uppercase tracking-tighter">
               {content.fullName}
             </h1>
-            <p className="text-sm font-light mt-2">
-              {content.jobTitle}
-            </p>
+            <p className="text-sm font-light mt-2">{content.jobTitle}</p>
+            <div className="mt-8 space-y-3">
+              {content.contacts.map((contact) => (
+                <div key={contact.id} className="space-y-1">
+                  <p className="text-[9px] font-black uppercase tracking-widest opacity-50">
+                    {contact.label}
+                  </p>
+                  <p className="text-xs break-all">{contact.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
         );
       }
@@ -35,22 +43,47 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const isSidebar = settings.columnMapping.leftColumn.includes(id);
         return (
           <div key={id} className="mb-8">
-            <h3 className={cn(
-              "text-xs font-bold uppercase tracking-widest text-center py-2 mb-4 rounded",
-              isSidebar ? "bg-white/10 text-white" : "bg-gray-100 text-gray-900"
-            )}>
+            <h3
+              className={cn(
+                "text-xs font-bold uppercase tracking-widest text-center py-2 mb-4 rounded",
+                isSidebar
+                  ? "bg-white/10 text-white"
+                  : "bg-gray-100 text-gray-900",
+              )}
+            >
               {section.title}
             </h3>
             {content.map((exp) => (
               <div key={exp.id} className="mb-4">
-                <h4 className={cn("font-bold text-sm", isSidebar ? "text-white" : "text-gray-900")}>{exp.role}</h4>
-                <p className={cn("text-xs", isSidebar ? "text-white/80" : "text-gray-700")}>{exp.company}</p>
-                <p className={cn("text-xs italic", isSidebar ? "text-white/60" : "text-gray-500")}>
+                <h4
+                  className={cn(
+                    "font-bold text-sm",
+                    isSidebar ? "text-white" : "text-gray-900",
+                  )}
+                >
+                  {exp.role}
+                </h4>
+                <p
+                  className={cn(
+                    "text-xs",
+                    isSidebar ? "text-white/80" : "text-gray-700",
+                  )}
+                >
+                  {exp.company}
+                </p>
+                <p
+                  className={cn(
+                    "text-xs italic",
+                    isSidebar ? "text-white/60" : "text-gray-500",
+                  )}
+                >
                   {exp.startDate} - {exp.endDate}
                 </p>
                 {!isSidebar && exp.description && (
                   <ul className="text-sm mt-2 space-y-1 list-disc ml-4 text-gray-900">
-                    {exp.description.map((b, i) => <li key={i}>{b}</li>)}
+                    {exp.description.map((b, i) => (
+                      <li key={i}>{b}</li>
+                    ))}
                   </ul>
                 )}
               </div>
@@ -63,16 +96,34 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const isSidebar = settings.columnMapping.leftColumn.includes(id);
         return (
           <div key={id} className="mb-8">
-            <h3 className={cn(
-              "text-xs font-bold uppercase tracking-widest text-center py-2 mb-4 rounded",
-              isSidebar ? "bg-white/10 text-white" : "bg-gray-100 text-gray-900"
-            )}>
+            <h3
+              className={cn(
+                "text-xs font-bold uppercase tracking-widest text-center py-2 mb-4 rounded",
+                isSidebar
+                  ? "bg-white/10 text-white"
+                  : "bg-gray-100 text-gray-900",
+              )}
+            >
               {section.title}
             </h3>
             {content.map((edu) => (
               <div key={edu.id} className="mb-4">
-                <h4 className={cn("font-bold text-sm", isSidebar ? "text-white" : "text-gray-900")}>{edu.institution}</h4>
-                <p className={cn("text-xs", isSidebar ? "text-white/80" : "text-gray-700")}>{edu.degree}</p>
+                <h4
+                  className={cn(
+                    "font-bold text-sm",
+                    isSidebar ? "text-white" : "text-gray-900",
+                  )}
+                >
+                  {edu.institution}
+                </h4>
+                <p
+                  className={cn(
+                    "text-xs",
+                    isSidebar ? "text-white/80" : "text-gray-700",
+                  )}
+                >
+                  {edu.degree}
+                </p>
               </div>
             ))}
           </div>
@@ -83,17 +134,26 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const isSidebar = settings.columnMapping.leftColumn.includes(id);
         return (
           <div key={id} className="mb-8">
-            <h3 className={cn(
-              "text-xs font-bold uppercase tracking-widest text-center py-2 mb-4 rounded",
-              isSidebar ? "bg-white/10 text-white" : "bg-gray-100 text-gray-900"
-            )}>
+            <h3
+              className={cn(
+                "text-xs font-bold uppercase tracking-widest text-center py-2 mb-4 rounded",
+                isSidebar
+                  ? "bg-white/10 text-white"
+                  : "bg-gray-100 text-gray-900",
+              )}
+            >
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-2">
               {content.map((s, i) => (
                 <span
                   key={i}
-                  className={cn("text-xs px-2 py-1 rounded", isSidebar ? "bg-white/10 text-white" : "bg-gray-100 text-gray-800")}
+                  className={cn(
+                    "text-xs px-2 py-1 rounded",
+                    isSidebar
+                      ? "bg-white/10 text-white"
+                      : "bg-gray-100 text-gray-800",
+                  )}
                 >
                   {s}
                 </span>
@@ -134,4 +194,5 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         )}
       </div>
     </div>
-  );};
+  );
+};

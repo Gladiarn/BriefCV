@@ -35,9 +35,12 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {content.jobTitle || "Target Role"}
             </p>
             <div className="flex justify-center flex-wrap gap-x-4 gap-y-1 text-xs font-bold uppercase tracking-widest text-gray-900">
-              {content.email && <span>{content.email}</span>}
-              {content.phone && <span>• {content.phone}</span>}
-              {content.location && <span>• {content.location}</span>}
+              {content.contacts.map((contact, i) => (
+                <span key={contact.id}>
+                  {i > 0 && " • "}
+                  {contact.value}
+                </span>
+              ))}
             </div>
           </div>
         );

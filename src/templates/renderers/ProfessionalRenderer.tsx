@@ -36,9 +36,9 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
               {content.jobTitle || "Target Role"}
             </p>
             <div className="flex flex-wrap gap-4 text-xs font-medium text-gray-900">
-              {content.email && <span>{content.email}</span>}
-              {content.phone && <span>{content.phone}</span>}
-              {content.location && <span>{content.location}</span>}
+              {content.contacts.map((contact) => (
+                <span key={contact.id}>{contact.value}</span>
+              ))}
             </div>
           </div>
         );
@@ -87,11 +87,12 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
             </h3>
             <div className="space-y-4">
               {content.map((edu) => (
-                <div key={edu.id} className="flex justify-between gap-4 text-gray-900">
+                <div
+                  key={edu.id}
+                  className="flex justify-between gap-4 text-gray-900"
+                >
                   <div className="space-y-0.5">
-                    <div className="font-bold text-xs">
-                      {edu.institution}
-                    </div>
+                    <div className="font-bold text-xs">{edu.institution}</div>
                     <div className="text-xs">{edu.degree}</div>
                   </div>
                   <div className="text-xs font-medium whitespace-nowrap">

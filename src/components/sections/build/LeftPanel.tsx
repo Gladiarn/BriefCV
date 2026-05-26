@@ -310,21 +310,27 @@ export const LeftPanel: React.FC = () => {
           onClick={async () => {
             if (cvDocument) {
               await cvService.saveDocument(cvDocument);
-              
+
               // 1. Capture ALL styles as raw text to ensure 100% parity in Puppeteer
-              let cssText = '';
+              let cssText = "";
               try {
                 // Get all style tags
-                const styleTags = Array.from(document.querySelectorAll('style'));
-                styleTags.forEach(tag => { cssText += tag.textContent + '\n'; });
+                const styleTags = Array.from(
+                  document.querySelectorAll("style"),
+                );
+                styleTags.forEach((tag) => {
+                  cssText += tag.textContent + "\n";
+                });
 
                 // Fetch all external stylesheets to inline them
-                const linkTags = Array.from(document.querySelectorAll('link[rel="stylesheet"]')) as HTMLLinkElement[];
+                const linkTags = Array.from(
+                  document.querySelectorAll('link[rel="stylesheet"]'),
+                ) as HTMLLinkElement[];
                 for (const link of linkTags) {
                   try {
                     const response = await fetch(link.href);
                     if (response.ok) {
-                      cssText += await response.text() + '\n';
+                      cssText += (await response.text()) + "\n";
                     }
                   } catch (e) {
                     console.warn("Could not fetch stylesheet:", link.href);
@@ -335,7 +341,8 @@ export const LeftPanel: React.FC = () => {
               }
 
               // 2. Get the innerHTML of the preview div
-              const previewElement = document.getElementById("cv-preview-content");
+              const previewElement =
+                document.getElementById("cv-preview-content");
               if (!previewElement) return;
 
               // 3. Construct a full standalone HTML document with inlined styles
@@ -368,9 +375,9 @@ export const LeftPanel: React.FC = () => {
               const response = await fetch("/api/export", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                  resumeData: cvDocument, 
-                  htmlContent 
+                body: JSON.stringify({
+                  resumeData: cvDocument,
+                  htmlContent,
                 }),
               });
 
