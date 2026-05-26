@@ -17,7 +17,7 @@ async function getUserIdFromToken() {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     return decoded.userId;
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
@@ -32,15 +32,15 @@ export async function POST(req: Request) {
     const cvDocument = await req.json();
     await dbConnect();
 
-    const id = cvDocument.id;
-    const query: any = { userId };
+    const resumeId = cvDocument.id;
+    const query: { userId: string; _id?: string; uuid?: string } = { userId };
 
     // Safely construct query based on ID type
-    if (id) {
-      if (mongoose.Types.ObjectId.isValid(id)) {
-        query._id = id;
+    if (resumeId) {
+      if (mongoose.Types.ObjectId.isValid(resumeId)) {
+        query._id = resumeId;
       } else {
-        query.uuid = id;
+        query.uuid = resumeId;
       }
     }
 
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       title: cvDocument.title || "Untitled Resume",
       settings: cvDocument.settings,
       sections: cvDocument.sections,
-      uuid: id, // Always store the frontend ID as uuid
+      uuid: resumeId,
     };
 
     // Upsert logic
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       { new: true, upsert: true },
     );
 
-    // Link it to the user if it's new
+    // Link it to the user
     await User.findByIdAndUpdate(userId, {
       $addToSet: { resumes: resume._id },
     });
@@ -71,12 +71,13 @@ export async function POST(req: Request) {
       },
       { status: 201 },
     );
-  } catch (error: any) {
-    console.error("[Save Resume Error]:", error);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Server error during save";
+    console.error("[Save Resume Error]:", message);
     return NextResponse.json(
       {
-        error: error.message,
-        details: error.stack,
+        error: message,
       },
       { status: 500 },
     );
@@ -94,7 +95,9 @@ export async function GET() {
     const resumes = await Resume.find({ userId }).sort({ updatedAt: -1 });
 
     return NextResponse.json(resumes);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Server error fetching resumes";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

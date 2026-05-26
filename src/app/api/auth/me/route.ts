@@ -23,7 +23,7 @@ export async function GET() {
         email: decoded.email,
       },
     });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ user: null });
   }
 }

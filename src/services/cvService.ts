@@ -3,7 +3,8 @@ import type { CVDocument } from "@/types/cv";
 
 const STORAGE_KEY = "briefcv_documents";
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const _delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 export const cvService = {
   async getDocuments(): Promise<CVDocument[]> {

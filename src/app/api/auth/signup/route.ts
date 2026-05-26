@@ -28,11 +28,10 @@ export async function POST(req: Request) {
     console.log(`[Signup] Successfully created user: ${newUser.email}`);
 
     return NextResponse.json({ message: "User created" }, { status: 201 });
-  } catch (error: any) {
-    console.error("[Signup Error]:", error);
-    return NextResponse.json(
-      { error: error.message || "Server error during signup" },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Server error during signup";
+    console.error("[Signup Error]:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

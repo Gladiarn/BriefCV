@@ -2,12 +2,10 @@
 
 import { Calendar, GraduationCap, Plus, School, Trash2 } from "lucide-react";
 import type React from "react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCVStore } from "@/lib/store";
-import { cn } from "@/lib/utils";
 import type { EducationItem, EducationSection } from "@/types/cv";
 
 interface Props {

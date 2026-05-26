@@ -54,11 +54,10 @@ export async function POST(req: Request) {
     });
 
     return response;
-  } catch (error: any) {
-    console.error("[Login Error]:", error);
-    return NextResponse.json(
-      { error: error.message || "Server error during login" },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Server error during login";
+    console.error("[Login Error]:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

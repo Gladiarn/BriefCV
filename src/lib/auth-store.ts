@@ -31,7 +31,7 @@ export const useAuthStore = create<AuthState>()(
           const res = await fetch("/api/auth/me");
           const data = await res.json();
           set({ user: data.user });
-        } catch (error) {
+        } catch (_error) {
           set({ user: null });
         }
       },

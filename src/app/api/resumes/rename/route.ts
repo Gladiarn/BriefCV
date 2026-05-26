@@ -15,7 +15,7 @@ async function getUserIdFromToken() {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     return decoded.userId;
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
@@ -51,8 +51,10 @@ export async function PATCH(req: Request) {
       message: "Resume renamed successfully",
       resume,
     });
-  } catch (error: any) {
-    console.error("[Rename Resume Error]:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Server error during rename";
+    console.error("[Rename Resume Error]:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -7,7 +7,7 @@ export interface ResumeMetadata {
   templateId: string;
 }
 
-const mockUserResumes: ResumeMetadata[] = [
+const _mockUserResumes: ResumeMetadata[] = [
   {
     id: "1",
     title: "Senior Product Manager",
@@ -116,7 +116,7 @@ export const resumeService = {
    */
   async saveResume(
     data: any,
-    id?: string,
+    _id?: string,
   ): Promise<{ success: boolean; id: string }> {
     const res = await fetch("/api/resumes", {
       method: "POST",

@@ -399,7 +399,7 @@ export const LeftPanel: React.FC = () => {
                     document.querySelectorAll("style"),
                   );
                   styleTags.forEach((tag) => {
-                    cssText += tag.textContent + "\n";
+                    cssText += `${tag.textContent}\n`;
                   });
 
                   const linkTags = Array.from(
@@ -409,9 +409,9 @@ export const LeftPanel: React.FC = () => {
                     try {
                       const response = await fetch(link.href);
                       if (response.ok) {
-                        cssText += (await response.text()) + "\n";
+                        cssText += `${await response.text()}\n`;
                       }
-                    } catch (e) {
+                    } catch (_e) {
                       console.warn("Could not fetch stylesheet:", link.href);
                     }
                   }

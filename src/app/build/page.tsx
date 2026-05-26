@@ -1,12 +1,13 @@
 "use client";
 
-import { Download, Plus, Rocket, Search, Sparkles } from "lucide-react";
+import { Download, Lock, Plus, Rocket, Search, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/layout/footer";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { TemplateCard } from "@/components/shared/TemplateCard";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/lib/auth-store";
 import { templates } from "@/lib/templates";
 import { cn } from "@/lib/utils";
 import { type ResumeMetadata, resumeService } from "@/services/resumeService";
@@ -43,9 +44,14 @@ export default function BuildPage() {
     null,
   );
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const { user } = useAuthStore();
 
   useEffect(() => {
     const fetchResumes = async () => {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
       try {
         const data = await resumeService.getUserResumes();
         setResumes(data);
@@ -57,7 +63,7 @@ export default function BuildPage() {
     };
 
     fetchResumes();
-  }, []);
+  }, [user]);
 
   const filteredResumes = useMemo(() => {
     return resumes.filter((r) =>
@@ -137,7 +143,7 @@ export default function BuildPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {/* Create New Project Card - Simplified Animations */}
+              {/* Create New Project Card */}
               <Link
                 href="/build/select-template"
                 className="group h-full min-h-[420px]"
@@ -154,32 +160,52 @@ export default function BuildPage() {
                       {buildConfig.projects.emptyStateSubtitle}
                     </p>
                   </div>
-
-                  {/* Decorative background shape for empty state - static */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               </Link>
 
-              {isLoading
-                ? [1, 2, 3].map((skeletonId) => (
-                    <div
-                      key={skeletonId}
-                      className="h-[420px] animate-pulse bg-secondary/30 rounded-[2.5rem]"
+              {isLoading ? (
+                [1, 2, 3].map((skeletonId) => (
+                  <div
+                    key={skeletonId}
+                    className="h-[420px] animate-pulse bg-secondary/30 rounded-[2.5rem]"
+                  />
+                ))
+              ) : !user ? (
+                <div className="h-[420px] bg-secondary/30 rounded-[2.5rem] flex flex-col items-center justify-center p-8 text-center gap-6 border border-border">
+                  <div className="w-20 h-20 rounded-[2rem] bg-background flex items-center justify-center shadow-sm">
+                    <Lock className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <div className="space-y-2">
+                    <p className="font-bold text-xl tracking-tight">
+                      Login to Sync
+                    </p>
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] max-w-[200px]">
+                      Sign in to save and manage your professional history
+                      across devices.
+                    </p>
+                  </div>
+                  <Link href="/login">
+                    <Button className="rounded-full px-8 uppercase font-bold tracking-widest text-[10px]">
+                      Login Now
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                filteredResumes.map((resume) => {
+                  const template =
+                    templates.find((t) => t.id === resume.templateId) ||
+                    templates[0];
+                  return (
+                    <ProjectCard
+                      key={resume.id}
+                      resume={resume}
+                      template={template}
+                      onDelete={handleDeleteResume}
                     />
-                  ))
-                : filteredResumes.map((resume) => {
-                    const template =
-                      templates.find((t) => t.id === resume.templateId) ||
-                      templates[0];
-                    return (
-                      <ProjectCard
-                        key={resume.id}
-                        resume={resume}
-                        template={template}
-                        onDelete={handleDeleteResume}
-                      />
-                    );
-                  })}
+                  );
+                })
+              )}
             </div>
           </section>
 
