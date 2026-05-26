@@ -23,11 +23,11 @@ export default function AuthPage() {
             </Link>
 
             <Card className="p-8 md:p-10 rounded-[2.5rem] border border-border bg-card/60 backdrop-blur-2xl shadow-2xl shadow-black/5">
-              <div className="flex flex-col space-y-2 mb-8 text-center">
-                <h1 className="text-3xl font-black uppercase tracking-tighter">
+              <div className="flex flex-col space-y-3 mb-8 text-center">
+                <h1 className="text-4xl font-bold tracking-tight text-foreground uppercase">
                   {isLogin ? "Sign In" : "Create Account"}
                 </h1>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                   {isLogin ? "Welcome back to Forge" : "Join the creative community"}
                 </p>
               </div>
