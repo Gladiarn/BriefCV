@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     // Set the HTML content
     await page.setContent(htmlContent, {
-      waitUntil: ["load", "networkidle0"],
+      waitUntil: ["load", "networkidle0"] as any,
     });
 
     // Wait for all styles to be applied
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     });
     await browser.close();
 
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(pdfBuffer as unknown as BodyInit, {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="${resumeData.title || "resume"}.pdf"`,
