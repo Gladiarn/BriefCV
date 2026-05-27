@@ -41,39 +41,58 @@ export default function AboutPage() {
           {/* Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 h-auto md:h-[600px]">
             <Card className="md:col-span-2 md:row-span-2 p-10 rounded-[2.5rem] border border-border/40 bg-card/80 backdrop-blur-xl flex flex-col justify-between overflow-hidden relative group">
-                <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
-                    <BrainCircuit className="w-8 h-8 text-primary" />
-                </div>
-                <div className="space-y-4 relative z-10">
-                    <h3 className="text-2xl font-black uppercase tracking-tight">AI Driven Intelligence</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">We use advanced machine learning models to analyze market trends and optimize your achievements for high-performance impact.</p>
-                </div>
+              <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
+                <BrainCircuit className="w-8 h-8 text-primary" />
+              </div>
+              <div className="space-y-4 relative z-10">
+                <h3 className="text-2xl font-black uppercase tracking-tight">
+                  AI Driven Intelligence
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+                  We use advanced machine learning models to analyze market
+                  trends and optimize your achievements for high-performance
+                  impact.
+                </p>
+              </div>
             </Card>
 
             <Card className="md:col-span-2 p-8 rounded-[2.5rem] border border-border/40 bg-card/80 backdrop-blur-xl flex items-center gap-8">
-                <div className="w-20 h-20 shrink-0 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                    <Target className="w-8 h-8 text-primary" />
-                </div>
-                <div className="space-y-2">
-                    <h3 className="text-lg font-black uppercase tracking-widest">Precision Mapping</h3>
-                    <p className="text-sm text-muted-foreground">Every bullet point is calibrated against job descriptions to ensure maximum ATS alignment.</p>
-                </div>
+              <div className="w-20 h-20 shrink-0 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                <Target className="w-8 h-8 text-primary" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-black uppercase tracking-widest">
+                  Precision Mapping
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Every bullet point is calibrated against job descriptions to
+                  ensure maximum ATS alignment.
+                </p>
+              </div>
             </Card>
 
             <Card className="p-8 rounded-[2.5rem] border border-border/40 bg-card/80 backdrop-blur-xl space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <Rocket className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-sm font-black uppercase tracking-widest">Performance</h3>
-                <p className="text-xs text-muted-foreground">Built for speed, optimizing your narrative in seconds.</p>
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Rocket className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-widest">
+                Performance
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Built for speed, optimizing your narrative in seconds.
+              </p>
             </Card>
 
             <Card className="p-8 rounded-[2.5rem] border border-border/40 bg-card/80 backdrop-blur-xl space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-sm font-black uppercase tracking-widest">Secure</h3>
-                <p className="text-xs text-muted-foreground">Your career data is protected with enterprise-grade encryption.</p>
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <ShieldCheck className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-widest">
+                Secure
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Your career data is protected with enterprise-grade encryption.
+              </p>
             </Card>
           </div>
         </div>
