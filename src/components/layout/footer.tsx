@@ -6,10 +6,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+import { useMemo } from "react";
 
 const footerData = {
   brand: {
-    name: "StackCV",
+    name: "BriefCV",
     description:
       "The next-generation AI platform for career growth and resume intelligence.",
   },
@@ -38,23 +39,20 @@ const footerData = {
     },
   ],
   socials: [
-    { icon: MessageSquare, href: "https://twitter.com/stackcv" },
-    { icon: Code2, href: "https://github.com/stackcv" },
-    { icon: Globe, href: "https://linkedin.com/company/stackcv" },
+    { icon: MessageSquare, href: "#" },
+    { icon: Code2, href: "https://github.com/gladiarn/briefcv" },
+    { icon: Globe, href: "https://www.linkedin.com/in/ianne-carl-bulilan-321421349/" },
   ],
 };
 
-export function Footer() {
-  const currentYear = new Date().getFullYear();
+const CURRENT_YEAR = new Date().getFullYear();
 
+export function Footer() {
   return (
     <footer className="w-full pt-32 pb-12 mt-20">
       <div className="container mx-auto px-4 md:px-6">
         {/* Minimalist Floating Footer Card */}
         <div className="relative bg-background/40 backdrop-blur-2xl border border-border/50 rounded-[2.5rem] p-8 md:p-12 overflow-hidden shadow-2xl shadow-black/5">
-          {/* Background Accent */}
-          <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
-
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
             {/* Brand Section */}
             <div className="lg:col-span-5 space-y-8">
@@ -113,7 +111,7 @@ export function Footer() {
           <div className="mt-20 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
               <span>
-                © {currentYear} {footerData.brand.name}
+                © {CURRENT_YEAR} {footerData.brand.name}
               </span>
               <div className="w-1 h-1 rounded-full bg-border" />
               <span>AI Engine v1.0</span>
