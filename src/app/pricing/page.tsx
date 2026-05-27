@@ -1,15 +1,12 @@
-import {
-  ArrowRight,
-  Check,
-  Clock,
-  Crown,
-  Infinity,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+"use client";
+
+import { useMemo } from "react";
+import { Clock, Sparkles, Zap, Crown, Infinity as InfinityIcon } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { PlanCard } from "@/components/sections/pricing/PlanCard";
+import { FeatureComparison } from "@/components/sections/pricing/FeatureComparison";
+import { PricingFAQ } from "@/components/sections/pricing/PricingFAQ";
+import { PricingNotification } from "@/components/sections/pricing/PricingNotification";
 import { cn } from "@/lib/utils";
 
 const plans = [
@@ -47,135 +44,72 @@ const plans = [
       "Dedicated Manager",
     ],
     highlight: false,
-    icon: Infinity,
+    icon: InfinityIcon,
     size: "sm",
   },
 ];
 
+const pricingConfig = {
+  header: {
+    badge: "Pricing Plans",
+    titleMain: "Scale Your",
+    titleGradient: "Career.",
+    description:
+      "Choose the plan that fits your professional journey and start forging your narrative today with powerful AI tools.",
+  },
+};
+
 export default function PricingPage() {
+  const planComponents = useMemo(() => plans.map((plan, index) => (
+    <div
+      key={plan.name}
+      className={cn(
+        "transition-all duration-300",
+        index === 1 ? "lg:scale-105 lg:z-10" : "lg:scale-100"
+      )}
+    >
+      <PlanCard plan={plan} />
+    </div>
+  )), []);
+
   return (
-    <div className="relative min-h-screen bg-background pt-24 isolate">
-      {/* Background Accents - Optimized for scroll performance */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute -top-[10%] -right-[10%] w-[600px] h-[600px] bg-primary/5 blur-[150px] rounded-full" />
-        <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] bg-primary-purple/5 blur-[150px] rounded-full" />
+    <div className="relative min-h-screen bg-background page-padding isolate overflow-x-hidden">
+      {/* Background Creative Blurs */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute -top-[10%] -left-[5%] w-[600px] h-[600px] bg-primary/5 blur-[80px] rounded-full" />
+        <div className="absolute bottom-[10%] -right-[5%] w-[500px] h-[500px] bg-primary-purple/5 blur-[80px] rounded-full" />
       </div>
 
-      <main className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-20 pb-32">
-          {/* Left: Header (Asymmetrical) */}
-          <div className="flex-1 flex flex-col justify-center gap-8 lg:sticky lg:top-24 lg:h-[calc(100vh-100px)]">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-[0.2em] w-fit">
+      <main className="relative z-10 flex flex-col pt-5">
+        <div className="container mx-auto px-4 md:px-6 pb-32">
+          {/* Centered Header Design */}
+          <header className="mb-24 flex flex-col items-center text-center gap-8 max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
               <Sparkles className="w-3.5 h-3.5" />
-              Transparent Pricing
+              {pricingConfig.header.badge}
             </div>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9]">
-              Scale Your <br />
-              <span className="text-gradient">Career.</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]">
+              {pricingConfig.header.titleMain} <br />
+              <span className="text-gradient py-2">
+                {pricingConfig.header.titleGradient}
+              </span>
             </h1>
-            <p className="text-lg text-muted-foreground font-medium max-w-md">
-              Choose the plan that fits your professional journey and start
-              forging your narrative today with powerful AI tools.
+            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl font-medium leading-relaxed">
+              {pricingConfig.header.description}
             </p>
-            <div className="flex items-center gap-4 text-muted-foreground font-bold text-xs uppercase tracking-widest pt-4">
-              <Clock className="w-4 h-4" />
-              No hidden fees. Cancel anytime.
-            </div>
+          </header>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center max-w-7xl mx-auto mb-32">
+            {planComponents}
           </div>
 
-          {/* Right: Pricing Grid - Vertically Centered */}
-          <div className="flex-[1.5] flex flex-col gap-6 justify-center min-h-[600px]">
-            {plans.map((plan) => (
-              <Card
-                key={plan.name}
-                className={cn(
-                  "rounded-[2.5rem] border border-border/40 bg-card overflow-hidden transition-all duration-300",
-                  plan.size === "lg"
-                    ? "p-12 md:scale-105 border-primary/50 shadow-2xl z-10"
-                    : "p-8 md:scale-[0.92] opacity-80 hover:opacity-100",
-                  plan.highlight ? "shadow-primary/10" : "",
-                )}
-              >
-                {plan.highlight && (
-                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-widest px-6 py-2 rounded-bl-3xl">
-                    Popular
-                  </div>
-                )}
-
-                <div
-                  className={cn(
-                    "flex flex-col md:flex-row md:items-center gap-8",
-                    plan.size === "lg" ? "md:gap-12" : "",
-                  )}
-                >
-                  <div className="flex items-center gap-6 flex-1">
-                    <div
-                      className={cn(
-                        "shrink-0 rounded-3xl bg-secondary flex items-center justify-center border border-border",
-                        plan.size === "lg" ? "w-20 h-20" : "w-16 h-16",
-                      )}
-                    >
-                      <plan.icon
-                        className={cn(
-                          "text-primary",
-                          plan.size === "lg" ? "w-10 h-10" : "w-8 h-8",
-                        )}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                        {plan.name}
-                      </h3>
-                      <div
-                        className={cn(
-                          "font-black tracking-tighter",
-                          plan.size === "lg" ? "text-6xl" : "text-4xl",
-                        )}
-                      >
-                        {plan.price}
-                      </div>
-                      <p className="text-xs text-muted-foreground font-medium">
-                        {plan.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  <ul
-                    className={cn(
-                      "grid gap-3",
-                      plan.size === "lg" ? "grid-cols-2" : "grid-cols-1",
-                    )}
-                  >
-                    {plan.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-center gap-3 text-sm font-semibold text-foreground"
-                      >
-                        <Check className="w-4 h-4 text-primary" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link
-                    href="/build/select-template"
-                    className={cn(
-                      "group flex items-center justify-between px-6 py-4 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all duration-150 active:scale-95 border border-border/40 hover:border-primary/50",
-                      plan.highlight
-                        ? "bg-primary text-white"
-                        : "bg-secondary text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800",
-                    )}
-                  >
-                    <span>Get Started</span>
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
-              </Card>
-            ))}
-          </div>
+          <FeatureComparison />
+          <PricingFAQ />
         </div>
+
         <Footer />
       </main>
+      <PricingNotification />
     </div>
   );
 }

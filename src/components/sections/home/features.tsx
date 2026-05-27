@@ -11,8 +11,8 @@ export function FeaturesSection() {
       description:
         "Our neural engine scans your career history to identify hidden strengths and critical gaps.",
       icon: BrainCircuit,
-      className: "md:col-span-2",
-      iconBg: "bg-primary/5",
+      className: "md:col-span-2 border-2",
+      iconBg: "",
       iconColor: "text-primary",
     },
     {
@@ -30,7 +30,8 @@ export function FeaturesSection() {
       description:
         "Every design is rigorously tested to ensure 100% readability by automated systems.",
       icon: Rocket,
-      iconBg: "bg-primary/5",
+      className: "border-2",
+      iconBg: "",
       iconColor: "text-primary",
     },
     {
@@ -38,7 +39,8 @@ export function FeaturesSection() {
       description:
         "Legacy PDF or Word doc? We'll parse it perfectly and migrate your data in seconds.",
       icon: LayoutTemplate,
-      iconBg: "bg-primary/5",
+      className: "border-2",
+      iconBg: "",
       iconColor: "text-primary",
     },
   ];
@@ -50,10 +52,12 @@ export function FeaturesSection() {
           <Card
             key={feature.title}
             className={cn(
-              "relative group p-8 border border-border/40 hover:border-primary/20 transition-all duration-300 flex flex-col justify-between overflow-hidden rounded-3xl shadow-sm hover:shadow-md",
+              "relative group p-8 transition-colors duration-300 flex flex-col justify-between overflow-hidden rounded-[2.5rem] shadow-none",
+              index !== 1 ? "border-2 border-border/40 bg-transparent hover:border-primary/50" : "",
               feature.className,
             )}
           >
+
             <div className="relative z-10">
               <div
                 className={cn(

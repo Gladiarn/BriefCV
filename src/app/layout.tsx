@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "StackCV - AI Resume Builder",
+  title: "BriefCV - AI Resume Builder",
   description: "Optimize your professional resume with AI.",
 };
 

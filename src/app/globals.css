@@ -24,7 +24,7 @@
   --destructive-foreground: #fafafa;
   --border: #e4e4e7;
   --input: #e4e4e7;
-  --ring: #ec4899;
+  --ring: #18181b;
   --radius: 0.75rem;
 }
 
@@ -153,6 +153,16 @@
     }
     50% {
       transform: translateY(-10px);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
     }
   }
 }

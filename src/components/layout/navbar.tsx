@@ -31,6 +31,7 @@ export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { user, logout, checkSession } = useAuthStore();
 
   useEffect(() => {
@@ -64,7 +65,7 @@ export function Navbar() {
             <div className="bg-primary-gradient p-1.5 rounded-lg transition-transform duration-300 group-hover:rotate-12 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="text-base font-bold tracking-tight">StackCV</span>
+            <span className="text-base font-bold tracking-tight">BriefCV</span>
           </Link>
 
           {/* Desktop Navigation - Hidden on Mobile */}
@@ -96,17 +97,37 @@ export function Navbar() {
           {/* Right side actions */}
           <div className="flex items-center gap-2.5">
             {user ? (
-              <div className="flex items-center gap-4 mr-2">
-                <span className="hidden xl:block text-[10px] font-bold text-muted-foreground uppercase tracking-widest truncate max-w-[120px]">
-                  {user.email}
-                </span>
+              <div className="relative mr-0.5">
                 <button
                   type="button"
-                  onClick={() => logout()}
-                  className="text-[10px] font-bold text-muted-foreground hover:text-destructive transition-colors uppercase tracking-[0.2em] flex items-center gap-1.5"
+                  onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                  className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary/50 border border-border/40 hover:bg-primary-gradient transition-all cursor-pointer"
                 >
-                  <LogOut className="w-3 h-3" /> Logout
-                </button>{" "}
+
+                  <span className="text-[10px] font-black text-foreground group-hover:text-white">
+                    {user.email?.substring(0, 2).toUpperCase() || "UN"}
+                  </span>
+                </button>
+                
+                {/* Click-triggered Design Dropdown */}
+                <div
+                  className={cn(
+                    "absolute top-[calc(100%+1.25rem)] right-0 w-48 bg-background/95 backdrop-blur-2xl border border-border/40 rounded-[1.25rem] p-2 shadow-2xl transition-all duration-200",
+                    isProfileMenuOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+                  )}
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      setIsProfileMenuOpen(false);
+                    }}
+                    className="flex w-full items-center gap-3 p-3 rounded-[1rem] hover:bg-destructive/5 text-destructive transition-colors text-[13px] font-bold tracking-tight cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" /> Logout
+                  </button>
+
+                </div>
               </div>
             ) : (
               <Link href="/login" className="hidden lg:block mr-2">
@@ -131,7 +152,7 @@ export function Navbar() {
               {/* Mobile Menu Toggle - Small & Sharp */}
               <button
                 type="button"
-                className="lg:hidden p-1.5 rounded-lg text-foreground hover:bg-secondary transition-all active:scale-90"
+                className="lg:hidden p-1.5 rounded-lg text-foreground hover:bg-secondary transition-all active:scale-90 cursor-pointer"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
@@ -219,8 +240,9 @@ export function Navbar() {
                     logout();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center gap-3 p-3 rounded-[1.25rem] hover:bg-destructive/5 text-destructive transition-colors text-left"
+                  className="flex w-full items-center gap-3 p-3 rounded-[1.25rem] hover:bg-destructive/5 text-destructive transition-colors text-left cursor-pointer"
                 >
+
                   <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center">
                     <LogOut className="w-4 h-4" />
                   </div>
