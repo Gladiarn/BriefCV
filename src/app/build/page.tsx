@@ -19,7 +19,7 @@ const buildConfig = {
     titleMain: "Master Your",
     titleGradient: "Professional Narrative.",
     description:
-      "Your career history, optimized. Forge high-impact achievement sets that bypass filters and captivate recruiters.",
+      "Your career history, optimized. Forge high-impact achievement sets that bypass filters and captivate recruiter's eyes.",
   },
   projects: {
     title: "Recent Projects",
