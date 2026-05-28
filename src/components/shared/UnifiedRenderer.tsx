@@ -13,5 +13,5 @@ export const UnifiedRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
   // However, to fix the triple-rendering, the template renderer must NOT
   // do its own layout mapping if it's already being called from a layout-controlled container.
   // I will just let the TemplateRenderer handle everything.
-  return <TemplateRenderer doc={doc} />;
+  return <TemplateRenderer data={doc} />;
 };
