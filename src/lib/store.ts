@@ -263,12 +263,25 @@ export const useCVStore = create<CVState>()(
           if (layout === "1-column") {
             newMapping.mainColumn = allSections;
           } else if (layout === "2-column") {
-            newMapping.leftColumn = allSections.slice(0, Math.ceil(allSections.length / 2));
-            newMapping.rightColumn = allSections.slice(Math.ceil(allSections.length / 2));
+            newMapping.leftColumn = allSections.slice(
+              0,
+              Math.ceil(allSections.length / 2),
+            );
+            newMapping.rightColumn = allSections.slice(
+              Math.ceil(allSections.length / 2),
+            );
           } else if (layout === "3-column") {
-            newMapping.leftColumn = allSections.slice(0, Math.ceil(allSections.length / 3));
-            newMapping.middleColumn = allSections.slice(Math.ceil(allSections.length / 3), Math.ceil(allSections.length / 3) * 2);
-            newMapping.rightColumn = allSections.slice(Math.ceil(allSections.length / 3) * 2);
+            newMapping.leftColumn = allSections.slice(
+              0,
+              Math.ceil(allSections.length / 3),
+            );
+            newMapping.middleColumn = allSections.slice(
+              Math.ceil(allSections.length / 3),
+              Math.ceil(allSections.length / 3) * 2,
+            );
+            newMapping.rightColumn = allSections.slice(
+              Math.ceil(allSections.length / 3) * 2,
+            );
           }
 
           return {

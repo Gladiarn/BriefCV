@@ -28,7 +28,10 @@ export const ZenithRenderer: React.FC<ZenithRendererProps> = ({ data }) => {
             <h1 className="text-5xl font-black uppercase tracking-tighter">
               {content.fullName}
             </h1>
-            <p className="text-lg font-bold uppercase tracking-widest mt-2" style={{ color: primaryColor }}>
+            <p
+              className="text-lg font-bold uppercase tracking-widest mt-2"
+              style={{ color: primaryColor }}
+            >
               {content.jobTitle}
             </p>
             <div className="flex flex-wrap gap-4 mt-6 text-xs text-gray-400">
@@ -54,7 +57,9 @@ export const ZenithRenderer: React.FC<ZenithRendererProps> = ({ data }) => {
                 </div>
                 <div className="col-span-3">
                   <h4 className="font-black text-lg">{exp.company}</h4>
-                  <p className="text-sm font-bold text-gray-600 mb-2">{exp.role}</p>
+                  <p className="text-sm font-bold text-gray-600 mb-2">
+                    {exp.role}
+                  </p>
                   <ul className="text-xs text-gray-700 list-disc ml-4 space-y-1">
                     {exp.description.map((b, i) => (
                       <li key={`bullet-${exp.id}-${i}`}>{b}</li>

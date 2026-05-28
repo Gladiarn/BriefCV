@@ -12,7 +12,6 @@ export const ExecutiveRenderer: React.FC<{ data: CVDocument }> = ({ data }) => {
   const { sections, settings } = data;
   const primaryColor = settings.design.primaryColor;
 
-
   const renderSection = (id: string) => {
     const section = sections[id];
     if (!section || !section.isVisible) return null;

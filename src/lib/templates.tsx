@@ -323,18 +323,3 @@ export const templates: Template[] = [
     defaultData: {},
   },
 ];
-, 3-column professional layout.",
-    thumbnailColor: "bg-gradient-to-br from-cyan-500/20 to-transparent",
-    component: AtlasRenderer as any,
-    sections: [
-      BASICS_SECTION,
-      EXPERIENCE_SECTION,
-      EDUCATION_SECTION,
-      AI_SECTION,
-    ],
-    features: ["3-Column Grid", "Information Dense"],
-    dimensions: "210mm x 297mm",
-    defaultLayout: "3-column",
-    defaultData: {},
-  },
-];
