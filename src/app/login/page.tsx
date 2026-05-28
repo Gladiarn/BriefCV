@@ -269,12 +269,16 @@ export default function AuthPage() {
             </span>
           </div>
 
-          <Button
-            variant="outline"
-            className="w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[10px] gap-2"
-          >
-            <Mail className="w-4 h-4" /> Google
-          </Button>
+          <Link href="/api/auth/google" className="block w-full">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[10px] flex flex-row items-center justify-center gap-2"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Google</span>
+            </Button>
+          </Link>
 
           <div className="mt-10 text-center">
             <button

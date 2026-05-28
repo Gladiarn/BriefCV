@@ -1,25 +1,19 @@
-import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Resume from "@/models/Resume";
 import User from "@/models/User";
-
-const JWT_SECRET = process.env.JWT_SECRET || "your-fallback-secret";
+import { verifyAccessToken } from "@/services/authService";
 
 async function getUserIdFromToken() {
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get("accessToken")?.value;
 
   if (!token) return null;
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
-    return decoded.userId;
-  } catch (_error) {
-    return null;
-  }
+  const decoded = verifyAccessToken(token);
+  return decoded ? decoded.userId : null;
 }
 
 export async function POST(req: Request) {

@@ -17,19 +17,45 @@ export function FeatureComparison() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-border">
-              <th className="py-4 px-6 text-sm font-bold uppercase text-muted-foreground">Feature</th>
-              <th className="py-4 px-6 text-sm font-bold uppercase text-muted-foreground">Starter</th>
-              <th className="py-4 px-6 text-sm font-bold uppercase text-primary">Professional</th>
-              <th className="py-4 px-6 text-sm font-bold uppercase text-muted-foreground">Enterprise</th>
+              <th className="py-4 px-6 text-sm font-bold uppercase text-muted-foreground">
+                Feature
+              </th>
+              <th className="py-4 px-6 text-sm font-bold uppercase text-muted-foreground">
+                Starter
+              </th>
+              <th className="py-4 px-6 text-sm font-bold uppercase text-primary">
+                Professional
+              </th>
+              <th className="py-4 px-6 text-sm font-bold uppercase text-muted-foreground">
+                Enterprise
+              </th>
             </tr>
           </thead>
           <tbody>
             {features.map((feature) => (
               <tr key={feature.name} className="border-b border-border/50">
                 <td className="py-4 px-6 font-medium">{feature.name}</td>
-                <td className="py-4 px-6">{feature.starter ? <Check className="w-5 h-5 text-primary" /> : <X className="w-5 h-5 text-muted-foreground/30" />}</td>
-                <td className="py-4 px-6 bg-primary/5">{feature.pro ? <Check className="w-5 h-5 text-primary" /> : <X className="w-5 h-5 text-muted-foreground/30" />}</td>
-                <td className="py-4 px-6">{feature.enterprise ? <Check className="w-5 h-5 text-primary" /> : <X className="w-5 h-5 text-muted-foreground/30" />}</td>
+                <td className="py-4 px-6">
+                  {feature.starter ? (
+                    <Check className="w-5 h-5 text-primary" />
+                  ) : (
+                    <X className="w-5 h-5 text-muted-foreground/30" />
+                  )}
+                </td>
+                <td className="py-4 px-6 bg-primary/5">
+                  {feature.pro ? (
+                    <Check className="w-5 h-5 text-primary" />
+                  ) : (
+                    <X className="w-5 h-5 text-muted-foreground/30" />
+                  )}
+                </td>
+                <td className="py-4 px-6">
+                  {feature.enterprise ? (
+                    <Check className="w-5 h-5 text-primary" />
+                  ) : (
+                    <X className="w-5 h-5 text-muted-foreground/30" />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

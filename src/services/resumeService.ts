@@ -48,16 +48,28 @@ export const resumeService = {
    * Fetches all resumes for the current user
    */
   async getUserResumes(): Promise<ResumeMetadata[]> {
-    const res = await fetch("/api/resumes");
-    if (!res.ok) throw new Error("Failed to fetch resumes");
+    try {
+      const res = await fetch("/api/resumes");
+      if (!res.ok) {
+        console.warn("Failed to fetch resumes:", res.status);
+        return [];
+      }
 
-    const data = await res.json();
-    return data.map((resume: any) => ({
-      id: resume._id,
-      title: resume.title,
-      lastEdited: new Date(resume.updatedAt).toLocaleDateString(),
-      templateId: resume.settings.templateId,
-    }));
+      const data = await res.json();
+      if (!Array.isArray(data)) return [];
+
+      return data.map((resume: any) => ({
+        id: resume._id,
+        title: resume.title || "Untitled Resume",
+        lastEdited: resume.updatedAt
+          ? new Date(resume.updatedAt).toLocaleDateString()
+          : "Recently",
+        templateId: resume.settings?.templateId || "modern",
+      }));
+    } catch (error) {
+      console.error("Resume fetch error:", error);
+      return [];
+    }
   },
 
   /**

@@ -41,7 +41,10 @@ const footerData = {
   socials: [
     { icon: MessageSquare, href: "#" },
     { icon: Code2, href: "https://github.com/gladiarn/briefcv" },
-    { icon: Globe, href: "https://www.linkedin.com/in/ianne-carl-bulilan-321421349/" },
+    {
+      icon: Globe,
+      href: "https://www.linkedin.com/in/ianne-carl-bulilan-321421349/",
+    },
   ],
 };
 

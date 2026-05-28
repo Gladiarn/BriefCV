@@ -53,11 +53,12 @@ export function FeaturesSection() {
             key={feature.title}
             className={cn(
               "relative group p-8 transition-colors duration-300 flex flex-col justify-between overflow-hidden rounded-[2.5rem] shadow-none",
-              index !== 1 ? "border-2 border-border/40 bg-transparent hover:border-primary/50" : "",
+              index !== 1
+                ? "border-2 border-border/40 bg-transparent hover:border-primary/50"
+                : "",
               feature.className,
             )}
           >
-
             <div className="relative z-10">
               <div
                 className={cn(

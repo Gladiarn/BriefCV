@@ -1,8 +1,7 @@
-import { Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 interface PlanProps {
   plan: {
@@ -18,12 +17,12 @@ interface PlanProps {
 
 export function PlanCard({ plan }: PlanProps) {
   const Icon = plan.icon;
-  
+
   return (
     <div
       className={cn(
         "rounded-[2.5rem] border-2 overflow-hidden relative flex flex-col p-12 min-h-[500px]",
-        plan.highlight ? "border-primary" : "border-border/40"
+        plan.highlight ? "border-primary" : "border-border/40",
       )}
     >
       {plan.highlight && (
@@ -79,4 +78,3 @@ export function PlanCard({ plan }: PlanProps) {
     </div>
   );
 }
-
