@@ -106,14 +106,14 @@ export const AtlasRenderer: React.FC<AtlasRendererProps> = ({ data }) => {
       )}
 
       {/* 3-Column Grid */}
-      <div className="grid grid-cols-3 gap-8">
-        <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div className="col-span-1 space-y-8">
           {settings?.columnMapping?.leftColumn?.map(renderSection)}
         </div>
-        <div className="space-y-8">
+        <div className="col-span-1 space-y-8">
           {settings?.columnMapping?.middleColumn?.map(renderSection)}
         </div>
-        <div className="space-y-8">
+        <div className="col-span-1 space-y-8">
           {settings?.columnMapping?.rightColumn?.map(renderSection)}
         </div>
       </div>
