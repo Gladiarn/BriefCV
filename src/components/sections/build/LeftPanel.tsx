@@ -6,6 +6,7 @@ import {
   Bot,
   CheckCircle2,
   Edit3,
+  Info,
   Layout,
   Loader2,
   Palette,
@@ -349,7 +350,25 @@ export const LeftPanel: React.FC = () => {
                 Chat to populate your CV
               </p>
             </div>
-            <div className="flex-1 overflow-hidden bg-muted/20 rounded-2xl p-4 flex flex-col gap-4">
+
+            {/* AI Underway Alert */}
+            <div className="bg-primary/5 border border-primary/20 p-5 rounded-[2rem] flex items-start gap-4 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-primary-gradient opacity-[0.03] group-hover:opacity-[0.05] transition-opacity" />
+              <div className="bg-primary/10 p-2 rounded-2xl relative z-10">
+                <Info className="w-5 h-5 text-primary" />
+              </div>
+              <div className="space-y-1 relative z-10">
+                <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-primary">
+                  Intelligence Underway
+                </h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  AI assistant currently is underway and is not yet available.
+                  Stay tuned for the future of resume intelligence.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-hidden bg-muted/20 rounded-2xl p-4 flex flex-col gap-4 opacity-50 pointer-events-none grayscale">
               <div className="flex items-center gap-2 p-3 bg-background rounded-xl border">
                 <Bot className="w-4 h-4 text-primary" />
                 <p className="text-xs font-medium">

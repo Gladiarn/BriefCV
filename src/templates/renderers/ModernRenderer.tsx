@@ -1,5 +1,4 @@
 import type React from "react";
-import { cn } from "@/lib/utils";
 import type {
   CVDocument,
   EducationSection,
@@ -24,7 +23,10 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
       case "header": {
         const content = (section as HeaderSection).content;
         return (
-          <div key={id} className="text-center space-y-4 border-b-2 border-gray-100 pb-8">
+          <div
+            key={id}
+            className="text-center space-y-4 border-b-2 border-gray-100 pb-8"
+          >
             <h1 className="text-4xl font-black uppercase tracking-tight text-gray-900">
               {content.fullName}
             </h1>
@@ -67,7 +69,7 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
                     {exp.role}
                   </p>
                   <ul className="text-sm space-y-1.5 list-none text-gray-900">
-                    {exp.description.map((bullet, i) => (
+                    {exp.description.map((bullet, _i) => (
                       <li
                         key={`bullet-${exp.id}-${bullet.substring(0, 10)}`}
                         className="relative pl-4"
@@ -119,7 +121,7 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-x-3 gap-y-2">
-              {content.map((skill, i) => (
+              {content.map((skill, _i) => (
                 <span
                   key={`skill-${id}-${skill}`}
                   className="text-xs font-bold uppercase tracking-widest bg-gray-100 text-gray-900 px-2 py-0.5 rounded border border-gray-200"
