@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const origin = `${url.protocol}//${url.host}`;
+  
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
   const options = {
     redirect_uri:
       process.env.GOOGLE_REDIRECT_URI ||
-      "http://localhost:3000/api/auth/google/callback",
+      `${origin}/api/auth/google/callback`,
     client_id: process.env.AUTH_GOOGLE_ID!,
     access_type: "offline",
     response_type: "code",
