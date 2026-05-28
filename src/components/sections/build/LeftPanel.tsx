@@ -13,7 +13,6 @@ import {
   Plus,
   Send,
   Settings,
-  X,
 } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";

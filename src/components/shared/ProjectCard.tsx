@@ -168,9 +168,7 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1">
               {isEditing ? (
-                <div
-                  className="flex items-center gap-2"
-                >
+                <div className="flex items-center gap-2">
                   <Input
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
