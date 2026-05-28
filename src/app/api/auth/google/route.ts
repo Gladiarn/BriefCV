@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const googleId = (process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID || "").trim();
+  const googleId = (
+    process.env.AUTH_GOOGLE_ID ||
+    process.env.GOOGLE_CLIENT_ID ||
+    ""
+  ).trim();
 
   if (!googleId) {
     console.error("[OAuth] Missing AUTH_GOOGLE_ID environment variable");
     return NextResponse.json(
-      { error: "OAuth configuration missing on server. Check Vercel environment variables." },
-      { status: 500 }
+      {
+        error:
+          "OAuth configuration missing on server. Check Vercel environment variables.",
+      },
+      { status: 500 },
     );
   }
 
@@ -16,7 +23,9 @@ export async function GET(req: Request) {
   const protocol = host.includes("localhost") ? "http" : "https";
   const origin = `${protocol}://${host}`;
 
-  console.log(`[OAuth] Initiating from ${origin} with Client ID: ${googleId.substring(0, 5)}... (Length: ${googleId.length})`);
+  console.log(
+    `[OAuth] Initiating from ${origin} with Client ID: ${googleId.substring(0, 5)}... (Length: ${googleId.length})`,
+  );
 
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 

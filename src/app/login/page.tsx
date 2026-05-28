@@ -41,7 +41,9 @@ function AuthPageContent() {
     const errorParam = searchParams.get("error");
     if (errorParam) {
       if (errorParam === "missing_config") {
-        setError("OAuth configuration missing on Vercel. Please check your environment variables.");
+        setError(
+          "OAuth configuration missing on Vercel. Please check your environment variables.",
+        );
       } else if (errorParam === "token_exchange_failed") {
         setError("Google authentication failed. Please try again.");
       } else if (errorParam === "no_code") {
@@ -319,14 +321,18 @@ function AuthPageContent() {
 
 export default function AuthPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen w-full flex items-center justify-center bg-background">
-        <div className="animate-pulse flex flex-col items-center gap-4">
-          <Sparkles className="w-12 h-12 text-primary/20" />
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">Loading Intelligence...</p>
+    <Suspense
+      fallback={
+        <div className="min-h-screen w-full flex items-center justify-center bg-background">
+          <div className="animate-pulse flex flex-col items-center gap-4">
+            <Sparkles className="w-12 h-12 text-primary/20" />
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">
+              Loading Intelligence...
+            </p>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <AuthPageContent />
     </Suspense>
   );
