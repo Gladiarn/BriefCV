@@ -1,5 +1,5 @@
-"use client";
-
+import type React from "react";
+import { cn } from "@/lib/utils";
 import type {
   CVDocument,
   EducationSection,
@@ -8,8 +8,12 @@ import type {
   SkillsSection,
 } from "@/types/cv";
 
-export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
-  const { settings, sections } = doc;
+interface ModernRendererProps {
+  data: CVDocument;
+}
+
+export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
+  const { sections, settings } = data;
   const primaryColor = settings.design.primaryColor;
 
   const renderSection = (id: string) => {
@@ -20,24 +24,19 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
       case "header": {
         const content = (section as HeaderSection).content;
         return (
-          <div
-            key={id}
-            className="text-center space-y-2 border-b-2 pb-6"
-            style={{ borderColor: primaryColor }}
-          >
-            <h1
-              className="text-4xl font-black uppercase tracking-tighter"
+          <div key={id} className="text-center space-y-4 border-b-2 border-gray-100 pb-8">
+            <h1 className="text-4xl font-black uppercase tracking-tight text-gray-900">
+              {content.fullName}
+            </h1>
+            <p
+              className="text-sm font-bold uppercase tracking-widest"
               style={{ color: primaryColor }}
             >
-              {content.fullName || "Your Name"}
-            </h1>
-            <p className="text-xl font-bold text-gray-900">
-              {content.jobTitle || "Target Role"}
+              {content.jobTitle}
             </p>
-            <div className="flex justify-center flex-wrap gap-x-4 gap-y-1 text-xs font-bold uppercase tracking-widest text-gray-900">
-              {content.contacts.map((contact, i) => (
-                <span key={contact.id}>
-                  {i > 0 && " • "}
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+              {content.contacts.map((contact) => (
+                <span key={contact.id} className="flex items-center gap-1.5">
                   {contact.value}
                 </span>
               ))}
@@ -50,20 +49,17 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as ExperienceSection).content;
         return (
           <div key={id} className="space-y-4">
-            <h3
-              className="text-sm font-black uppercase tracking-widest border-b pb-1"
-              style={{ color: primaryColor, borderColor: `${primaryColor}40` }}
-            >
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 pb-2">
               {section.title}
             </h3>
-            <div className="space-y-6">
+            <div className="space-y-8">
               {content.map((exp) => (
-                <div key={exp.id} className="space-y-1">
+                <div key={exp.id} className="space-y-3">
                   <div className="flex justify-between items-baseline">
-                    <h4 className="font-bold text-sm uppercase tracking-tight text-gray-900">
+                    <h4 className="text-base font-bold text-gray-900">
                       {exp.company}
                     </h4>
-                    <span className="text-xs font-black text-gray-900">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                       {exp.startDate} - {exp.endDate}
                     </span>
                   </div>
@@ -72,7 +68,10 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                   </p>
                   <ul className="text-sm space-y-1.5 list-none text-gray-900">
                     {exp.description.map((bullet, i) => (
-                      <li key={i} className="relative pl-4">
+                      <li
+                        key={`bullet-${exp.id}-${bullet.substring(0, 10)}`}
+                        className="relative pl-4"
+                      >
                         <span
                           className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full"
                           style={{ backgroundColor: primaryColor || "#000" }}
@@ -92,25 +91,18 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as EducationSection).content;
         return (
           <div key={id} className="space-y-4">
-            <h3
-              className="text-sm font-black uppercase tracking-widest border-b pb-1"
-              style={{ color: primaryColor, borderColor: `${primaryColor}40` }}
-            >
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 pb-2">
               {section.title}
             </h3>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {content.map((edu) => (
-                <div key={edu.id} className="space-y-0.5">
-                  <div className="flex justify-between items-baseline text-gray-900">
-                    <h4 className="font-bold text-sm uppercase tracking-tight">
-                      {edu.institution}
-                    </h4>
-                    <span className="text-xs font-black">
-                      {edu.startDate} - {edu.endDate}
-                    </span>
-                  </div>
-                  <p className="text-xs font-medium text-gray-900">
-                    {edu.degree}
+                <div key={edu.id} className="space-y-1">
+                  <h4 className="text-sm font-bold text-gray-900">
+                    {edu.institution}
+                  </h4>
+                  <p className="text-xs text-gray-600 italic">{edu.degree}</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    {edu.startDate} - {edu.endDate}
                   </p>
                 </div>
               ))}
@@ -123,16 +115,13 @@ export const ModernRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
         const content = (section as SkillsSection).content;
         return (
           <div key={id} className="space-y-4">
-            <h3
-              className="text-sm font-black uppercase tracking-widest border-b pb-1"
-              style={{ color: primaryColor, borderColor: `${primaryColor}40` }}
-            >
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 pb-2">
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-x-3 gap-y-2">
               {content.map((skill, i) => (
                 <span
-                  key={i}
+                  key={`skill-${id}-${skill}`}
                   className="text-xs font-bold uppercase tracking-widest bg-gray-100 text-gray-900 px-2 py-0.5 rounded border border-gray-200"
                 >
                   {skill}

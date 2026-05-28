@@ -11,15 +11,15 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useAuthStore } from "@/lib/auth-store";
 
-export default function AuthPage() {
+function AuthPageContent() {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -33,7 +33,27 @@ export default function AuthPage() {
   const [error, setError] = useState("");
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setUser } = useAuthStore();
+
+  // Handle Google OAuth errors from query params
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      if (errorParam === "missing_config") {
+        setError(
+          "OAuth configuration missing on Vercel. Please check your environment variables.",
+        );
+      } else if (errorParam === "token_exchange_failed") {
+        setError("Google authentication failed. Please try again.");
+      } else if (errorParam === "no_code") {
+        setError("No authorization code received from Google.");
+      } else if (errorParam === "callback_exception") {
+        setError("An unexpected error occurred during Google callback.");
+      }
+      setStatus("error");
+    }
+  }, [searchParams]);
 
   // Reset status after a delay if it's success or error
   useEffect(() => {
@@ -296,5 +316,24 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen w-full flex items-center justify-center bg-background">
+          <div className="animate-pulse flex flex-col items-center gap-4">
+            <Sparkles className="w-12 h-12 text-primary/20" />
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">
+              Loading Intelligence...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <AuthPageContent />
+    </Suspense>
   );
 }

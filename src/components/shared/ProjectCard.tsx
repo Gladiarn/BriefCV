@@ -170,10 +170,6 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
               {isEditing ? (
                 <div
                   className="flex items-center gap-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
                 >
                   <Input
                     value={newTitle}
