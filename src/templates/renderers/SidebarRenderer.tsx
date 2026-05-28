@@ -13,7 +13,7 @@ interface SidebarRendererProps {
 
 export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
   const { sections, settings } = data;
-  const primaryColor = settings.design.primaryColor;
+  const primaryColor = settings?.design?.primaryColor || "#000000";
 
   const renderSection = (id: string) => {
     const section = sections[id];
@@ -22,7 +22,7 @@ export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
     switch (section.type) {
       case "experience": {
         const content = (section as ExperienceSection).content;
-        const isSidebar = settings.columnMapping.leftColumn.includes(id);
+        const isSidebar = settings?.columnMapping?.leftColumn.includes(id);
         return (
           <div key={id} className="mb-8">
             <h3
@@ -77,7 +77,7 @@ export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
       }
       case "education": {
         const content = (section as EducationSection).content;
-        const isSidebar = settings.columnMapping.leftColumn.includes(id);
+        const isSidebar = settings?.columnMapping?.leftColumn.includes(id);
         return (
           <div key={id} className="mb-8">
             <h3
@@ -115,7 +115,7 @@ export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
       }
       case "skills": {
         const content = (section as SkillsSection).content;
-        const isSidebar = settings.columnMapping.leftColumn.includes(id);
+        const isSidebar = settings?.columnMapping?.leftColumn.includes(id);
         return (
           <div key={id} className="mb-8">
             <h3
@@ -159,7 +159,7 @@ export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
         style={{ backgroundColor: primaryColor }}
       >
         <div className="pt-4">
-          {settings.columnMapping.leftColumn.map((id) => {
+          {settings?.columnMapping?.leftColumn?.map((id) => {
             const section = sections[id];
             if (!section || !section.isVisible) return null;
             return <div key={id}>{renderSection(id)}</div>;
@@ -169,11 +169,11 @@ export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
 
       {/* Content */}
       <div className="col-span-7 pt-[15mm] px-8 h-full">
-        {settings.layoutStructure === "2-column" ? (
-          <div>{settings.columnMapping.rightColumn.map(renderSection)}</div>
+        {settings?.layoutStructure === "2-column" ? (
+          <div>{settings?.columnMapping?.rightColumn?.map(renderSection)}</div>
         ) : (
           <div className="space-y-8">
-            {settings.columnMapping.mainColumn.map(renderSection)}
+            {settings?.columnMapping?.mainColumn?.map(renderSection)}
           </div>
         )}
       </div>

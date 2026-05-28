@@ -13,7 +13,7 @@ interface ModernRendererProps {
 
 export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
   const { sections, settings } = data;
-  const primaryColor = settings.design.primaryColor;
+  const primaryColor = settings?.design?.primaryColor || "#000000";
 
   const renderSection = (id: string) => {
     const section = sections[id];
@@ -141,29 +141,29 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
 
   return (
     <div className="h-full flex flex-col gap-8 p-[15mm]">
-      {settings.layoutStructure === "1-column" ? (
+      {settings?.layoutStructure === "1-column" ? (
         <div className="space-y-8">
-          {settings.columnMapping.mainColumn.map(renderSection)}
+          {settings?.columnMapping?.mainColumn?.map(renderSection)}
         </div>
-      ) : settings.layoutStructure === "2-column" ? (
+      ) : settings?.layoutStructure === "2-column" ? (
         <div className="grid grid-cols-12 gap-10 h-full">
           <div className="col-span-5 space-y-8">
-            {settings.columnMapping.leftColumn.map(renderSection)}
+            {settings?.columnMapping?.leftColumn?.map(renderSection)}
           </div>
           <div className="col-span-7 space-y-8">
-            {settings.columnMapping.rightColumn.map(renderSection)}
+            {settings?.columnMapping?.rightColumn?.map(renderSection)}
           </div>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-6 h-full">
           <div className="space-y-8">
-            {settings.columnMapping.leftColumn.map(renderSection)}
+            {settings?.columnMapping?.leftColumn?.map(renderSection)}
           </div>
           <div className="space-y-8">
-            {settings.columnMapping.middleColumn.map(renderSection)}
+            {settings?.columnMapping?.middleColumn?.map(renderSection)}
           </div>
           <div className="space-y-8">
-            {settings.columnMapping.rightColumn.map(renderSection)}
+            {settings?.columnMapping?.rightColumn?.map(renderSection)}
           </div>
         </div>
       )}
