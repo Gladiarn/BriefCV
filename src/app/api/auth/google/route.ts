@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
+  const googleId = process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID;
+
+  if (!googleId) {
+    console.error("[OAuth] Missing AUTH_GOOGLE_ID environment variable");
+    return NextResponse.json(
+      { error: "OAuth configuration missing on server. Check Vercel environment variables." },
+      { status: 500 }
+    );
+  }
+
   const url = new URL(req.url);
   const origin = `${url.protocol}//${url.host}`;
 
@@ -8,8 +18,9 @@ export async function GET(req: Request) {
 
   const options = {
     redirect_uri:
-      process.env.GOOGLE_REDIRECT_URI || `${origin}/api/auth/google/callback`,
-    client_id: process.env.AUTH_GOOGLE_ID as string,
+      process.env.GOOGLE_REDIRECT_URI ||
+      `${origin}/api/auth/google/callback`,
+    client_id: googleId,
     access_type: "offline",
     response_type: "code",
     prompt: "consent",
@@ -18,6 +29,7 @@ export async function GET(req: Request) {
       "https://www.googleapis.com/auth/userinfo.email",
     ].join(" "),
   };
+
 
   const qs = new URLSearchParams(options);
 

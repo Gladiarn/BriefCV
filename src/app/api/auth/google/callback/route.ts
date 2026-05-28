@@ -8,6 +8,13 @@ import {
 } from "@/services/authService";
 
 export async function GET(req: Request) {
+  const googleId = process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID;
+  const googleSecret = process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+
+  if (!googleId || !googleSecret) {
+    return NextResponse.redirect(new URL("/login?error=missing_config", req.url));
+  }
+
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   const origin = `${url.protocol}//${url.host}`;
@@ -23,8 +30,8 @@ export async function GET(req: Request) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         code,
-        client_id: process.env.AUTH_GOOGLE_ID as string,
-        client_secret: process.env.AUTH_GOOGLE_SECRET as string,
+        client_id: googleId,
+        client_secret: googleSecret,
         redirect_uri:
           process.env.GOOGLE_REDIRECT_URI ||
           `${origin}/api/auth/google/callback`,

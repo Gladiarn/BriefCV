@@ -11,7 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,7 +33,25 @@ export default function AuthPage() {
   const [error, setError] = useState("");
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setUser } = useAuthStore();
+
+  // Handle Google OAuth errors from query params
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      if (errorParam === "missing_config") {
+        setError("OAuth configuration missing on Vercel. Please check your environment variables.");
+      } else if (errorParam === "token_exchange_failed") {
+        setError("Google authentication failed. Please try again.");
+      } else if (errorParam === "no_code") {
+        setError("No authorization code received from Google.");
+      } else if (errorParam === "callback_exception") {
+        setError("An unexpected error occurred during Google callback.");
+      }
+      setStatus("error");
+    }
+  }, [searchParams]);
 
   // Reset status after a delay if it's success or error
   useEffect(() => {
