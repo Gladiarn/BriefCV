@@ -8,8 +8,8 @@ import {
 } from "@/services/authService";
 
 export async function GET(req: Request) {
-  const googleId = process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID;
-  const googleSecret = process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+  const googleId = (process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID || "").trim();
+  const googleSecret = (process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET || "").trim();
 
   if (!googleId || !googleSecret) {
     return NextResponse.redirect(new URL("/login?error=missing_config", req.url));
@@ -17,10 +17,20 @@ export async function GET(req: Request) {
 
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
-  const origin = `${url.protocol}//${url.host}`;
+  
+  // Robust origin detection for Vercel
+  const host = req.headers.get("host") || "localhost:3000";
+  const protocol = host.includes("localhost") ? "http" : "https";
+  const origin = `${protocol}://${host}`;
 
   if (!code) {
     return NextResponse.redirect(new URL("/login?error=no_code", req.url));
+  }
+
+  // If GOOGLE_REDIRECT_URI is set but points to localhost while we are on production, ignore it
+  let redirectUri = process.env.GOOGLE_REDIRECT_URI;
+  if (redirectUri?.includes("localhost") && !host.includes("localhost")) {
+    redirectUri = undefined;
   }
 
   try {
@@ -32,9 +42,7 @@ export async function GET(req: Request) {
         code,
         client_id: googleId,
         client_secret: googleSecret,
-        redirect_uri:
-          process.env.GOOGLE_REDIRECT_URI ||
-          `${origin}/api/auth/google/callback`,
+        redirect_uri: redirectUri || `${origin}/api/auth/google/callback`,
         grant_type: "authorization_code",
       }),
     });

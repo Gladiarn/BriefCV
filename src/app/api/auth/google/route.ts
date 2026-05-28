@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const googleId = process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID;
+  const googleId = (process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID || "").trim();
 
   if (!googleId) {
     console.error("[OAuth] Missing AUTH_GOOGLE_ID environment variable");
@@ -11,18 +11,23 @@ export async function GET(req: Request) {
     );
   }
 
-  // Log part of the ID for debugging in Vercel logs (safe)
-  console.log(`[OAuth] Initiating with Client ID: ${googleId.substring(0, 5)}...${googleId.substring(googleId.length - 5)} (Length: ${googleId.length})`);
+  // Robust origin detection for Vercel
+  const host = req.headers.get("host") || "localhost:3000";
+  const protocol = host.includes("localhost") ? "http" : "https";
+  const origin = `${protocol}://${host}`;
 
-  const url = new URL(req.url);
-  const origin = `${url.protocol}//${url.host}`;
+  console.log(`[OAuth] Initiating from ${origin} with Client ID: ${googleId.substring(0, 5)}... (Length: ${googleId.length})`);
 
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
+  // If GOOGLE_REDIRECT_URI is set but points to localhost while we are on production, ignore it
+  let redirectUri = process.env.GOOGLE_REDIRECT_URI;
+  if (redirectUri?.includes("localhost") && !host.includes("localhost")) {
+    redirectUri = undefined;
+  }
+
   const options = {
-    redirect_uri:
-      process.env.GOOGLE_REDIRECT_URI ||
-      `${origin}/api/auth/google/callback`,
+    redirect_uri: redirectUri || `${origin}/api/auth/google/callback`,
     client_id: googleId,
     access_type: "offline",
     response_type: "code",
@@ -32,7 +37,6 @@ export async function GET(req: Request) {
       "https://www.googleapis.com/auth/userinfo.email",
     ].join(" "),
   };
-
 
   const qs = new URLSearchParams(options);
 
