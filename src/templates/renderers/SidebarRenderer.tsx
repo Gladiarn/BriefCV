@@ -1,5 +1,6 @@
 import type React from "react";
 import { cn } from "@/lib/utils";
+import { useIsMounted } from "@/hooks/useIsMounted";
 import type {
   CVDocument,
   EducationSection,
@@ -12,8 +13,11 @@ interface SidebarRendererProps {
 }
 
 export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
+  const isMounted = useIsMounted();
   const { sections, settings } = data;
   const primaryColor = settings?.design?.primaryColor || "#000000";
+
+  if (!isMounted) return null;
 
   const renderSection = (id: string) => {
     const section = sections[id];
