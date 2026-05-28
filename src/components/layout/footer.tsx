@@ -6,7 +6,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
 
 const footerData = {
   brand: {

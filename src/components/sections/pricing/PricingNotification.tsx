@@ -2,7 +2,6 @@
 
 import { Info, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 
 export function PricingNotification() {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,6 +18,7 @@ export function PricingNotification() {
     <div className="fixed bottom-8 right-8 z-50 animate-in slide-in-from-bottom-4 duration-500">
       <div className="bg-card/80 backdrop-blur-xl border border-primary/20 p-6 rounded-3xl shadow-2xl max-w-xs relative group">
         <button
+          type="button"
           onClick={() => setIsVisible(false)}
           className="absolute top-3 right-3 p-1 rounded-full hover:bg-secondary transition-colors"
         >

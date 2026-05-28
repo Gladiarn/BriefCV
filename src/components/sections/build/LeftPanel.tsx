@@ -147,6 +147,7 @@ export const LeftPanel: React.FC = () => {
           <h2
             className="text-xs font-bold uppercase tracking-widest truncate cursor-pointer hover:text-primary transition-colors flex items-center gap-2"
             onClick={() => setIsEditingTitle(true)}
+            onKeyDown={(e) => e.key === "Enter" && setIsEditingTitle(true)}
           >
             {cvDocument.title}
             <Edit3 className="w-3 h-3 text-muted-foreground" />

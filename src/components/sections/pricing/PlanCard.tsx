@@ -1,6 +1,5 @@
 import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 interface PlanProps {

@@ -8,7 +8,6 @@ import {
   Target,
 } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
-import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const aboutConfig = {

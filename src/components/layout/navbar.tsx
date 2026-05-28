@@ -62,7 +62,9 @@ export function Navbar() {
               <div className="bg-primary-gradient p-1.5 rounded-lg">
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="text-base font-bold tracking-tight">BriefCV</span>
+              <span className="text-base font-bold tracking-tight">
+                BriefCV
+              </span>
             </div>
           </nav>
         </div>

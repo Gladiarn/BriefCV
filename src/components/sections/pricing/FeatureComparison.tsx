@@ -1,5 +1,4 @@
 import { Check, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const features = [
   { name: "AI Resume Builder", starter: true, pro: true, enterprise: true },
