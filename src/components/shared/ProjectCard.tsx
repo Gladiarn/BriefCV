@@ -169,11 +169,11 @@ export function ProjectCard({ resume, template, onDelete }: ProjectCardProps) {
             <div className="flex-1">
               {isEditing ? (
                 <div
-                  role="button"
-                  tabIndex={0}
                   className="flex items-center gap-2"
-                  onClick={(e) => e.stopPropagation()}
-                  onKeyDown={(e) => e.key === "Enter" && e.stopPropagation()}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
                 >
                   <Input
                     value={newTitle}

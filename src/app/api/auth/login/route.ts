@@ -31,7 +31,9 @@ export async function POST(req: Request) {
     }
 
     if (!user.password) {
-      console.log(`[Login] Attempted password login for Google-only user: ${email}`);
+      console.log(
+        `[Login] Attempted password login for Google-only user: ${email}`,
+      );
       return NextResponse.json(
         { error: "Please use Google login for this account" },
         { status: 400 },

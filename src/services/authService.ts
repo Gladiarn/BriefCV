@@ -36,7 +36,7 @@ export const generateRefreshToken = (userId: string, email: string) => {
 export const verifyAccessToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 };
@@ -47,7 +47,7 @@ export const verifyRefreshToken = (token: string) => {
       userId: string;
       email: string;
     };
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 };

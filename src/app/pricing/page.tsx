@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Clock,
-  Crown,
-  Infinity as InfinityIcon,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+import { Crown, Infinity as InfinityIcon, Sparkles, Zap } from "lucide-react";
 import { useMemo } from "react";
 import { Footer } from "@/components/layout/footer";
 import { FeatureComparison } from "@/components/sections/pricing/FeatureComparison";

@@ -169,7 +169,7 @@ export const ExperienceInputs: React.FC<Props> = ({ section }) => {
               <div className="space-y-3">
                 {item.description.map((bullet, bIdx) => (
                   <div
-                    key={bIdx}
+                    key={`${item.id}-bullet-${bIdx}`}
                     className="flex gap-2 group/bullet items-center"
                   >
                     <Input

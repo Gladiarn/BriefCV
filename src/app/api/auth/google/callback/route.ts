@@ -10,6 +10,7 @@ import {
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
+  const origin = `${url.protocol}//${url.host}`;
 
   if (!code) {
     return NextResponse.redirect(new URL("/login?error=no_code", req.url));
@@ -22,11 +23,11 @@ export async function GET(req: Request) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         code,
-        client_id: process.env.AUTH_GOOGLE_ID!,
-        client_secret: process.env.AUTH_GOOGLE_SECRET!,
+        client_id: process.env.AUTH_GOOGLE_ID as string,
+        client_secret: process.env.AUTH_GOOGLE_SECRET as string,
         redirect_uri:
           process.env.GOOGLE_REDIRECT_URI ||
-          "http://localhost:3000/api/auth/google/callback",
+          `${origin}/api/auth/google/callback`,
         grant_type: "authorization_code",
       }),
     });

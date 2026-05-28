@@ -4,12 +4,15 @@ import type {
   CVDocument,
   EducationSection,
   ExperienceSection,
-  HeaderSection,
   SkillsSection,
 } from "@/types/cv";
 
-export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
-  const { settings, sections } = doc;
+interface SidebarRendererProps {
+  data: CVDocument;
+}
+
+export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
+  const { sections, settings } = data;
   const primaryColor = settings.design.primaryColor;
 
   const renderSection = (id: string) => {
@@ -17,27 +20,6 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
     if (!section || !section.isVisible) return null;
 
     switch (section.type) {
-      case "header": {
-        const content = (section as HeaderSection).content;
-        return (
-          <div key={id} className="mb-10 text-white p-4">
-            <h1 className="text-3xl font-extrabold uppercase tracking-tighter">
-              {content.fullName}
-            </h1>
-            <p className="text-sm font-light mt-2">{content.jobTitle}</p>
-            <div className="mt-8 space-y-3">
-              {content.contacts.map((contact) => (
-                <div key={contact.id} className="space-y-1">
-                  <p className="text-[9px] font-black uppercase tracking-widest opacity-50">
-                    {contact.label}
-                  </p>
-                  <p className="text-xs break-all">{contact.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      }
       case "experience": {
         const content = (section as ExperienceSection).content;
         const isSidebar = settings.columnMapping.leftColumn.includes(id);
@@ -54,7 +36,7 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {section.title}
             </h3>
             {content.map((exp) => (
-              <div key={exp.id} className="mb-4">
+              <div key={exp.id} className="mb-6">
                 <h4
                   className={cn(
                     "font-bold text-sm",
@@ -65,15 +47,15 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                 </h4>
                 <p
                   className={cn(
-                    "text-xs",
-                    isSidebar ? "text-white/80" : "text-gray-700",
+                    "text-xs font-semibold",
+                    isSidebar ? "text-white/80" : "text-primary",
                   )}
                 >
                   {exp.company}
                 </p>
                 <p
                   className={cn(
-                    "text-xs italic",
+                    "text-[10px] italic mb-2",
                     isSidebar ? "text-white/60" : "text-gray-500",
                   )}
                 >
@@ -81,8 +63,10 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
                 </p>
                 {!isSidebar && exp.description && (
                   <ul className="text-sm mt-2 space-y-1 list-disc ml-4 text-gray-900">
-                    {exp.description.map((b, i) => (
-                      <li key={i}>{b}</li>
+                    {exp.description.map((b, _i) => (
+                      <li key={`bullet-${exp.id}-${b.substring(0, 10)}`}>
+                        {b}
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -145,9 +129,9 @@ export const SidebarRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-2">
-              {content.map((s, i) => (
+              {content.map((s, _i) => (
                 <span
-                  key={i}
+                  key={`skill-${id}-${s}`}
                   className={cn(
                     "text-xs px-2 py-1 rounded",
                     isSidebar

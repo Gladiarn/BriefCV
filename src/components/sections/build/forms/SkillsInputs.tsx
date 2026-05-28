@@ -73,6 +73,7 @@ export const SkillsInputs: React.FC<Props> = ({ section }) => {
           >
             {skill}
             <button
+              type="button"
               onClick={() => removeSkill(skill)}
               className="text-muted-foreground hover:text-destructive transition-colors"
             >

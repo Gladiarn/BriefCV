@@ -67,8 +67,10 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
                     {exp.role}
                   </div>
                   <ul className="text-sm space-y-1.5 list-disc list-outside ml-4 text-gray-900 leading-relaxed">
-                    {exp.description.map((bullet, i) => (
-                      <li key={i}>{bullet}</li>
+                    {exp.description.map((bullet, _i) => (
+                      <li key={`bullet-${exp.id}-${bullet.substring(0, 10)}`}>
+                        {bullet}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -113,9 +115,9 @@ export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
               {section.title}
             </h3>
             <div className="flex flex-wrap gap-2">
-              {content.map((skill, i) => (
+              {content.map((skill, _i) => (
                 <span
-                  key={i}
+                  key={`skill-${id}-${skill}`}
                   className="text-xs font-bold border border-gray-200 px-2 py-1 rounded shadow-sm text-gray-900 bg-gray-50"
                 >
                   {skill}
