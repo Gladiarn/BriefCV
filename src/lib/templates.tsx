@@ -10,7 +10,6 @@ import { AcademicRenderer } from "@/templates/renderers/AcademicRenderer";
 import { CreativeRenderer } from "@/templates/renderers/CreativeRenderer";
 import { ExecutiveRenderer } from "@/templates/renderers/ExecutiveRenderer";
 import { MinimalistRenderer } from "@/templates/renderers/MinimalistRenderer";
-import { AtlasRenderer } from "@/templates/renderers/AtlasRenderer";
 import { ModernRenderer } from "@/templates/renderers/ModernRenderer";
 import { ProfessionalRenderer } from "@/templates/renderers/ProfessionalRenderer";
 import { SidebarRenderer } from "@/templates/renderers/SidebarRenderer";
@@ -323,10 +322,8 @@ export const templates: Template[] = [
     defaultLayout: "1-column",
     defaultData: {},
   },
-  {
-    id: "atlas",
-    name: "Atlas",
-    description: "Highly structured, 3-column professional layout.",
+];
+, 3-column professional layout.",
     thumbnailColor: "bg-gradient-to-br from-cyan-500/20 to-transparent",
     component: AtlasRenderer as any,
     sections: [
