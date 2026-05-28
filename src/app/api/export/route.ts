@@ -1,13 +1,29 @@
 import { NextResponse } from "next/server";
-import puppeteer from "puppeteer";
 
 export async function POST(req: Request) {
   try {
     const { resumeData, htmlContent } = await req.json();
 
+    const isProduction = process.env.NODE_ENV === "production";
+
+    // Dynamic import based on environment
+    const puppeteer = isProduction
+      ? (await import("puppeteer-core")).default
+      : (await import("puppeteer")).default;
+
+    const chromium = isProduction ? (await import("@sparticuz/chromium")).default : null;
+
     const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      ...(isProduction
+        ? {
+            args: chromium!.args,
+            executablePath: await chromium!.executablePath(),
+            headless: true,
+          }
+        : {
+            headless: true,
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+          }),
     });
 
     const page = await browser.newPage();
