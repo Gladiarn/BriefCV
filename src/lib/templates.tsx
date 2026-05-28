@@ -13,6 +13,7 @@ import { MinimalistRenderer } from "@/templates/renderers/MinimalistRenderer";
 import { ModernRenderer } from "@/templates/renderers/ModernRenderer";
 import { ProfessionalRenderer } from "@/templates/renderers/ProfessionalRenderer";
 import { SidebarRenderer } from "@/templates/renderers/SidebarRenderer";
+import { ZenithRenderer } from "@/templates/renderers/ZenithRenderer";
 import type { FormSection, Template } from "@/types/resume";
 
 export const AI_SECTION: FormSection = {
@@ -300,6 +301,23 @@ export const templates: Template[] = [
       AI_SECTION,
     ],
     features: ["ATS Optimized", "Traditional Layout"],
+    dimensions: "210mm x 297mm",
+    defaultLayout: "1-column",
+    defaultData: {},
+  },
+  {
+    id: "zenith",
+    name: "Zenith",
+    description: "Bold, high-contrast, professional layout.",
+    thumbnailColor: "bg-gradient-to-br from-gray-900 to-gray-700",
+    component: ZenithRenderer as any,
+    sections: [
+      BASICS_SECTION,
+      EXPERIENCE_SECTION,
+      EDUCATION_SECTION,
+      AI_SECTION,
+    ],
+    features: ["Bold Typography", "High Contrast"],
     dimensions: "210mm x 297mm",
     defaultLayout: "1-column",
     defaultData: {},

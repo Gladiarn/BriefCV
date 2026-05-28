@@ -1,4 +1,5 @@
 import type React from "react";
+import { useIsMounted } from "@/hooks/useIsMounted";
 import type {
   CVDocument,
   EducationSection,
@@ -12,8 +13,11 @@ interface ModernRendererProps {
 }
 
 export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
+  const isMounted = useIsMounted();
   const { sections, settings } = data;
   const primaryColor = settings?.design?.primaryColor || "#000000";
+
+  if (!isMounted) return null;
 
   const renderSection = (id: string) => {
     const section = sections[id];

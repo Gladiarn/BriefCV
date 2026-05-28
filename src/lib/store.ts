@@ -246,21 +246,42 @@ export const useCVStore = create<CVState>()(
           if (!state.cvDocument) return state;
 
           const oldMapping = state.cvDocument.settings.columnMapping;
-          const newMapping = { ...oldMapping };
+          const newMapping: ColumnMapping = {
+            leftColumn: [],
+            middleColumn: [],
+            rightColumn: [],
+            mainColumn: [],
+          };
+
+          const allSections = [
+            ...oldMapping.leftColumn,
+            ...oldMapping.middleColumn,
+            ...oldMapping.rightColumn,
+            ...oldMapping.mainColumn,
+          ].filter((v, i, a) => a.indexOf(v) === i);
 
           if (layout === "1-column") {
-            newMapping.mainColumn = [
-              ...oldMapping.leftColumn,
-              ...oldMapping.middleColumn,
-              ...oldMapping.rightColumn,
-              ...oldMapping.mainColumn,
-            ].filter((v, i, a) => a.indexOf(v) === i); // Unique
-            newMapping.leftColumn = [];
-            newMapping.middleColumn = [];
-            newMapping.rightColumn = [];
-          } else if (state.cvDocument.settings.layoutStructure === "1-column") {
-            newMapping.leftColumn = [...oldMapping.mainColumn];
-            newMapping.mainColumn = [];
+            newMapping.mainColumn = allSections;
+          } else if (layout === "2-column") {
+            newMapping.leftColumn = allSections.slice(
+              0,
+              Math.ceil(allSections.length / 2),
+            );
+            newMapping.rightColumn = allSections.slice(
+              Math.ceil(allSections.length / 2),
+            );
+          } else if (layout === "3-column") {
+            newMapping.leftColumn = allSections.slice(
+              0,
+              Math.ceil(allSections.length / 3),
+            );
+            newMapping.middleColumn = allSections.slice(
+              Math.ceil(allSections.length / 3),
+              Math.ceil(allSections.length / 3) * 2,
+            );
+            newMapping.rightColumn = allSections.slice(
+              Math.ceil(allSections.length / 3) * 2,
+            );
           }
 
           return {

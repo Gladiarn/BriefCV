@@ -7,10 +7,11 @@ import type {
   SkillsSection,
 } from "@/types/cv";
 
-export const MinimalistRenderer: React.FC<{ data: CVDocument }> = ({ data }) => {
+export const MinimalistRenderer: React.FC<{ data: CVDocument }> = ({
+  data,
+}) => {
   const { sections, settings } = data;
   const primaryColor = settings.design.primaryColor;
-
 
   const renderSection = (id: string) => {
     const section = sections[id];
