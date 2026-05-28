@@ -11,6 +11,9 @@ export async function GET(req: Request) {
     );
   }
 
+  // Log part of the ID for debugging in Vercel logs (safe)
+  console.log(`[OAuth] Initiating with Client ID: ${googleId.substring(0, 5)}...${googleId.substring(googleId.length - 5)} (Length: ${googleId.length})`);
+
   const url = new URL(req.url);
   const origin = `${url.protocol}//${url.host}`;
 
