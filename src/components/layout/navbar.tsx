@@ -32,9 +32,11 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { user, logout, checkSession } = useAuthStore();
 
   useEffect(() => {
+    setMounted(true);
     checkSession();
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -50,6 +52,23 @@ export function Navbar() {
     pathname === "/signup"
   )
     return null;
+
+  if (!mounted) {
+    return (
+      <header className="fixed top-0 left-0 right-0 z-[100] py-5 transition-all duration-500">
+        <div className="container mx-auto px-4 md:px-6">
+          <nav className="relative flex items-center justify-between bg-background/60 backdrop-blur-xl border border-border/40 rounded-[1.5rem] px-4 py-2.5 shadow-2xl shadow-black/5">
+            <div className="flex items-center gap-2">
+              <div className="bg-primary-gradient p-1.5 rounded-lg">
+                <Sparkles className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="text-base font-bold tracking-tight">BriefCV</span>
+            </div>
+          </nav>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header
@@ -103,17 +122,18 @@ export function Navbar() {
                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                   className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary/50 border border-border/40 hover:bg-primary-gradient transition-all cursor-pointer"
                 >
-
                   <span className="text-[10px] font-black text-foreground group-hover:text-white">
                     {user.email?.substring(0, 2).toUpperCase() || "UN"}
                   </span>
                 </button>
-                
+
                 {/* Click-triggered Design Dropdown */}
                 <div
                   className={cn(
                     "absolute top-[calc(100%+1.25rem)] right-0 w-48 bg-background/95 backdrop-blur-2xl border border-border/40 rounded-[1.25rem] p-2 shadow-2xl transition-all duration-200",
-                    isProfileMenuOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+                    isProfileMenuOpen
+                      ? "opacity-100 scale-100 pointer-events-auto"
+                      : "opacity-0 scale-95 pointer-events-none",
                   )}
                 >
                   <button
@@ -126,7 +146,6 @@ export function Navbar() {
                   >
                     <LogOut className="w-4 h-4" /> Logout
                   </button>
-
                 </div>
               </div>
             ) : (
@@ -242,7 +261,6 @@ export function Navbar() {
                   }}
                   className="flex w-full items-center gap-3 p-3 rounded-[1.25rem] hover:bg-destructive/5 text-destructive transition-colors text-left cursor-pointer"
                 >
-
                   <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center">
                     <LogOut className="w-4 h-4" />
                   </div>

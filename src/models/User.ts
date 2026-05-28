@@ -11,9 +11,17 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
     name: {
+      type: String,
+    },
+    refreshToken: {
       type: String,
     },
     // References to user's resumes

@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import {
   findUserByEmail,
-  generateToken,
+  generateAccessToken,
+  generateRefreshToken,
+  updateRefreshToken,
   verifyPassword,
 } from "@/services/authService";
 
@@ -28,6 +30,14 @@ export async function POST(req: Request) {
       );
     }
 
+    if (!user.password) {
+      console.log(`[Login] Attempted password login for Google-only user: ${email}`);
+      return NextResponse.json(
+        { error: "Please use Google login for this account" },
+        { status: 400 },
+      );
+    }
+
     const isMatch = await verifyPassword(password, user.password);
     if (!isMatch) {
       console.log(`[Login] Password mismatch for: ${email}`);
@@ -37,7 +47,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const token = generateToken(user._id.toString(), user.email);
+    const accessToken = generateAccessToken(user._id.toString(), user.email);
+    const refreshToken = generateRefreshToken(user._id.toString(), user.email);
+
+    await updateRefreshToken(user._id.toString(), refreshToken);
+
     console.log(`[Login] Successful login for: ${email}`);
 
     const response = NextResponse.json({
@@ -45,10 +59,18 @@ export async function POST(req: Request) {
       user: { email: user.email, name: user.name },
     });
 
-    response.cookies.set("token", token, {
+    response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7,
+      maxAge: 60 * 30, // 30 mins
+      sameSite: "lax",
+      path: "/",
+    });
+
+    response.cookies.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
       sameSite: "lax",
       path: "/",
     });

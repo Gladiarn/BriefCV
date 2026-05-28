@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Info, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export function PricingNotification() {
@@ -24,7 +24,7 @@ export function PricingNotification() {
         >
           <X className="w-4 h-4 text-muted-foreground" />
         </button>
-        
+
         <div className="flex items-start gap-4">
           <div className="bg-primary/10 p-2 rounded-2xl">
             <Info className="w-6 h-6 text-primary" />
@@ -32,8 +32,8 @@ export function PricingNotification() {
           <div className="pr-4">
             <h4 className="font-bold text-sm mb-1">Pricing Notice</h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              We currently offer our services for free. Payment gateways are not yet enabled. 
-              Enjoy all features without constraints!
+              We currently offer our services for free. Payment gateways are not
+              yet enabled. Enjoy all features without constraints!
             </p>
           </div>
         </div>

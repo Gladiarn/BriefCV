@@ -1,6 +1,12 @@
 "use client";
 
-import { BrainCircuit, Rocket, ShieldCheck, Sparkles, Target } from "lucide-react";
+import {
+  BrainCircuit,
+  Rocket,
+  ShieldCheck,
+  Sparkles,
+  Target,
+} from "lucide-react";
 import { Footer } from "@/components/layout/footer";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -16,12 +22,14 @@ const aboutConfig = {
   pillars: [
     {
       title: "AI Driven Intelligence",
-      description: "We use advanced machine learning models to analyze market trends and optimize your achievements for high-performance impact.",
+      description:
+        "We use advanced machine learning models to analyze market trends and optimize your achievements for high-performance impact.",
       icon: BrainCircuit,
     },
     {
       title: "Precision Mapping",
-      description: "Every bullet point is calibrated against job descriptions to ensure maximum ATS alignment.",
+      description:
+        "Every bullet point is calibrated against job descriptions to ensure maximum ATS alignment.",
       icon: Target,
     },
     {
@@ -31,7 +39,8 @@ const aboutConfig = {
     },
     {
       title: "Secure",
-      description: "Your career data is protected with enterprise-grade encryption.",
+      description:
+        "Your career data is protected with enterprise-grade encryption.",
       icon: ShieldCheck,
     },
   ],
@@ -72,16 +81,28 @@ export default function AboutPage() {
                 key={pillar.title}
                 className={cn(
                   "grid grid-cols-1 md:grid-cols-12 gap-8 items-center",
-                  i % 2 !== 0 ? "md:text-right" : ""
+                  i % 2 !== 0 ? "md:text-right" : "",
                 )}
               >
-                <div className={cn("md:col-span-5", i % 2 !== 0 ? "md:order-2" : "")}>
+                <div
+                  className={cn(
+                    "md:col-span-5",
+                    i % 2 !== 0 ? "md:order-2" : "",
+                  )}
+                >
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-primary/10 border border-primary/20 text-primary mb-6">
                     <pillar.icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-3xl font-black uppercase tracking-tight">{pillar.title}</h3>
+                  <h3 className="text-3xl font-black uppercase tracking-tight">
+                    {pillar.title}
+                  </h3>
                 </div>
-                <div className={cn("md:col-span-7 text-muted-foreground leading-relaxed", i % 2 !== 0 ? "md:text-right" : "")}>
+                <div
+                  className={cn(
+                    "md:col-span-7 text-muted-foreground leading-relaxed",
+                    i % 2 !== 0 ? "md:text-right" : "",
+                  )}
+                >
                   <p className="text-lg font-medium">{pillar.description}</p>
                 </div>
               </section>

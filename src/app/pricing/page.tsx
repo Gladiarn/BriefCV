@@ -1,10 +1,16 @@
 "use client";
 
+import {
+  Clock,
+  Crown,
+  Infinity as InfinityIcon,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 import { useMemo } from "react";
-import { Clock, Sparkles, Zap, Crown, Infinity as InfinityIcon } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
-import { PlanCard } from "@/components/sections/pricing/PlanCard";
 import { FeatureComparison } from "@/components/sections/pricing/FeatureComparison";
+import { PlanCard } from "@/components/sections/pricing/PlanCard";
 import { PricingFAQ } from "@/components/sections/pricing/PricingFAQ";
 import { PricingNotification } from "@/components/sections/pricing/PricingNotification";
 import { cn } from "@/lib/utils";
@@ -60,17 +66,21 @@ const pricingConfig = {
 };
 
 export default function PricingPage() {
-  const planComponents = useMemo(() => plans.map((plan, index) => (
-    <div
-      key={plan.name}
-      className={cn(
-        "transition-all duration-300",
-        index === 1 ? "lg:scale-105 lg:z-10" : "lg:scale-100"
-      )}
-    >
-      <PlanCard plan={plan} />
-    </div>
-  )), []);
+  const planComponents = useMemo(
+    () =>
+      plans.map((plan, index) => (
+        <div
+          key={plan.name}
+          className={cn(
+            "transition-all duration-300",
+            index === 1 ? "lg:scale-105 lg:z-10" : "lg:scale-100",
+          )}
+        >
+          <PlanCard plan={plan} />
+        </div>
+      )),
+    [],
+  );
 
   return (
     <div className="relative min-h-screen bg-background page-padding isolate overflow-x-hidden">

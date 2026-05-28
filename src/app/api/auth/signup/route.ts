@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
-import { createUser, findUserByEmail } from "@/services/authService";
+import {
+  createUser,
+  findUserByEmail,
+  generateAccessToken,
+  generateRefreshToken,
+  updateRefreshToken,
+} from "@/services/authService";
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +33,42 @@ export async function POST(req: Request) {
     const newUser = await createUser(email, password);
     console.log(`[Signup] Successfully created user: ${newUser.email}`);
 
-    return NextResponse.json({ message: "User created" }, { status: 201 });
+    const accessToken = generateAccessToken(
+      newUser._id.toString(),
+      newUser.email,
+    );
+    const refreshToken = generateRefreshToken(
+      newUser._id.toString(),
+      newUser.email,
+    );
+
+    await updateRefreshToken(newUser._id.toString(), refreshToken);
+
+    const response = NextResponse.json(
+      {
+        message: "User created",
+        user: { email: newUser.email, name: newUser.name },
+      },
+      { status: 201 },
+    );
+
+    response.cookies.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 30, // 30 mins
+      sameSite: "lax",
+      path: "/",
+    });
+
+    response.cookies.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: "lax",
+      path: "/",
+    });
+
+    return response;
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "Server error during signup";
