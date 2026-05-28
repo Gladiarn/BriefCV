@@ -30,7 +30,7 @@ export interface Template {
   name: string;
   description: string;
   thumbnailColor: string;
-  component: React.FC<{ doc: CVDocument }>;
+  component: React.FC<{ data: CVDocument }>;
   sections: FormSection[];
   features: string[];
   dimensions: string;

@@ -8,9 +8,10 @@ import type {
   SkillsSection,
 } from "@/types/cv";
 
-export const ExecutiveRenderer: React.FC<{ doc: CVDocument }> = ({ doc }) => {
-  const { settings, sections } = doc;
+export const ExecutiveRenderer: React.FC<{ data: CVDocument }> = ({ data }) => {
+  const { sections, settings } = data;
   const primaryColor = settings.design.primaryColor;
+
 
   const renderSection = (id: string) => {
     const section = sections[id];

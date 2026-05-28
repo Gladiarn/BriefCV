@@ -8,10 +8,10 @@ import type {
   SkillsSection,
 } from "@/types/cv";
 
-export const ProfessionalRenderer: React.FC<{ doc: CVDocument }> = ({
-  doc,
+export const ProfessionalRenderer: React.FC<{ data: CVDocument }> = ({
+  data,
 }) => {
-  const { settings, sections } = doc;
+  const { settings, sections } = data;
   const primaryColor = settings.design.primaryColor;
 
   const renderSection = (id: string) => {
