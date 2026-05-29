@@ -27,6 +27,7 @@ export async function POST(req: Request) {
     });
 
     const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(60000); // Set timeout to 60s
 
     // Set viewport to match A4 aspect ratio at a reasonable resolution for high fidelity
     await page.setViewport({
@@ -61,8 +62,9 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Puppeteer PDF Error:", error);
+    // Log more details if possible
     return NextResponse.json(
-      { error: "Failed to generate high-fidelity PDF" },
+      { error: "Failed to generate high-fidelity PDF", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 },
     );
   }
