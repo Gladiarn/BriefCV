@@ -75,7 +75,9 @@ export const LeftPanel: React.FC = () => {
       if (data.updatedFields && Object.keys(data.updatedFields).length > 0) {
         // Apply updates to the store
         Object.entries(data.updatedFields).forEach(([sectionId, updates]) => {
-          updateField(sectionId, "", updates);
+          // If updates has a "content" property, extract it to match what updateField expects
+          const contentToApply = (updates as any).content !== undefined ? (updates as any).content : updates;
+          updateField(sectionId, "", contentToApply);
         });
 
         setMessages((prev) => [

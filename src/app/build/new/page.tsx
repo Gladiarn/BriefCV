@@ -50,29 +50,24 @@ function EditorContent() {
 
     const init = async () => {
       setIsInitializing(true);
-      console.log("EditorContent: init START", { templateId, resumeId, hasDoc: !!storedDoc });
-
       try {
         let doc: CVDocument | null = null;
 
         // 3. Check if we are opening an existing resume by ID
         if (resumeId) {
           doc = await cvService.getDocumentById(resumeId);
-          console.log("EditorContent: fetched existing", { found: !!doc });
 
           // If ID was provided but not found, create a new one with that template
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
-          } else if (templateId && doc.settings.templateId !== templateId) {
-            doc = await cvService.createDefaultDocument(templateId); 
-            doc.id = resumeId;
           }
+          // REMOVED: The block that was forcing createDefaultDocument when templateId mismatched.
+          // Now we trust the database's version of the document's templateId.
         } else {
           // 5. No ID provided, this is a fresh template selection
           doc = await cvService.createDefaultDocument(templateId);
-          console.log("EditorContent: created new", { id: doc.id });
-          // Sync URL with the new UUID
-          window.history.replaceState(null, "", `/build/new?id=${doc.id}`);
+          // Sync URL with the new UUID, preserving templateId
+          window.history.replaceState(null, "", `/build/new?id=${doc.id}&template=${templateId}`);
         }
 
         if (doc) {

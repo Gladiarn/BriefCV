@@ -329,9 +329,6 @@ export const useCVStore = create<CVState>()(
             ...(template.defaultDesign || {}),
           };
           
-          console.log("Store: Updating template", { templateId, newMapping, newDesign });
-          console.log("Store: Old Design", state.cvDocument.settings.design);
-          console.log("Store: Template Default Design", template.defaultDesign);
 
           return {
             cvDocument: {
