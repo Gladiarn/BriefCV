@@ -32,6 +32,7 @@ export const LeftPanel: React.FC = () => {
     updateLayoutStructure,
     updateDesign,
     updateTitle,
+    updateField,
   } = useCVStore();
   const [expandedSection, setExpandedSection] = useState<string | null>(
     "header-1",
@@ -43,6 +44,70 @@ export const LeftPanel: React.FC = () => {
     "idle" | "processing" | "saved" | "error"
   >("idle");
   const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [messages, setMessages] = useState<
+    { role: "user" | "assistant"; content: string }[]
+  >([{ role: "assistant", content: "How can I help build your CV today?" }]);
+  const [input, setInput] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const handleSendMessage = async () => {
+    if (!input.trim()) return;
+
+    const userMessage = { role: "user" as const, content: input };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsAiLoading(true);
+
+    try {
+      const response = await fetch("/api/ai/populate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ essay: userMessage.content, cvDocument }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to process AI request");
+      }
+
+      if (data.updatedFields && Object.keys(data.updatedFields).length > 0) {
+        // Apply updates to the store
+        Object.entries(data.updatedFields).forEach(([sectionId, updates]) => {
+          updateField(sectionId, "", updates);
+        });
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "I've analyzed your essay and updated the CV sections accordingly.",
+          },
+        ]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "I couldn't find relevant information in your essay to update the CV. Please provide more specific details about your experience or skills.",
+          },
+        ]);
+      }
+    } catch (e) {
+      console.error("AI Error:", e);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, I encountered an error. Please try again later.",
+        },
+      ]);
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (saveStatus === "saved" || saveStatus === "error") {
@@ -351,40 +416,43 @@ export const LeftPanel: React.FC = () => {
               </p>
             </div>
 
-            {/* AI Underway Alert */}
-            <div className="bg-primary/5 border border-primary/20 p-5 rounded-[2rem] flex items-start gap-4 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-primary-gradient opacity-[0.03] group-hover:opacity-[0.05] transition-opacity" />
-              <div className="bg-primary/10 p-2 rounded-2xl relative z-10">
-                <Info className="w-5 h-5 text-primary" />
-              </div>
-              <div className="space-y-1 relative z-10">
-                <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-primary">
-                  Intelligence Underway
-                </h4>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  AI assistant currently is underway and is not yet available.
-                  Stay tuned for the future of resume intelligence.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-hidden bg-muted/20 rounded-2xl p-4 flex flex-col gap-4 opacity-50 pointer-events-none grayscale">
-              <div className="flex items-center gap-2 p-3 bg-background rounded-xl border">
-                <Bot className="w-4 h-4 text-primary" />
-                <p className="text-xs font-medium">
-                  How can I help build your CV today?
-                </p>
-              </div>
+            {/* AI Chat Interface */}
+            <div className="flex-1 overflow-y-auto overflow-x-hidden bg-muted/20 rounded-2xl p-4 flex flex-col gap-4 custom-scrollbar">
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    "p-3 rounded-xl border max-w-[85%] break-words",
+                    msg.role === "user"
+                      ? "bg-primary text-primary-foreground self-end"
+                      : "bg-background self-start",
+                  )}
+                >
+                  <p className="text-xs font-medium leading-relaxed whitespace-pre-wrap">
+                    {msg.content}
+                  </p>
+                </div>
+              ))}
+              {isAiLoading && (
+                <div className="p-3 bg-background rounded-xl border self-start">
+                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                </div>
+              )}
             </div>
             <div className="flex gap-2">
               <Input
                 placeholder="Describe your experience..."
                 className="rounded-xl"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               />
               <Button
                 size="sm"
                 type="button"
                 className="h-9 w-9 shrink-0 rounded-lg p-0"
+                onClick={handleSendMessage}
+                disabled={isAiLoading}
               >
                 <Send className="w-3.5 h-3.5" />
               </Button>
