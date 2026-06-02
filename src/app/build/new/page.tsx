@@ -14,6 +14,7 @@ import type { CVDocument } from "@/types/cv";
 function EditorContent() {
   const searchParams = useSearchParams();
   const {
+    cvDocument: storedDoc,
     setCVDocument,
     clearStore,
     _hasHydrated,
@@ -32,41 +33,33 @@ function EditorContent() {
     if (!_hasHydrated) return;
 
     const init = async () => {
+      // Avoid re-running init if we are already initializing (or if we already have a doc in store)
+      // unless the searchParams specifically changed in a way that requires it.
       setIsInitializing(true);
       const templateId = searchParams.get("template") || "modern";
       const resumeId = searchParams.get("id");
-      console.log("EditorContent: init", { templateId, resumeId });
+      
+      console.log("EditorContent: init START", { templateId, resumeId, hasDoc: !!storedDoc });
 
       try {
         let doc: CVDocument | null = null;
 
-        // Clear existing doc before fetching new one to avoid stale UI
-        clearStore();
-
         // 3. Check if we are opening an existing resume by ID
         if (resumeId) {
           doc = await cvService.getDocumentById(resumeId);
+          console.log("EditorContent: fetched existing", { found: !!doc });
 
           // If ID was provided but not found, create a new one with that template
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
           } else if (templateId && doc.settings.templateId !== templateId) {
-            // If template mismatch, update the template and save
-            doc = {
-              ...doc,
-              settings: {
-                ...doc.settings,
-                templateId: templateId,
-              },
-            };
-            // Need to re-apply template-specific defaults/mapping if needed
-            // This is a simplified approach, might need to call cvService for full reset
-            doc = await cvService.createDefaultDocument(templateId); // Force reset for now
+            doc = await cvService.createDefaultDocument(templateId); 
             doc.id = resumeId;
           }
         } else {
           // 5. No ID provided, this is a fresh template selection
           doc = await cvService.createDefaultDocument(templateId);
+          console.log("EditorContent: created new", { id: doc.id });
           // Sync URL with the new UUID
           window.history.replaceState(null, "", `/build/new?id=${doc.id}`);
         }
