@@ -50,6 +50,19 @@ function EditorContent() {
           // If ID was provided but not found, create a new one with that template
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
+          } else if (templateId && doc.settings.templateId !== templateId) {
+            // If template mismatch, update the template and save
+            doc = {
+              ...doc,
+              settings: {
+                ...doc.settings,
+                templateId: templateId,
+              },
+            };
+            // Need to re-apply template-specific defaults/mapping if needed
+            // This is a simplified approach, might need to call cvService for full reset
+            doc = await cvService.createDefaultDocument(templateId); // Force reset for now
+            doc.id = resumeId;
           }
         } else {
           // 5. No ID provided, this is a fresh template selection
