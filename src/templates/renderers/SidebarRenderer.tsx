@@ -15,6 +15,9 @@ interface SidebarRendererProps {
 export const SidebarRenderer: React.FC<SidebarRendererProps> = ({ data }) => {
   const isMounted = useIsMounted();
   const { sections, settings } = data;
+
+  console.log("SidebarRenderer: Settings", settings);
+
   const primaryColor = settings?.design?.primaryColor || "#000000";
 
   if (!isMounted) return null;

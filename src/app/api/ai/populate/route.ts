@@ -23,37 +23,44 @@ export async function POST(req: Request) {
     const prompt = `
       You are an expert CV professional. I will provide you with a user's professional "essay" or introduction, and the current state of their CV document's sections.
       Your task is to extract relevant information from the essay and map it to the appropriate sections in the CV document.
-      
+
       User Essay:
       """
       ${essay}
       """
-      
+
       Current CV Sections:
       ${JSON.stringify(cvDocument.sections, null, 2)}
-      
+
       Instructions:
       1. Analyze the essay for professional details, skills, experience, and education.
       2. Identify which sections in the current CV document should be updated.
-      3. For each section you update, provide the COMPLETE new content for that section.
-      4. For the "header" section, populate "fullName", "jobTitle", and "contacts". 
-         Contacts should be an array of { id, type, label, value }.
-         Valid types are: "email", "phone", "location", "link", "custom".
-         Use sensible IDs like "email", "phone", etc.
-      5. For "experience" and "education", populate an array of items following their respective schemas.
-      6. For "skills", provide an array of strings.
-      7. Return ONLY a JSON object where keys are section IDs and values are the new "content" object for those sections.
-      8. If no relevant information is found for a section, do not include it in the output.
-      9. Be concise, professional, and ensure the JSON is valid.
-      
+      3. For each section you update, provide the new content as an object containing a "content" field which holds the data array or object.
+      4. Crucially:
+         - For "experience" sections, return: { "content": [ { "id", "company", "role", "startDate", "endDate", "isCurrent", "description": [string] }, ... ] }.
+         - For "education" sections, return: { "content": [ { "id", "institution", "degree", "startDate", "endDate", "description" }, ... ] }.
+         - For "skills", return: { "content": [string, ...] }.
+      5. Return ONLY a JSON object where keys are section IDs and values are the new objects containing the "content" field.
+      6. If no relevant information is found for a section, do not include it in the output.
+      7. Be concise, professional, and ensure the JSON is valid.
+
       Example output format:
       {
         "header-1": {
-          "fullName": "John Doe",
-          "jobTitle": "Software Engineer",
-          "contacts": [{ "id": "email", "type": "email", "label": "Email", "value": "john@example.com" }]
+          "content": {
+            "fullName": "John Doe",
+            "jobTitle": "Software Engineer",
+            "contacts": [{ "id": "email", "type": "email", "label": "Email", "value": "john@example.com" }]
+          }
         },
-        "skills-1": ["React", "TypeScript"]
+        "experience-1": {
+          "content": [
+            { "id": "1", "company": "Co", "role": "Dev", "startDate": "2020", "endDate": "2021", "isCurrent": false, "description": ["Did X"] }
+          ]
+        },
+        "skills-1": {
+          "content": ["React", "TypeScript"]
+        }
       }
     `;
 
@@ -80,9 +87,15 @@ export async function POST(req: Request) {
     // Parse the AI response as JSON
     let updatedFields: Record<string, any>;
     try {
-      updatedFields = JSON.parse(text);
+      // Robust JSON extraction
+      const cleanJson = text
+        .replace(/^```json\s*/, "") // Remove starting markdown block
+        .replace(/\s*```$/, "")      // Remove ending markdown block
+        .trim();
+
+      updatedFields = JSON.parse(cleanJson);
     } catch (_e) {
-      // Handle cases where AI might return markdown or non-JSON despite instructions
+      // Fallback: regex search
       const jsonMatch = text.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         updatedFields = JSON.parse(jsonMatch[0]);

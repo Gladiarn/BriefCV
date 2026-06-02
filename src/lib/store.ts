@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { templates } from "@/lib/templates";
 import type {
   ColumnLayout,
   ColumnMapping,
@@ -13,10 +14,12 @@ interface CVState {
   isLoading: boolean;
   error: string | null;
   exportToPdfTrigger: boolean;
+  _hasHydrated: boolean;
 
   // Actions
   setCVDocument: (doc: CVDocument) => void;
   setExportToPdfTrigger: (trigger: boolean) => void;
+  setHasHydrated: (state: boolean) => void;
   updateField: (sectionId: string, fieldPath: string, value: any) => void;
   reorderSections: (
     sourceColumn: keyof ColumnMapping,
@@ -28,6 +31,7 @@ interface CVState {
   addSection: (type: SectionType) => void;
   removeSection: (sectionId: string) => void;
   updateLayoutStructure: (layout: ColumnLayout) => void;
+  updateTemplate: (templateId: string) => void;
   updateDesign: (design: Partial<CVDocument["settings"]["design"]>) => void;
   updateTitle: (title: string) => void;
   clearStore: () => void;
@@ -40,9 +44,11 @@ export const useCVStore = create<CVState>()(
       isLoading: false,
       error: null,
       exportToPdfTrigger: false,
+      _hasHydrated: false,
 
       setCVDocument: (doc) => set({ cvDocument: doc }),
       setExportToPdfTrigger: (trigger) => set({ exportToPdfTrigger: trigger }),
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
       clearStore: () => set({ cvDocument: null }),
 
       updateTitle: (title) => {
@@ -297,6 +303,48 @@ export const useCVStore = create<CVState>()(
         });
       },
 
+      updateTemplate: (templateId) => {
+        set((state) => {
+          if (!state.cvDocument) return state;
+
+          const template = templates.find((t: any) => t.id === templateId) || templates[0];
+          const layout = template.defaultLayout || "1-column";
+
+          const newMapping = {
+            leftColumn: layout !== "1-column" ? ["header-1"] : [],
+            middleColumn: [],
+            rightColumn:
+              layout !== "1-column"
+                ? ["experience-1", "education-1", "skills-1"]
+                : [],
+            mainColumn:
+              layout === "1-column"
+                ? ["header-1", "experience-1", "education-1", "skills-1"]
+                : [],
+            ...(template.defaultMapping || {}),
+          };
+
+          const newDesign = {
+            ...state.cvDocument.settings.design,
+            ...(template.defaultDesign || {}),
+          };
+          
+
+          return {
+            cvDocument: {
+              ...state.cvDocument,
+              settings: {
+                ...state.cvDocument.settings,
+                templateId,
+                layoutStructure: layout,
+                columnMapping: newMapping,
+                design: newDesign,
+              },
+            },
+          };
+        });
+      },
+
       updateDesign: (design) => {
         set((state) => {
           if (!state.cvDocument) return state;
@@ -318,6 +366,11 @@ export const useCVStore = create<CVState>()(
     {
       name: "cv-storage",
       partialize: (state) => ({ cvDocument: state.cvDocument }),
+      onRehydrateStorage: () => (state, error) => {
+        if (!error && state) {
+          state.setHasHydrated(true);
+        }
+      },
     },
   ),
 );

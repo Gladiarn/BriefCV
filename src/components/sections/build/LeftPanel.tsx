@@ -30,6 +30,7 @@ export const LeftPanel: React.FC = () => {
     reorderSections,
     addSection,
     updateLayoutStructure,
+    updateTemplate,
     updateDesign,
     updateTitle,
     updateField,
@@ -74,7 +75,9 @@ export const LeftPanel: React.FC = () => {
       if (data.updatedFields && Object.keys(data.updatedFields).length > 0) {
         // Apply updates to the store
         Object.entries(data.updatedFields).forEach(([sectionId, updates]) => {
-          updateField(sectionId, "", updates);
+          // If updates has a "content" property, extract it to match what updateField expects
+          const contentToApply = (updates as any).content !== undefined ? (updates as any).content : updates;
+          updateField(sectionId, "", contentToApply);
         });
 
         setMessages((prev) => [
@@ -380,6 +383,33 @@ export const LeftPanel: React.FC = () => {
             <div className="space-y-6">
               <div className="space-y-3">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
+                  Select Template
+                </h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {require("@/lib/templates").templates.map((t: any) => (
+                    <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      console.log("LeftPanel: Switching to template", t.id);
+                      updateTemplate(t.id);
+                    }}
+                    className={cn(
+                      "text-[10px] font-bold uppercase tracking-widest p-3 rounded-xl border transition-all",
+                      cvDocument.settings.templateId === t.id
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-card border-border hover:border-primary/50",
+                    )}
+                    >
+                    {t.name}
+                    </button>
+
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
                   Primary Color
                 </h3>
                 <div className="grid grid-cols-5 gap-3">
@@ -509,7 +539,7 @@ export const LeftPanel: React.FC = () => {
 
                 // 3. Get the innerHTML of the preview div
                 const previewElement =
-                  document.getElementById("cv-preview-content");
+                  document.getElementById(`cv-preview-${cvDocument.id}`);
                 if (!previewElement) {
                   setSaveStatus("error");
                   return;
@@ -524,7 +554,7 @@ export const LeftPanel: React.FC = () => {
                           <style>
                             ${cssText}
                             body { margin: 0; padding: 0; background: white; }
-                            #cv-preview-content { 
+                            .cv-preview-element { 
                               width: 210mm !important; 
                               min-height: 297mm !important;
                               transform: scale(1) !important;
@@ -534,7 +564,7 @@ export const LeftPanel: React.FC = () => {
                           </style>
                       </head>
                       <body>
-                        <div id="cv-preview-content">
+                        <div class="cv-preview-element">
                           ${previewElement.innerHTML}
                         </div>
                       </body>

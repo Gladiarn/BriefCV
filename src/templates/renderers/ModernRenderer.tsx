@@ -1,5 +1,6 @@
 import type React from "react";
 import { useIsMounted } from "@/hooks/useIsMounted";
+import { cn } from "@/lib/utils";
 import type {
   CVDocument,
   EducationSection,
@@ -15,9 +16,20 @@ interface ModernRendererProps {
 export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
   const isMounted = useIsMounted();
   const { sections, settings } = data;
-  const primaryColor = settings?.design?.primaryColor || "#000000";
+
+  const { primaryColor, fontSize, spacing, fontFamily } = settings?.design || {
+    primaryColor: "#000000",
+    fontSize: "md",
+    spacing: "normal",
+    fontFamily: "sans",
+  };
 
   if (!isMounted) return null;
+
+  // Map settings to styles
+  const fontClass = fontFamily === "serif" ? "font-serif" : fontFamily === "mono" ? "font-mono" : "font-sans";
+  const sizeClass = fontSize === "sm" ? "text-sm" : fontSize === "lg" ? "text-lg" : "text-base";
+  const spaceClass = spacing === "compact" ? "gap-4" : spacing === "relaxed" ? "gap-12" : "gap-8";
 
   const renderSection = (id: string) => {
     const section = sections[id];
@@ -144,13 +156,13 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
   };
 
   return (
-    <div className="h-full flex flex-col gap-8 p-[15mm]">
+    <div className={cn("h-full flex flex-col p-[15mm]", fontClass, sizeClass, spaceClass)}>
       {settings?.layoutStructure === "1-column" ? (
-        <div className="space-y-8">
+        <div className={spaceClass}>
           {settings?.columnMapping?.mainColumn?.map(renderSection)}
         </div>
       ) : settings?.layoutStructure === "2-column" ? (
-        <div className="grid grid-cols-12 gap-10 h-full">
+        <div className={cn("grid grid-cols-12 gap-10 h-full", spaceClass)}>
           <div className="col-span-5 space-y-8">
             {settings?.columnMapping?.leftColumn?.map(renderSection)}
           </div>

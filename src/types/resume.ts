@@ -36,6 +36,8 @@ export interface Template {
   dimensions: string;
   defaultLayout: "1-column" | "2-column" | "3-column";
   previewImage?: string;
+  defaultDesign?: Partial<CVDocument["settings"]["design"]>;
+  defaultMapping?: Partial<CVDocument["settings"]["columnMapping"]>;
   defaultData: any; // Using any here to maintain compatibility with existing defaultData structures
 }
 

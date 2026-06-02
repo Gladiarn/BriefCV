@@ -13,49 +13,66 @@ import type { CVDocument } from "@/types/cv";
 
 function EditorContent() {
   const searchParams = useSearchParams();
-  const { cvDocument: storedDoc, setCVDocument, clearStore } = useCVStore();
+  const {
+    cvDocument: storedDoc,
+    setCVDocument,
+    clearStore,
+    _hasHydrated,
+  } = useCVStore();
   const [isInitializing, setIsInitializing] = useState(true);
-  const initialized = useRef(false);
+  const prevParams = useRef<{ templateId: string; resumeId: string | null }>({
+    templateId: "",
+    resumeId: null,
+  });
+
+  // Clear store on unmount when leaving Forge
+  useEffect(() => {
+    return () => {
+      clearStore();
+    };
+  }, [clearStore]);
 
   useEffect(() => {
-    // Prevent double initialization in StrictMode and repeated runs
-    if (initialized.current) return;
+    // 1. Wait for Zustand to hydrate from localStorage
+    if (!_hasHydrated) return;
+
+    const templateId = searchParams.get("template") || "modern";
+    const resumeId = searchParams.get("id");
+
+    // Prevent double initialization from history.replaceState
+    if (
+      prevParams.current.templateId === templateId &&
+      prevParams.current.resumeId === resumeId
+    )
+      return;
+
+    prevParams.current = { templateId, resumeId };
 
     const init = async () => {
-      initialized.current = true;
-
-      const templateId = searchParams.get("template") || "modern";
-      const resumeId = searchParams.get("id");
-
+      setIsInitializing(true);
       try {
         let doc: CVDocument | null = null;
 
-        // 1. Check if we are opening an existing resume by ID
+        // 3. Check if we are opening an existing resume by ID
         if (resumeId) {
-          // Check if it's already in our store first (faster/offline)
-          if (storedDoc && storedDoc.id === resumeId) {
-            doc = storedDoc;
-          } else {
-            // Otherwise fetch from service (backend/localStorage)
-            doc = await cvService.getDocumentById(resumeId);
-          }
+          doc = await cvService.getDocumentById(resumeId);
 
           // If ID was provided but not found, create a new one with that template
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
           }
-        } else if (storedDoc) {
-          // 2. Already have a document in store, keep it
-          doc = storedDoc;
+          // REMOVED: The block that was forcing createDefaultDocument when templateId mismatched.
+          // Now we trust the database's version of the document's templateId.
         } else {
-          // 3. No ID provided, this is a fresh template selection
-          clearStore();
+          // 5. No ID provided, this is a fresh template selection
           doc = await cvService.createDefaultDocument(templateId);
-          // Sync URL with the new UUID
-          window.history.replaceState(null, "", `/build/new?id=${doc.id}`);
+          // Sync URL with the new UUID, preserving templateId
+          window.history.replaceState(null, "", `/build/new?id=${doc.id}&template=${templateId}`);
         }
 
-        setCVDocument(doc);
+        if (doc) {
+          setCVDocument(doc);
+        }
         // Small delay for perceived performance/polish
         await new Promise((resolve) => setTimeout(resolve, 600));
       } catch (error) {
@@ -66,7 +83,7 @@ function EditorContent() {
     };
 
     init();
-  }, [searchParams, setCVDocument, clearStore, storedDoc]);
+  }, [searchParams, setCVDocument, clearStore, _hasHydrated, storedDoc]);
 
   if (isInitializing) {
     return (
