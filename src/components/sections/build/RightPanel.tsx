@@ -35,6 +35,10 @@ export const RightPanel: React.FC = () => {
 
   return (
     <div className="flex-1 h-full bg-secondary/10 overflow-hidden flex flex-col items-center relative">
+      <div className="absolute top-0 left-0 p-4 bg-black/50 text-white text-xs z-50">
+        Template: {cvDocument.settings.templateId}
+        <pre>{JSON.stringify(cvDocument.settings.design, null, 2)}</pre>
+      </div>
       {/* Zoom Controls Overlay */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-background/80 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-2xl">
         <Button
@@ -80,9 +84,9 @@ export const RightPanel: React.FC = () => {
             transform: `scale(${zoom})`,
           }}
         >
-          <UnifiedRenderer 
-            key={`${cvDocument.id}-${cvDocument.settings.templateId}`} 
-            data={cvDocument} 
+          <UnifiedRenderer
+            key={`${cvDocument.id}-${cvDocument.settings.templateId}-${JSON.stringify(cvDocument.settings)}`}
+            data={cvDocument}
           />
         </div>
       </div>

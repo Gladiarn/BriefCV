@@ -35,6 +35,7 @@ function EditorContent() {
       setIsInitializing(true);
       const templateId = searchParams.get("template") || "modern";
       const resumeId = searchParams.get("id");
+      console.log("EditorContent: init", { templateId, resumeId });
 
       try {
         let doc: CVDocument | null = null;
