@@ -7,7 +7,8 @@ export const UnifiedRenderer: React.FC<{ data: CVDocument | null }> = ({
 }) => {
   if (!data) return null;
   
-  console.log("UnifiedRenderer: Rendering with templateId", data.settings.templateId);
+  console.log("UnifiedRenderer: Rendering with templateId:", data.settings.templateId);
+  console.log("UnifiedRenderer: Full Settings:", data.settings);
   
   const activeTemplate =
     templates.find((t) => t.id === data.settings.templateId) || templates[0];

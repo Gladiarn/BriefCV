@@ -74,30 +74,35 @@ export const cvService = {
     const template = templates.find((t) => t.id === templateId) || templates[0];
     const layout = template.defaultLayout || "1-column";
 
+    // Use template-specific defaults or fallback to generic layout
+    const defaultMapping = {
+      leftColumn: layout !== "1-column" ? ["header-1"] : [],
+      middleColumn: [],
+      rightColumn:
+        layout !== "1-column"
+          ? ["experience-1", "education-1", "skills-1"]
+          : [],
+      mainColumn:
+        layout === "1-column"
+          ? ["header-1", "experience-1", "education-1", "skills-1"]
+          : [],
+      ...(template.defaultMapping || {}),
+    };
+
     const doc: CVDocument = {
       id,
       title: "Untitled CV",
       settings: {
         templateId,
         layoutStructure: layout,
-        columnMapping: {
-          leftColumn: layout !== "1-column" ? ["header-1"] : [],
-          middleColumn: [],
-          rightColumn:
-            layout !== "1-column"
-              ? ["experience-1", "education-1", "skills-1"]
-              : [],
-          mainColumn:
-            layout === "1-column"
-              ? ["header-1", "experience-1", "education-1", "skills-1"]
-              : [],
-        },
+        columnMapping: defaultMapping,
         design: {
           primaryColor: "#000000",
           fontSize: "md",
           spacing: "normal",
           fontFamily: "sans",
           sectionGap: 15,
+          ...(template.defaultDesign || {}),
         },
       },
       sections: {
