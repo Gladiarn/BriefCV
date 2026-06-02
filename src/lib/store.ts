@@ -13,10 +13,12 @@ interface CVState {
   isLoading: boolean;
   error: string | null;
   exportToPdfTrigger: boolean;
+  _hasHydrated: boolean;
 
   // Actions
   setCVDocument: (doc: CVDocument) => void;
   setExportToPdfTrigger: (trigger: boolean) => void;
+  setHasHydrated: (state: boolean) => void;
   updateField: (sectionId: string, fieldPath: string, value: any) => void;
   reorderSections: (
     sourceColumn: keyof ColumnMapping,
@@ -41,9 +43,11 @@ export const useCVStore = create<CVState>()(
       isLoading: false,
       error: null,
       exportToPdfTrigger: false,
+      _hasHydrated: false,
 
       setCVDocument: (doc) => set({ cvDocument: doc }),
       setExportToPdfTrigger: (trigger) => set({ exportToPdfTrigger: trigger }),
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
       clearStore: () => set({ cvDocument: null }),
 
       updateTitle: (title) => {
@@ -359,6 +363,11 @@ export const useCVStore = create<CVState>()(
     {
       name: "cv-storage",
       partialize: (state) => ({ cvDocument: state.cvDocument }),
+      onRehydrateStorage: () => (state, error) => {
+        if (!error && state) {
+          state.setHasHydrated(true);
+        }
+      },
     },
   ),
 );

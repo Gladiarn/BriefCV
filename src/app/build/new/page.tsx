@@ -3,7 +3,7 @@
 import { ChevronLeft, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { LeftPanel } from "@/components/sections/build/LeftPanel";
 import { RightPanel } from "@/components/sections/build/RightPanel";
 import { Button } from "@/components/ui/button";
@@ -13,49 +13,53 @@ import type { CVDocument } from "@/types/cv";
 
 function EditorContent() {
   const searchParams = useSearchParams();
-  const { cvDocument: storedDoc, setCVDocument, clearStore } = useCVStore();
+  const {
+    setCVDocument,
+    clearStore,
+    _hasHydrated,
+  } = useCVStore();
   const [isInitializing, setIsInitializing] = useState(true);
-  const initialized = useRef(false);
+
+  // Clear store on unmount when leaving Forge
+  useEffect(() => {
+    return () => {
+      clearStore();
+    };
+  }, [clearStore]);
 
   useEffect(() => {
-    // Prevent double initialization in StrictMode and repeated runs
-    if (initialized.current) return;
+    // 1. Wait for Zustand to hydrate from localStorage
+    if (!_hasHydrated) return;
 
     const init = async () => {
-      initialized.current = true;
-
+      setIsInitializing(true);
       const templateId = searchParams.get("template") || "modern";
       const resumeId = searchParams.get("id");
 
       try {
         let doc: CVDocument | null = null;
 
-        // 1. Check if we are opening an existing resume by ID
+        // Clear existing doc before fetching new one to avoid stale UI
+        clearStore();
+
+        // 3. Check if we are opening an existing resume by ID
         if (resumeId) {
-          // Check if it's already in our store first (faster/offline)
-          if (storedDoc && storedDoc.id === resumeId) {
-            doc = storedDoc;
-          } else {
-            // Otherwise fetch from service (backend/localStorage)
-            doc = await cvService.getDocumentById(resumeId);
-          }
+          doc = await cvService.getDocumentById(resumeId);
 
           // If ID was provided but not found, create a new one with that template
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
           }
-        } else if (storedDoc) {
-          // 2. Already have a document in store, keep it
-          doc = storedDoc;
         } else {
-          // 3. No ID provided, this is a fresh template selection
-          clearStore();
+          // 5. No ID provided, this is a fresh template selection
           doc = await cvService.createDefaultDocument(templateId);
           // Sync URL with the new UUID
           window.history.replaceState(null, "", `/build/new?id=${doc.id}`);
         }
 
-        setCVDocument(doc);
+        if (doc) {
+          setCVDocument(doc);
+        }
         // Small delay for perceived performance/polish
         await new Promise((resolve) => setTimeout(resolve, 600));
       } catch (error) {
@@ -66,7 +70,7 @@ function EditorContent() {
     };
 
     init();
-  }, [searchParams, setCVDocument, clearStore, storedDoc]);
+  }, [searchParams, setCVDocument, clearStore, _hasHydrated]);
 
   if (isInitializing) {
     return (
