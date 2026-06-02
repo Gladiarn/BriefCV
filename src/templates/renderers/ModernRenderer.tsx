@@ -15,6 +15,9 @@ interface ModernRendererProps {
 export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
   const isMounted = useIsMounted();
   const { sections, settings } = data;
+  
+  console.log("ModernRenderer: Settings", settings);
+  
   const primaryColor = settings?.design?.primaryColor || "#000000";
 
   if (!isMounted) return null;

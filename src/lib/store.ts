@@ -324,6 +324,13 @@ export const useCVStore = create<CVState>()(
             ...(template.defaultMapping || {}),
           };
 
+          const newDesign = {
+            ...state.cvDocument.settings.design,
+            ...(template.defaultDesign || {}),
+          };
+          
+          console.log("Store: Updating template", { templateId, newMapping, newDesign });
+
           return {
             cvDocument: {
               ...state.cvDocument,
@@ -332,10 +339,7 @@ export const useCVStore = create<CVState>()(
                 templateId,
                 layoutStructure: layout,
                 columnMapping: newMapping,
-                design: {
-                  ...state.cvDocument.settings.design,
-                  ...(template.defaultDesign || {}),
-                },
+                design: newDesign,
               },
             },
           };
