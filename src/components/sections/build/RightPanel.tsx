@@ -80,7 +80,10 @@ export const RightPanel: React.FC = () => {
             transform: `scale(${zoom})`,
           }}
         >
-          <UnifiedRenderer key={cvDocument.settings.templateId} data={cvDocument} />
+          <UnifiedRenderer 
+            key={`${cvDocument.id}-${cvDocument.settings.templateId}`} 
+            data={cvDocument} 
+          />
         </div>
       </div>
     </div>

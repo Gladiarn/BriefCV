@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { templates } from "@/lib/templates";
 import type {
   ColumnLayout,
   ColumnMapping,
@@ -306,7 +307,6 @@ export const useCVStore = create<CVState>()(
         set((state) => {
           if (!state.cvDocument) return state;
 
-          const { templates } = require("@/lib/templates");
           const template = templates.find((t: any) => t.id === templateId) || templates[0];
           const layout = template.defaultLayout || "1-column";
 

@@ -201,6 +201,14 @@ export const templates: Template[] = [
     features: ["A4", "Two-tone design"],
     dimensions: "210mm x 297mm",
     defaultLayout: "2-column",
+    defaultDesign: {
+      primaryColor: "#4f46e5", // Indigo for Sidebar
+      spacing: "compact",
+    },
+    defaultMapping: {
+      leftColumn: ["header-1", "skills-1", "education-1"],
+      rightColumn: ["experience-1"],
+    },
     defaultData: {},
   },
   {
@@ -218,6 +226,10 @@ export const templates: Template[] = [
     features: ["A4", "Academic Focus"],
     dimensions: "210mm x 297mm",
     defaultLayout: "1-column",
+    defaultDesign: {
+      primaryColor: "#78350f", // Amber/Brown for Academic
+      fontFamily: "serif",
+    },
     defaultData: {},
   },
   {
@@ -235,6 +247,13 @@ export const templates: Template[] = [
     features: ["A4", "Creative typography"],
     dimensions: "210mm x 297mm",
     defaultLayout: "2-column",
+    defaultDesign: {
+      primaryColor: "#9333ea", // Purple for Creative
+    },
+    defaultMapping: {
+      leftColumn: ["header-1"],
+      rightColumn: ["experience-1", "education-1", "skills-1"],
+    },
     defaultData: {},
   },
   {
@@ -252,6 +271,14 @@ export const templates: Template[] = [
     features: ["A4", "Whitespace-focused"],
     dimensions: "210mm x 297mm",
     defaultLayout: "2-column",
+    defaultDesign: {
+      primaryColor: "#18181b", // Zinc-900 for Minimalist
+      spacing: "relaxed",
+    },
+    defaultMapping: {
+      leftColumn: ["header-1", "skills-1"],
+      rightColumn: ["experience-1", "education-1"],
+    },
     defaultData: {},
   },
   {
@@ -269,6 +296,9 @@ export const templates: Template[] = [
     features: ["A4", "AI Metrics"],
     dimensions: "210mm x 297mm",
     defaultLayout: "1-column",
+    defaultDesign: {
+      primaryColor: "#db2777", // Pink for Modern
+    },
     defaultData: {},
   },
   {
@@ -286,6 +316,13 @@ export const templates: Template[] = [
     features: ["ATS Optimized", "Geometric Layout"],
     dimensions: "210mm x 297mm",
     defaultLayout: "2-column",
+    defaultDesign: {
+      primaryColor: "#0f172a", // Slate-900 for Executive
+    },
+    defaultMapping: {
+      leftColumn: ["header-1", "education-1", "skills-1"],
+      rightColumn: ["experience-1"],
+    },
     defaultData: {},
   },
   {
@@ -303,6 +340,9 @@ export const templates: Template[] = [
     features: ["ATS Optimized", "Traditional Layout"],
     dimensions: "210mm x 297mm",
     defaultLayout: "1-column",
+    defaultDesign: {
+      primaryColor: "#2563eb", // Blue for Professional
+    },
     defaultData: {},
   },
   {
@@ -320,6 +360,9 @@ export const templates: Template[] = [
     features: ["Bold Typography", "High Contrast"],
     dimensions: "210mm x 297mm",
     defaultLayout: "1-column",
+    defaultDesign: {
+      primaryColor: "#000000", // Black for Zenith
+    },
     defaultData: {},
   },
 ];

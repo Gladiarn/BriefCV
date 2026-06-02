@@ -386,18 +386,22 @@ export const LeftPanel: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2">
                   {require("@/lib/templates").templates.map((t: any) => (
                     <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => updateTemplate(t.id)}
-                      className={cn(
-                        "text-[10px] font-bold uppercase tracking-widest p-3 rounded-xl border transition-all",
-                        cvDocument.settings.templateId === t.id
-                          ? "bg-primary text-primary-foreground border-primary"
-                          : "bg-card border-border hover:border-primary/50",
-                      )}
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      console.log("LeftPanel: Switching to template", t.id);
+                      updateTemplate(t.id);
+                    }}
+                    className={cn(
+                      "text-[10px] font-bold uppercase tracking-widest p-3 rounded-xl border transition-all",
+                      cvDocument.settings.templateId === t.id
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-card border-border hover:border-primary/50",
+                    )}
                     >
-                      {t.name}
+                    {t.name}
                     </button>
+
                   ))}
                 </div>
               </div>
