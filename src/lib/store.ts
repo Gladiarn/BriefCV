@@ -28,6 +28,7 @@ interface CVState {
   addSection: (type: SectionType) => void;
   removeSection: (sectionId: string) => void;
   updateLayoutStructure: (layout: ColumnLayout) => void;
+  updateTemplate: (templateId: string) => void;
   updateDesign: (design: Partial<CVDocument["settings"]["design"]>) => void;
   updateTitle: (title: string) => void;
   clearStore: () => void;
@@ -291,6 +292,46 @@ export const useCVStore = create<CVState>()(
                 ...state.cvDocument.settings,
                 layoutStructure: layout,
                 columnMapping: newMapping,
+              },
+            },
+          };
+        });
+      },
+
+      updateTemplate: (templateId) => {
+        set((state) => {
+          if (!state.cvDocument) return state;
+
+          const { templates } = require("@/lib/templates");
+          const template = templates.find((t: any) => t.id === templateId) || templates[0];
+          const layout = template.defaultLayout || "1-column";
+
+          const newMapping = {
+            leftColumn: layout !== "1-column" ? ["header-1"] : [],
+            middleColumn: [],
+            rightColumn:
+              layout !== "1-column"
+                ? ["experience-1", "education-1", "skills-1"]
+                : [],
+            mainColumn:
+              layout === "1-column"
+                ? ["header-1", "experience-1", "education-1", "skills-1"]
+                : [],
+            ...(template.defaultMapping || {}),
+          };
+
+          return {
+            cvDocument: {
+              ...state.cvDocument,
+              settings: {
+                ...state.cvDocument.settings,
+                templateId,
+                layoutStructure: layout,
+                columnMapping: newMapping,
+                design: {
+                  ...state.cvDocument.settings.design,
+                  ...(template.defaultDesign || {}),
+                },
               },
             },
           };
