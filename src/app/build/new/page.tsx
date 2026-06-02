@@ -44,8 +44,11 @@ function EditorContent() {
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
           }
+        } else if (storedDoc) {
+          // 2. Already have a document in store, keep it
+          doc = storedDoc;
         } else {
-          // 2. No ID provided, this is a fresh template selection
+          // 3. No ID provided, this is a fresh template selection
           clearStore();
           doc = await cvService.createDefaultDocument(templateId);
           // Sync URL with the new UUID

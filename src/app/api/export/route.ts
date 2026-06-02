@@ -11,7 +11,9 @@ export async function POST(req: Request) {
       ? (await import("puppeteer-core")).default
       : (await import("puppeteer")).default;
 
-    const chromium = isProduction ? (await import("@sparticuz/chromium")).default : null;
+    const chromium = isProduction
+      ? (await import("@sparticuz/chromium")).default
+      : null;
 
     const browser = await puppeteer.launch({
       ...(isProduction
@@ -64,7 +66,10 @@ export async function POST(req: Request) {
     console.error("Puppeteer PDF Error:", error);
     // Log more details if possible
     return NextResponse.json(
-      { error: "Failed to generate high-fidelity PDF", details: error instanceof Error ? error.message : "Unknown error" },
+      {
+        error: "Failed to generate high-fidelity PDF",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 },
     );
   }

@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@hello-pangea/dnd": "^18.0.1",
     "@react-pdf/renderer": "^4.5.1",
     "@sparticuz/chromium": "^148.0.0",
