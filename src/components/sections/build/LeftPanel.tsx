@@ -30,6 +30,7 @@ export const LeftPanel: React.FC = () => {
     reorderSections,
     addSection,
     updateLayoutStructure,
+    updateTemplate,
     updateDesign,
     updateTitle,
     updateField,
@@ -378,6 +379,29 @@ export const LeftPanel: React.FC = () => {
             </div>
 
             <div className="space-y-6">
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
+                  Select Template
+                </h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {require("@/lib/templates").templates.map((t: any) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => updateTemplate(t.id)}
+                      className={cn(
+                        "text-[10px] font-bold uppercase tracking-widest p-3 rounded-xl border transition-all",
+                        cvDocument.settings.templateId === t.id
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-card border-border hover:border-primary/50",
+                      )}
+                    >
+                      {t.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="space-y-3">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-primary/60 px-2">
                   Primary Color
