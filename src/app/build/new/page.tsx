@@ -3,7 +3,7 @@
 import { ChevronLeft, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { LeftPanel } from "@/components/sections/build/LeftPanel";
 import { RightPanel } from "@/components/sections/build/RightPanel";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,10 @@ function EditorContent() {
     _hasHydrated,
   } = useCVStore();
   const [isInitializing, setIsInitializing] = useState(true);
+  const prevParams = useRef<{ templateId: string; resumeId: string | null }>({
+    templateId: "",
+    resumeId: null,
+  });
 
   // Clear store on unmount when leaving Forge
   useEffect(() => {
@@ -32,13 +36,20 @@ function EditorContent() {
     // 1. Wait for Zustand to hydrate from localStorage
     if (!_hasHydrated) return;
 
+    const templateId = searchParams.get("template") || "modern";
+    const resumeId = searchParams.get("id");
+
+    // Prevent double initialization from history.replaceState
+    if (
+      prevParams.current.templateId === templateId &&
+      prevParams.current.resumeId === resumeId
+    )
+      return;
+
+    prevParams.current = { templateId, resumeId };
+
     const init = async () => {
-      // Avoid re-running init if we are already initializing (or if we already have a doc in store)
-      // unless the searchParams specifically changed in a way that requires it.
       setIsInitializing(true);
-      const templateId = searchParams.get("template") || "modern";
-      const resumeId = searchParams.get("id");
-      
       console.log("EditorContent: init START", { templateId, resumeId, hasDoc: !!storedDoc });
 
       try {
@@ -77,7 +88,7 @@ function EditorContent() {
     };
 
     init();
-  }, [searchParams, setCVDocument, clearStore, _hasHydrated]);
+  }, [searchParams, setCVDocument, clearStore, _hasHydrated, storedDoc]);
 
   if (isInitializing) {
     return (
