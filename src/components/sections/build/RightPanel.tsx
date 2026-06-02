@@ -70,17 +70,17 @@ export const RightPanel: React.FC = () => {
       <div className="flex-1 w-full overflow-auto custom-scrollbar flex flex-col items-center py-16">
         {/* A4 Sheet */}
         <div
-          id="cv-preview-content"
+          id={`cv-preview-${cvDocument.id}`}
           ref={targetRef}
           className={cn(
             "bg-white shadow-2xl origin-top transition-all duration-300",
-            "w-[210mm] min-h-[297mm] !block",
+            "w-[210mm] min-h-[297mm] !block cv-preview-element",
           )}
           style={{
             transform: `scale(${zoom})`,
           }}
         >
-          <UnifiedRenderer data={cvDocument} />
+          <UnifiedRenderer key={cvDocument.settings.templateId} data={cvDocument} />
         </div>
       </div>
     </div>

@@ -533,7 +533,7 @@ export const LeftPanel: React.FC = () => {
 
                 // 3. Get the innerHTML of the preview div
                 const previewElement =
-                  document.getElementById("cv-preview-content");
+                  document.getElementById(`cv-preview-${cvDocument.id}`);
                 if (!previewElement) {
                   setSaveStatus("error");
                   return;
@@ -548,7 +548,7 @@ export const LeftPanel: React.FC = () => {
                           <style>
                             ${cssText}
                             body { margin: 0; padding: 0; background: white; }
-                            #cv-preview-content { 
+                            .cv-preview-element { 
                               width: 210mm !important; 
                               min-height: 297mm !important;
                               transform: scale(1) !important;
@@ -558,7 +558,7 @@ export const LeftPanel: React.FC = () => {
                           </style>
                       </head>
                       <body>
-                        <div id="cv-preview-content">
+                        <div class="cv-preview-element">
                           ${previewElement.innerHTML}
                         </div>
                       </body>
