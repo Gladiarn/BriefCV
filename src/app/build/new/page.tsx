@@ -148,7 +148,7 @@ function EditorContent() {
       {/* Mobile Toggle Button */}
       <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex bg-background/90 backdrop-blur-md border border-border/60 rounded-full p-1 shadow-2xl">
         <Button
-          variant={mobileView === "editor" ? "default" : "ghost"}
+          variant={mobileView === "editor" ? "primary" : "ghost"}
           size="sm"
           className="rounded-full gap-2 px-4"
           onClick={() => setMobileView("editor")}
@@ -157,7 +157,7 @@ function EditorContent() {
           Edit
         </Button>
         <Button
-          variant={mobileView === "preview" ? "default" : "ghost"}
+          variant={mobileView === "preview" ? "primary" : "ghost"}
           size="sm"
           className="rounded-full gap-2 px-4"
           onClick={() => setMobileView("preview")}
