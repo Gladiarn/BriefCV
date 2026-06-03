@@ -1,9 +1,10 @@
 "use client";
 
-import { ChevronLeft, Loader2, Sparkles } from "lucide-react";
+import { ChevronLeft, Loader2, Sparkles, Eye, PenTool } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 import { LeftPanel } from "@/components/sections/build/LeftPanel";
 import { RightPanel } from "@/components/sections/build/RightPanel";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,8 @@ function EditorContent() {
     _hasHydrated,
   } = useCVStore();
   const [isInitializing, setIsInitializing] = useState(true);
+  const [mobileView, setMobileView] = useState<"editor" | "preview">("editor");
+
   const prevParams = useRef<{ templateId: string; resumeId: string | null }>({
     templateId: "",
     resumeId: null,
@@ -61,8 +64,6 @@ function EditorContent() {
           if (!doc) {
             doc = await cvService.createDefaultDocument(templateId);
           }
-          // REMOVED: The block that was forcing createDefaultDocument when templateId mismatched.
-          // Now we trust the database's version of the document's templateId.
         } else {
           // 5. No ID provided, this is a fresh template selection
           doc = await cvService.createDefaultDocument(templateId);
@@ -105,9 +106,13 @@ function EditorContent() {
   }
 
   return (
-    <div className="flex h-screen bg-muted/20 overflow-hidden relative">
+    <div className="flex flex-col md:flex-row h-screen bg-muted/20 overflow-hidden relative">
       {/* Sidebar - Left Panel */}
-      <aside className="w-[480px] h-full z-20 flex flex-col shadow-2xl bg-background border-r border-border">
+      <aside className={cn(
+        "z-20 flex flex-col shadow-2xl bg-background border-r border-border transition-all duration-300",
+        "w-full h-full md:w-[480px] md:h-full",
+        mobileView === "preview" ? "hidden md:flex" : "flex"
+      )}>
         <header className="p-4 border-b border-border flex items-center justify-between bg-background/50 backdrop-blur-md">
           <Link href="/build">
             <Button
@@ -116,13 +121,13 @@ function EditorContent() {
               className="gap-2 rounded-full font-bold text-[10px] uppercase tracking-wider"
             >
               <ChevronLeft className="w-4 h-4" />
-              Exit Forge
+              Exit
             </Button>
           </Link>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
             <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
-              Forge Active
+              Forge
             </span>
           </div>
         </header>
@@ -133,9 +138,34 @@ function EditorContent() {
       </aside>
 
       {/* Main Area - Right Panel (Preview) */}
-      <main className="flex-1 h-full relative bg-muted/5 overflow-hidden">
+      <main className={cn(
+        "flex-1 h-full relative bg-muted/5 overflow-hidden transition-all duration-300",
+        mobileView === "editor" ? "hidden md:flex" : "flex"
+      )}>
         <RightPanel />
       </main>
+
+      {/* Mobile Toggle Button */}
+      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex bg-background/90 backdrop-blur-md border border-border/60 rounded-full p-1 shadow-2xl">
+        <Button
+          variant={mobileView === "editor" ? "default" : "ghost"}
+          size="sm"
+          className="rounded-full gap-2 px-4"
+          onClick={() => setMobileView("editor")}
+        >
+          <PenTool className="w-4 h-4" />
+          Edit
+        </Button>
+        <Button
+          variant={mobileView === "preview" ? "default" : "ghost"}
+          size="sm"
+          className="rounded-full gap-2 px-4"
+          onClick={() => setMobileView("preview")}
+        >
+          <Eye className="w-4 h-4" />
+          Preview
+        </Button>
+      </div>
     </div>
   );
 }
