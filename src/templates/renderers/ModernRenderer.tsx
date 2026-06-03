@@ -27,9 +27,20 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
   if (!isMounted) return null;
 
   // Map settings to styles
-  const fontClass = fontFamily === "serif" ? "font-serif" : fontFamily === "mono" ? "font-mono" : "font-sans";
-  const sizeClass = fontSize === "sm" ? "text-sm" : fontSize === "lg" ? "text-lg" : "text-base";
-  const spaceClass = spacing === "compact" ? "gap-4" : spacing === "relaxed" ? "gap-12" : "gap-8";
+  const fontClass =
+    fontFamily === "serif"
+      ? "font-serif"
+      : fontFamily === "mono"
+        ? "font-mono"
+        : "font-sans";
+  const sizeClass =
+    fontSize === "sm" ? "text-sm" : fontSize === "lg" ? "text-lg" : "text-base";
+  const spaceClass =
+    spacing === "compact"
+      ? "gap-4"
+      : spacing === "relaxed"
+        ? "gap-12"
+        : "gap-8";
 
   const renderSection = (id: string) => {
     const section = sections[id];
@@ -156,7 +167,14 @@ export const ModernRenderer: React.FC<ModernRendererProps> = ({ data }) => {
   };
 
   return (
-    <div className={cn("h-full flex flex-col p-[15mm]", fontClass, sizeClass, spaceClass)}>
+    <div
+      className={cn(
+        "h-full flex flex-col p-[15mm]",
+        fontClass,
+        sizeClass,
+        spaceClass,
+      )}
+    >
       {settings?.layoutStructure === "1-column" ? (
         <div className={spaceClass}>
           {settings?.columnMapping?.mainColumn?.map(renderSection)}

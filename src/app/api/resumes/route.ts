@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       },
       { status: 201 },
     );
-  } catch (error: unknown) {
+  } catch (error) {
     const message =
       error instanceof Error ? error.message : "Server error during save";
     console.error("[Save Resume Error]:", message);
@@ -89,7 +89,7 @@ export async function GET() {
     const resumes = await Resume.find({ userId }).sort({ updatedAt: -1 });
 
     return NextResponse.json(resumes);
-  } catch (error: unknown) {
+  } catch (error) {
     const message =
       error instanceof Error ? error.message : "Server error fetching resumes";
     return NextResponse.json({ error: message }, { status: 500 });

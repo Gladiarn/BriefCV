@@ -76,7 +76,10 @@ export const LeftPanel: React.FC = () => {
         // Apply updates to the store
         Object.entries(data.updatedFields).forEach(([sectionId, updates]) => {
           // If updates has a "content" property, extract it to match what updateField expects
-          const contentToApply = (updates as any).content !== undefined ? (updates as any).content : updates;
+          const contentToApply =
+            (updates as any).content !== undefined
+              ? (updates as any).content
+              : updates;
           updateField(sectionId, "", contentToApply);
         });
 
@@ -388,22 +391,21 @@ export const LeftPanel: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2">
                   {require("@/lib/templates").templates.map((t: any) => (
                     <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => {
-                      console.log("LeftPanel: Switching to template", t.id);
-                      updateTemplate(t.id);
-                    }}
-                    className={cn(
-                      "text-[10px] font-bold uppercase tracking-widest p-3 rounded-xl border transition-all",
-                      cvDocument.settings.templateId === t.id
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-card border-border hover:border-primary/50",
-                    )}
+                      key={t.id}
+                      type="button"
+                      onClick={() => {
+                        console.log("LeftPanel: Switching to template", t.id);
+                        updateTemplate(t.id);
+                      }}
+                      className={cn(
+                        "text-[10px] font-bold uppercase tracking-widest p-3 rounded-xl border transition-all",
+                        cvDocument.settings.templateId === t.id
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-card border-border hover:border-primary/50",
+                      )}
                     >
-                    {t.name}
+                      {t.name}
                     </button>
-
                   ))}
                 </div>
               </div>
@@ -538,8 +540,9 @@ export const LeftPanel: React.FC = () => {
                 }
 
                 // 3. Get the innerHTML of the preview div
-                const previewElement =
-                  document.getElementById(`cv-preview-${cvDocument.id}`);
+                const previewElement = document.getElementById(
+                  `cv-preview-${cvDocument.id}`,
+                );
                 if (!previewElement) {
                   setSaveStatus("error");
                   return;

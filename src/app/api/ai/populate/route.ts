@@ -71,8 +71,14 @@ export async function POST(req: Request) {
       try {
         result = await model.generateContent(prompt);
         break;
-      } catch (error: any) {
-        if (error.status === 429 && retries > 1) {
+      } catch (error) {
+        if (
+          error &&
+          typeof error === "object" &&
+          "status" in error &&
+          error.status === 429 &&
+          retries > 1
+        ) {
           await new Promise((resolve) => setTimeout(resolve, 5000));
           retries--;
         } else {
@@ -90,7 +96,7 @@ export async function POST(req: Request) {
       // Robust JSON extraction
       const cleanJson = text
         .replace(/^```json\s*/, "") // Remove starting markdown block
-        .replace(/\s*```$/, "")      // Remove ending markdown block
+        .replace(/\s*```$/, "") // Remove ending markdown block
         .trim();
 
       updatedFields = JSON.parse(cleanJson);

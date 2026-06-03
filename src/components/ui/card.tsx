@@ -17,7 +17,7 @@ export function Card({ className, variant = "default", ...props }: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-7 transition-all",
+        "rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-7",
         variants[variant],
         className,
       )}

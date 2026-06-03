@@ -307,7 +307,8 @@ export const useCVStore = create<CVState>()(
         set((state) => {
           if (!state.cvDocument) return state;
 
-          const template = templates.find((t: any) => t.id === templateId) || templates[0];
+          const template =
+            templates.find((t: any) => t.id === templateId) || templates[0];
           const layout = template.defaultLayout || "1-column";
 
           const newMapping = {
@@ -328,7 +329,6 @@ export const useCVStore = create<CVState>()(
             ...state.cvDocument.settings.design,
             ...(template.defaultDesign || {}),
           };
-          
 
           return {
             cvDocument: {

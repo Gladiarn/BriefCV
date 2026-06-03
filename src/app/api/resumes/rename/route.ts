@@ -51,7 +51,7 @@ export async function PATCH(req: Request) {
       message: "Resume renamed successfully",
       resume,
     });
-  } catch (error: unknown) {
+  } catch (error) {
     const message =
       error instanceof Error ? error.message : "Server error during rename";
     console.error("[Rename Resume Error]:", message);

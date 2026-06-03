@@ -25,17 +25,31 @@ export const updateRefreshToken = async (
   await User.findByIdAndUpdate(userId, { refreshToken: token });
 };
 
-export const generateAccessToken = (userId: string, email: string) => {
-  return jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: "30m" });
+export const generateAccessToken = (
+  userId: string,
+  email: string,
+  role: string = "user",
+) => {
+  return jwt.sign({ userId, email, role }, JWT_SECRET, { expiresIn: "30m" });
 };
 
-export const generateRefreshToken = (userId: string, email: string) => {
-  return jwt.sign({ userId, email }, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+export const generateRefreshToken = (
+  userId: string,
+  email: string,
+  role: string = "user",
+) => {
+  return jwt.sign({ userId, email, role }, REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
 };
 
 export const verifyAccessToken = (token: string) => {
   try {
-    return jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
+    return jwt.verify(token, JWT_SECRET) as {
+      userId: string;
+      email: string;
+      role: string;
+    };
   } catch (_error) {
     return null;
   }

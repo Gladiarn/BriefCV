@@ -52,7 +52,7 @@ export async function POST() {
     });
 
     return response;
-  } catch (error: unknown) {
+  } catch (error) {
     const message =
       error instanceof Error
         ? error.message
