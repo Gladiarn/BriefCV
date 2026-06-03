@@ -9,7 +9,8 @@ import {
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const body = await req.json();
+    const { email, password } = body;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -18,12 +19,9 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log(`[Login] Attempting login for: ${email}`);
-
     const user = await findUserByEmail(email);
 
     if (!user) {
-      console.log(`[Login] User not found: ${email}`);
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 },
@@ -31,9 +29,6 @@ export async function POST(req: Request) {
     }
 
     if (!user.password) {
-      console.log(
-        `[Login] Attempted password login for Google-only user: ${email}`,
-      );
       return NextResponse.json(
         { error: "Please use Google login for this account" },
         { status: 400 },
@@ -42,46 +37,51 @@ export async function POST(req: Request) {
 
     const isMatch = await verifyPassword(password, user.password);
     if (!isMatch) {
-      console.log(`[Login] Password mismatch for: ${email}`);
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 },
       );
     }
 
-    const accessToken = generateAccessToken(user._id.toString(), user.email);
-    const refreshToken = generateRefreshToken(user._id.toString(), user.email);
+    const accessToken = generateAccessToken(
+      user._id.toString(),
+      user.email,
+      user.role,
+    );
+    const refreshToken = generateRefreshToken(
+      user._id.toString(),
+      user.email,
+      user.role,
+    );
 
     await updateRefreshToken(user._id.toString(), refreshToken);
 
-    console.log(`[Login] Successful login for: ${email}`);
-
     const response = NextResponse.json({
       message: "Logged in",
-      user: { email: user.email, name: user.name },
+      user: { email: user.email, name: user.name, role: user.role },
     });
 
     response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 30, // 30 mins
-      sameSite: "none",
+      secure: false,
+      maxAge: 60 * 30,
+      sameSite: "lax",
       path: "/",
     });
 
     response.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-      sameSite: "none",
+      secure: false,
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
       path: "/",
     });
 
     return response;
-  } catch (error: unknown) {
-    const message =
-      error instanceof Error ? error.message : "Server error during login";
-    console.error("[Login Error]:", message);
-    return NextResponse.json({ error: message }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json(
+      { error: "Server error during login" },
+      { status: 500 },
+    );
   }
 }

@@ -69,7 +69,7 @@ export async function POST(req: Request) {
     });
 
     return response;
-  } catch (error: unknown) {
+  } catch (error) {
     const message =
       error instanceof Error ? error.message : "Server error during signup";
     console.error("[Signup Error]:", message);

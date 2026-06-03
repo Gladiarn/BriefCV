@@ -49,7 +49,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Resume deleted successfully" });
-  } catch (error: unknown) {
+  } catch (error) {
     const message =
       error instanceof Error ? error.message : "Server error during delete";
     console.error("[Delete Resume Error]:", message);

@@ -24,6 +24,11 @@ const UserSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    role: {
+      type: String,
+      default: "user",
+      enum: ["user", "admin"],
+    },
     // References to user's resumes
     resumes: [
       {

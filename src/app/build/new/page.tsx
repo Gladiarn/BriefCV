@@ -68,7 +68,11 @@ function EditorContent() {
           // 5. No ID provided, this is a fresh template selection
           doc = await cvService.createDefaultDocument(templateId);
           // Sync URL with the new UUID, preserving templateId
-          window.history.replaceState(null, "", `/build/new?id=${doc.id}&template=${templateId}`);
+          window.history.replaceState(
+            null,
+            "",
+            `/build/new?id=${doc.id}&template=${templateId}`,
+          );
         }
 
         if (doc) {
@@ -108,11 +112,13 @@ function EditorContent() {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-muted/20 overflow-hidden relative">
       {/* Sidebar - Left Panel */}
-      <aside className={cn(
-        "z-20 flex flex-col shadow-2xl bg-background border-r border-border transition-all duration-300",
-        "w-full h-full md:w-[480px] md:h-full",
-        mobileView === "preview" ? "hidden md:flex" : "flex"
-      )}>
+      <aside
+        className={cn(
+          "z-20 flex flex-col shadow-2xl bg-background border-r border-border transition-all duration-300",
+          "w-full h-full md:w-[480px] md:h-full",
+          mobileView === "preview" ? "hidden md:flex" : "flex",
+        )}
+      >
         <header className="p-4 border-b border-border flex items-center justify-between bg-background/50 backdrop-blur-md">
           <Link href="/build">
             <Button
@@ -138,10 +144,12 @@ function EditorContent() {
       </aside>
 
       {/* Main Area - Right Panel (Preview) */}
-      <main className={cn(
-        "flex-1 h-full relative bg-muted/5 overflow-hidden transition-all duration-300",
-        mobileView === "editor" ? "hidden md:flex" : "flex"
-      )}>
+      <main
+        className={cn(
+          "flex-1 h-full relative bg-muted/5 overflow-hidden transition-all duration-300",
+          mobileView === "editor" ? "hidden md:flex" : "flex",
+        )}
+      >
         <RightPanel />
       </main>
 

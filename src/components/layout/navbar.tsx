@@ -45,11 +45,12 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [checkSession]);
 
-  // Hide Navbar on the Forge (Editor) page, Login and Signup pages
+  // Hide Navbar on the Forge (Editor) page, Login, Signup and Admin pages
   if (
     pathname === "/build/new" ||
     pathname === "/login" ||
-    pathname === "/signup"
+    pathname === "/signup" ||
+    pathname.startsWith("/admin")
   )
     return null;
 
@@ -86,7 +87,7 @@ export function Navbar() {
             <div className="bg-primary-gradient p-1.5 rounded-lg transition-transform duration-300 group-hover:rotate-12 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="text-base font-bold tracking-tight">BriefCV</span>
+            <span className="text-base font-bold tracking-tight text-gradient">BriefCV</span>
           </Link>
 
           {/* Desktop Navigation - Hidden on Mobile */}

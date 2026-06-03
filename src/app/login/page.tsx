@@ -101,11 +101,17 @@ function AuthPageContent() {
       if (isLogin) {
         setUser(data.user);
         setTimeout(() => {
-          router.push("/build");
+          if (data.user.role === "admin") {
+            router.push("/admin/dashboard");
+          } else {
+            router.push("/build");
+          }
         }, 800);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      setError(message);
       setStatus("error");
     }
   };
