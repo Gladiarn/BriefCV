@@ -47,7 +47,7 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
           variant="ghost"
           size="sm"
           onClick={onToggle}
-          className="h-8 w-8 shrink-0 p-0 cursor-pointer"
+          className="h-8 w-8 shrink-0 p-0 cursor-pointer hidden md:flex"
         >
           {isExpanded ? (
             <ChevronLeft className="h-4 w-4" />

@@ -1,13 +1,18 @@
 "use client";
 
-import { ChevronDown, LogOut, Sparkles } from "lucide-react";
+import { ChevronDown, LogOut, Sparkles, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthStore } from "@/lib/auth-store";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "../ui/mode-toggle";
 
-export function AdminNavbar() {
+interface AdminNavbarProps {
+  onMenuClick: () => void;
+  isMobileOpen: boolean;
+}
+
+export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
   const { user, logout } = useAuthStore();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -30,19 +35,30 @@ export function AdminNavbar() {
 
   return (
     <header className="h-16 border-b border-border bg-background sticky top-0 z-40 w-full shrink-0">
-      <div className="h-full px-6 flex items-center justify-between">
-        {/* Logo and Name */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="bg-primary-gradient p-1.5 rounded-lg shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-white" />
-          </div>
-          <span className="text-base font-bold tracking-tight text-gradient">
-            BriefCV
-          </span>
-          <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-2 bg-secondary/50 px-2.5 py-1 rounded-full border border-border/40">
-            Admin
-          </span>
-        </Link>
+      <div className="h-full px-4 md:px-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={onMenuClick}
+            className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+
+          {/* Logo and Name */}
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="bg-primary-gradient p-1.5 rounded-lg shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="text-base font-bold tracking-tight text-gradient">
+              BriefCV
+            </span>
+            <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-2 bg-secondary/50 px-2.5 py-1 rounded-full border border-border/40">
+              Admin
+            </span>
+          </Link>
+        </div>
 
         {/* Right side actions */}
         <div className="flex items-center gap-3">
