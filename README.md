@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BriefCV
+
+BriefCV is a high-performance, ATS-optimized CV builder designed to help professionals craft impactful resumes that stand out.
+
+## Key Features
+
+- **ATS-Optimized Templates:** Choose from professionally crafted, ATS-friendly templates to ensure your resume reaches human recruiters.
+- **AI-Powered Builder:** Utilize AI to rapidly populate sections based on your professional experience and essays.
+- **Responsive Editor:** A seamless, mobile-first builder experience allowing you to edit and preview your resume on any device.
+- **High-Fidelity Export:** Generate professional PDF resumes with high-fidelity formatting.
+- **Flexible Customization:** Advanced layout control, including column management and design styling.
+
+## Tech Stack
+
+BriefCV is built using modern web standards for speed, security, and scalability:
+
+- **Framework:** [Next.js](https://nextjs.org/) 16 (App Router)
+- **Library:** [React](https://react.dev/) 19
+- **Database:** [MongoDB](https://www.mongodb.com/) & [Mongoose](https://mongoosejs.com/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) 4
+- **State Management:** [Zustand](https://zustand.docs.pmnd.rs/)
+- **PDF Generation:** [Puppeteer](https://pptr.dev/) & [react-to-pdf](https://www.npmjs.com/package/react-to-pdf)
+- **AI Integration:** [@google/generative-ai](https://www.npmjs.com/package/@google/generative-ai)
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Gladiarn/BriefCV.git
+   cd briefcv
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Configure environment variables:**
+   Create a `.env.local` file in the root directory and add necessary configuration (e.g., MongoDB URI, API keys).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Learn More
+## Development & Contribution
 
-To learn more about Next.js, take a look at the following resources:
+- **Linting:** `npm run lint`
+- **Formatting:** `npm run format`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions, issues, and feature requests are welcome!

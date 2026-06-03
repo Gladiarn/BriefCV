@@ -36,7 +36,7 @@ export const RightPanel: React.FC = () => {
   return (
     <div className="flex-1 h-full bg-secondary/10 overflow-hidden flex flex-col items-center relative">
       {/* Zoom Controls Overlay */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-background/80 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-2xl">
+      <div className="absolute bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-background/80 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-2xl">
         <Button
           variant="ghost"
           size="sm"
