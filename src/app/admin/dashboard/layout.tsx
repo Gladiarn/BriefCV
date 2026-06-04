@@ -54,18 +54,22 @@ export default function AdminDashboardLayout({
     <div className="flex h-screen bg-background text-foreground overflow-hidden">
       {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-[45] md:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
       {/* Sidebar Container */}
-      <div className={cn(
-        "fixed inset-y-0 left-0 z-[50] h-full shrink-0 transition-all duration-300 ease-in-out",
-        isMobileOpen ? "translate-x-0 w-60" : "-translate-x-full w-0 md:translate-x-0 md:relative",
-        isSidebarExpanded ? "md:w-60" : "md:w-16"
-      )}>
+      <div
+        className={cn(
+          "fixed inset-y-0 left-0 z-[50] h-full shrink-0 transition-all duration-300 ease-in-out",
+          isMobileOpen
+            ? "translate-x-0 w-60"
+            : "-translate-x-full w-0 md:translate-x-0 md:relative",
+          isSidebarExpanded ? "md:w-60" : "md:w-16",
+        )}
+      >
         <AdminSidebar
           isExpanded={isSidebarExpanded}
           onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
@@ -74,13 +78,11 @@ export default function AdminDashboardLayout({
 
       {/* Main Body */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
-        <AdminNavbar 
-          onMenuClick={() => setIsMobileOpen(!isMobileOpen)} 
+        <AdminNavbar
+          onMenuClick={() => setIsMobileOpen(!isMobileOpen)}
           isMobileOpen={isMobileOpen}
         />
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
     <aside
       className={cn(
         "h-full border-r border-border flex flex-col bg-background z-50 overflow-hidden shrink-0",
-        isExpanded ? "w-60" : "w-16"
+        isExpanded ? "w-60" : "w-16",
       )}
     >
       <div className="p-4 flex items-center justify-between border-b border-border h-16 shrink-0">
@@ -76,7 +76,7 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
               <item.icon
                 className={cn(
                   "h-5 w-5 shrink-0",
-                  isActive ? "text-primary" : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-muted-foreground",
                 )}
               />
               {isExpanded && (

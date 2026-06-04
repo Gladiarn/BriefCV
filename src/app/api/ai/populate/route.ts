@@ -95,14 +95,14 @@ export async function POST(req: Request) {
     // Log usage
     const usage = response.usageMetadata;
     if (usage && cvDocument.userId) {
-        await dbConnect();
-        await Usage.create({
-            userId: cvDocument.userId,
-            promptTokens: usage.promptTokenCount,
-            completionTokens: usage.candidatesTokenCount,
-            totalTokens: usage.totalTokenCount,
-            model: modelName
-        });
+      await dbConnect();
+      await Usage.create({
+        userId: cvDocument.userId,
+        promptTokens: usage.promptTokenCount,
+        completionTokens: usage.candidatesTokenCount,
+        totalTokens: usage.totalTokenCount,
+        model: modelName,
+      });
     }
 
     // Parse the AI response as JSON

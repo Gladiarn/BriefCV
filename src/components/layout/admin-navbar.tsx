@@ -20,7 +20,7 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
   const router = useRouter();
 
   const toggleProfile = useCallback(() => {
-    setIsProfileOpen(prev => !prev);
+    setIsProfileOpen((prev) => !prev);
   }, []);
 
   const handleLogout = useCallback(async () => {
@@ -31,7 +31,10 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsProfileOpen(false);
       }
     };
@@ -51,7 +54,11 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
             className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors cursor-pointer"
             aria-label="Toggle Menu"
           >
-            {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
 
           {/* Logo and Name */}
@@ -86,16 +93,18 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
               </div>
               <div className="hidden md:flex flex-col items-start leading-none mr-1">
                 <span className="text-[11px] font-black truncate max-w-[120px]">
-                  {user?.email?.split('@')[0]}
+                  {user?.email?.split("@")[0]}
                 </span>
                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
                   Admin
                 </span>
               </div>
-              <ChevronDown className={cn(
-                "h-3.5 w-3.5 text-muted-foreground",
-                isProfileOpen && "rotate-180"
-              )} />
+              <ChevronDown
+                className={cn(
+                  "h-3.5 w-3.5 text-muted-foreground",
+                  isProfileOpen && "rotate-180",
+                )}
+              />
             </button>
 
             {/* Dropdown Menu */}

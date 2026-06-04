@@ -1,6 +1,12 @@
-import React from 'react';
+import React from "react";
 
-export default function TimeRangeFilter({ value, onChange }: { value: string, onChange: (value: string) => void }) {
+export default function TimeRangeFilter({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
   return (
     <select
       value={value}

@@ -10,7 +10,7 @@ export function UnauthorizedPage() {
       {/* Immersive background elements */}
       <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 left-0 w-[40%] h-[40%] bg-primary-purple/5 blur-[120px] rounded-full -translate-x-1/2 translate-y-1/2" />
-      
+
       <div className="relative z-10 max-w-2xl w-full text-center">
         {/* Artistic Icon Group */}
         <div className="relative inline-block mb-8">
@@ -35,7 +35,9 @@ export function UnauthorizedPage() {
           </div>
 
           <p className="text-lg md:text-xl font-medium text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            You don't have the administrative clearances required to forge within this sector. This area is restricted to system administrators only.
+            You don't have the administrative clearances required to forge
+            within this sector. This area is restricted to system administrators
+            only.
           </p>
 
           {/* Actions */}
@@ -46,9 +48,13 @@ export function UnauthorizedPage() {
                 Go Back Home
               </Button>
             </Link>
-            
+
             <Link href="/login" className="w-full sm:w-auto">
-              <Button variant="outline" size="xl" className="w-full sm:w-auto px-10 border-border/50 hover:bg-secondary">
+              <Button
+                variant="outline"
+                size="xl"
+                className="w-full sm:w-auto px-10 border-border/50 hover:bg-secondary"
+              >
                 Switch Account
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>

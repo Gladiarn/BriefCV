@@ -23,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       className={cn(
         "border-r border-border p-6 transition-all duration-300 flex flex-col gap-8 fixed md:static inset-y-0 z-50 bg-background",
         isExpanded ? "w-64" : "w-20",
-        className
+        className,
       )}
     >
       <div className="flex items-center justify-between">
