@@ -3,12 +3,19 @@
 import { useEffect, useState } from "react";
 import { Activity, FileText, LayoutDashboard, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+
+interface DailyUsage {
+  date: string;
+  tokens: number;
+}
 
 interface Stats {
   totalUsers: number;
   totalResumes: number;
   templatesUsedCount: number;
   aiUtilization: number;
+  dailyUsage: DailyUsage[];
 }
 
 export default function AdminDashboardPage() {
@@ -59,9 +66,20 @@ export default function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 transition-none">
-          <h2 className="text-xl font-bold mb-4">System Activity</h2>
-          <div className="h-64 flex items-center justify-center border-2 border-dashed border-border rounded-xl">
-            <p className="text-muted-foreground">Activity chart placeholder</p>
+          <h2 className="text-xl font-bold mb-4">AI Usage (Tokens - Last 7 Days)</h2>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={stats?.dailyUsage || []}>
+                <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
+                <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                <Bar dataKey="tokens" radius={[4, 4, 0, 0]}>
+                    {(stats?.dailyUsage || []).map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill="#ec4899" />
+                    ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </Card>
         <Card className="transition-none">

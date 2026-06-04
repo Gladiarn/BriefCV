@@ -21,11 +21,27 @@ export async function GET() {
     ]);
     const totalTokens = aiStats.length > 0 ? aiStats[0].totalTokens : 0;
 
+    // Daily usage for the last 7 days
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const dailyUsage = await Usage.aggregate([
+        { $match: { createdAt: { $gte: sevenDaysAgo } } },
+        {
+            $group: {
+                _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                tokens: { $sum: "$totalTokens" }
+            }
+        },
+        { $sort: { _id: 1 } }
+    ]);
+
     return NextResponse.json({
       totalUsers,
       totalResumes,
       templatesUsedCount,
-      aiUtilization: totalTokens // Sending total tokens consumed as utilization
+      aiUtilization: totalTokens,
+      dailyUsage: dailyUsage.map(d => ({ date: d._id, tokens: d.tokens }))
     });
 
   } catch (error) {
