@@ -30,16 +30,19 @@ export async function POST(req: Request) {
       );
     }
 
-    const newUser = await createUser(email, password);
+    // Strictly enforce 'user' role for all new signups to prevent privilege escalation
+    const newUser = await createUser(email, password, "user");
     console.log(`[Signup] Successfully created user: ${newUser.email}`);
 
     const accessToken = generateAccessToken(
       newUser._id.toString(),
       newUser.email,
+      newUser.role,
     );
     const refreshToken = generateRefreshToken(
       newUser._id.toString(),
       newUser.email,
+      newUser.role,
     );
 
     await updateRefreshToken(newUser._id.toString(), refreshToken);
@@ -47,7 +50,7 @@ export async function POST(req: Request) {
     const response = NextResponse.json(
       {
         message: "User created",
-        user: { email: newUser.email, name: newUser.name },
+        user: { email: newUser.email, name: newUser.name, role: newUser.role },
       },
       { status: 201 },
     );

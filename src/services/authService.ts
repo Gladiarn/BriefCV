@@ -70,10 +70,14 @@ export const generateToken = (userId: string, email: string) => {
   return generateAccessToken(userId, email);
 };
 
-export const createUser = async (email: string, password: string) => {
+export const createUser = async (
+  email: string,
+  password?: string,
+  role: "user" | "admin" = "user",
+) => {
   await dbConnect();
-  const hashedPassword = await hashPassword(password);
-  const user = await User.create({ email, password: hashedPassword });
+  const hashedPassword = password ? await hashPassword(password) : undefined;
+  const user = await User.create({ email, password: hashedPassword, role });
   return user;
 };
 

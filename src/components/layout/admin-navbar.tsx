@@ -3,6 +3,7 @@
 import { ChevronDown, LogOut, Sparkles, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/auth-store";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "../ui/mode-toggle";
@@ -16,10 +17,17 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
   const { user, logout } = useAuthStore();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const toggleProfile = useCallback(() => {
     setIsProfileOpen(prev => !prev);
   }, []);
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+    setIsProfileOpen(false);
+    router.push("/");
+  }, [logout, router]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -105,10 +113,7 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
                 <div className="h-px bg-border/40 my-1 mx-1" />
 
                 <button
-                  onClick={() => {
-                    logout();
-                    setIsProfileOpen(false);
-                  }}
+                  onClick={handleLogout}
                   className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-destructive hover:bg-destructive/5 group text-left cursor-pointer"
                 >
                   <LogOut className="h-4 w-4 shrink-0" />
