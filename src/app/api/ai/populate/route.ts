@@ -1,6 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { aiConfig } from "@/lib/ai";
+import dbConnect from "@/lib/db";
+import Usage from "@/models/Usage";
 
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(aiConfig.apiKey || "");
@@ -16,8 +18,9 @@ export async function POST(req: Request) {
       );
     }
 
+    const modelName = aiConfig.model || "gemini-1.5-flash";
     const model = genAI.getGenerativeModel({
-      model: aiConfig.model || "gemini-1.5-flash",
+      model: modelName,
     });
 
     const prompt = `
@@ -76,7 +79,7 @@ export async function POST(req: Request) {
           error &&
           typeof error === "object" &&
           "status" in error &&
-          error.status === 429 &&
+          (error as any).status === 429 &&
           retries > 1
         ) {
           await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -88,7 +91,19 @@ export async function POST(req: Request) {
     }
     const response = await result.response;
     const text = response.text();
-    console.log("AI Response Text:", text);
+
+    // Log usage
+    const usage = response.usageMetadata;
+    if (usage && cvDocument.userId) {
+        await dbConnect();
+        await Usage.create({
+            userId: cvDocument.userId,
+            promptTokens: usage.promptTokenCount,
+            completionTokens: usage.candidatesTokenCount,
+            totalTokens: usage.totalTokenCount,
+            model: modelName
+        });
+    }
 
     // Parse the AI response as JSON
     let updatedFields: Record<string, any>;

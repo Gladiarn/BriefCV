@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import User from "@/models/User";
 import Resume from "@/models/Resume";
+import Usage from "@/models/Usage";
 
 export async function GET() {
   try {
@@ -14,18 +15,19 @@ export async function GET() {
     // Distinct template usage
     const templatesUsedCount = await Resume.distinct("settings.templateId").then(t => t.length);
 
-    // AI Utilization (Assuming Resume sections might contain AI generated content)
-    // For now, let's count resumes that have at least one AI-related field or just total resumes as a proxy
-    const aiResumes = await Resume.countDocuments({ 
-        "sections.experience.aiGenerated": { $exists: true } 
-    });
+    // AI Utilization: Total tokens consumed
+    const aiStats = await Usage.aggregate([
+        { $group: { _id: null, totalTokens: { $sum: "$totalTokens" } } }
+    ]);
+    const totalTokens = aiStats.length > 0 ? aiStats[0].totalTokens : 0;
 
     return NextResponse.json({
       totalUsers,
       totalResumes,
       templatesUsedCount,
-      aiUtilization: aiResumes
+      aiUtilization: totalTokens // Sending total tokens consumed as utilization
     });
+
   } catch (error) {
     console.error("[Admin Stats Error]:", error);
     return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 });
