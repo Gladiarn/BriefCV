@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Activity, FileText, LayoutDashboard, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+
+// Dynamic import for chart components to avoid SSR/hydration issues
+const BarChart = dynamic(() => import("recharts").then((mod) => mod.BarChart), { ssr: false, loading: () => <div className="h-64 w-full flex items-center justify-center">Loading chart...</div> });
+const Bar = dynamic(() => import("recharts").then((mod) => mod.Bar), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then((mod) => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then((mod) => mod.YAxis), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then((mod) => mod.Tooltip), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => mod.ResponsiveContainer), { ssr: false });
+const Cell = dynamic(() => import("recharts").then((mod) => mod.Cell), { ssr: false });
 
 interface DailyUsage {
   date: string;
@@ -69,16 +78,22 @@ export default function AdminDashboardPage() {
           <h2 className="text-xl font-bold mb-4">AI Usage (Tokens - Last 7 Days)</h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={stats?.dailyUsage || []}>
-                <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
-                <Bar dataKey="tokens" radius={[4, 4, 0, 0]}>
-                    {(stats?.dailyUsage || []).map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill="#ec4899" />
-                    ))}
-                </Bar>
-              </BarChart>
+              {stats?.dailyUsage && stats.dailyUsage.length > 0 ? (
+                <BarChart data={stats.dailyUsage}>
+                    <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
+                    <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                    <Bar dataKey="tokens" radius={[4, 4, 0, 0]}>
+                        {stats.dailyUsage.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill="#ec4899" />
+                        ))}
+                    </Bar>
+                </BarChart>
+              ) : (
+                <div className="h-full flex items-center justify-center text-muted-foreground text-sm">
+                  No activity data available.
+                </div>
+              )}
             </ResponsiveContainer>
           </div>
         </Card>
