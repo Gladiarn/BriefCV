@@ -6,13 +6,10 @@ import { Activity, FileText, LayoutDashboard, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 // Dynamic import for chart components to avoid SSR/hydration issues
-const BarChart = dynamic(() => import("recharts").then((mod) => mod.BarChart), { ssr: false, loading: () => <div className="h-64 w-full flex items-center justify-center">Loading chart...</div> });
-const Bar = dynamic(() => import("recharts").then((mod) => mod.Bar), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then((mod) => mod.XAxis), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then((mod) => mod.YAxis), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((mod) => mod.Tooltip), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => mod.ResponsiveContainer), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((mod) => mod.Cell), { ssr: false });
+const ActivityChart = dynamic(() => import("@/components/admin/ActivityChart"), { 
+    ssr: false,
+    loading: () => <div className="h-64 w-full flex items-center justify-center">Loading chart...</div> 
+});
 
 interface DailyUsage {
   date: string;
@@ -35,10 +32,14 @@ export default function AdminDashboardPage() {
     fetch("/api/admin/stats")
       .then((res) => res.json())
       .then((data) => {
+        console.log("Dashboard Stats Data:", data);
         setStats(data);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("Dashboard Stats Fetch Error:", err);
+        setLoading(false);
+      });
   }, []);
 
   const statConfig = [
@@ -76,26 +77,7 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 transition-none">
           <h2 className="text-xl font-bold mb-4">AI Usage (Tokens - Last 7 Days)</h2>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              {stats?.dailyUsage && stats.dailyUsage.length > 0 ? (
-                <BarChart data={stats.dailyUsage}>
-                    <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                    <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                    <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
-                    <Bar dataKey="tokens" radius={[4, 4, 0, 0]}>
-                        {stats.dailyUsage.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill="#ec4899" />
-                        ))}
-                    </Bar>
-                </BarChart>
-              ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground text-sm">
-                  No activity data available.
-                </div>
-              )}
-            </ResponsiveContainer>
-          </div>
+          <ActivityChart data={stats?.dailyUsage || []} />
         </Card>
         <Card className="transition-none">
           <h2 className="text-xl font-bold mb-4">Quick Actions</h2>

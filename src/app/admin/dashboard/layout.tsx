@@ -37,7 +37,7 @@ export default function AdminDashboardLayout({
   if (isChecking) {
     return (
       <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background gap-4">
-        <Sparkles className="w-12 h-12 text-primary/20 animate-pulse" />
+        <Sparkles className="w-12 h-12 text-primary/20" />
         <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/40">
           Authenticating Administrator...
         </p>
@@ -62,7 +62,7 @@ export default function AdminDashboardLayout({
 
       {/* Sidebar Container */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-[50] md:relative md:flex h-full shrink-0 transition-transform duration-200 ease-in-out",
+        "fixed inset-y-0 left-0 z-[50] md:relative md:flex h-full shrink-0",
         isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       )}>
         <AdminSidebar 

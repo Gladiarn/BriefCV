@@ -31,14 +31,14 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
   return (
     <aside
       className={cn(
-        "h-full border-r border-border flex flex-col bg-background z-50 overflow-hidden shrink-0 transition-[width] duration-200 ease-in-out will-change-[width]",
+        "h-full border-r border-border flex flex-col bg-background z-50 overflow-hidden shrink-0",
         isExpanded ? "w-60" : "w-16"
       )}
     >
       <div className="p-4 flex items-center justify-between border-b border-border h-16 shrink-0">
         <div className="flex items-center overflow-hidden flex-1">
           {isExpanded && (
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground ml-2 whitespace-nowrap animate-in fade-in duration-200">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground ml-2 whitespace-nowrap">
               Admin Panel
             </span>
           )}
@@ -65,11 +65,11 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center rounded-lg border border-transparent cursor-pointer transition-all duration-200",
+                "flex items-center rounded-lg border border-transparent cursor-pointer",
                 isExpanded ? "gap-3 px-3 py-2.5" : "justify-center py-2.5 mx-1",
                 isActive
                   ? "bg-primary/10 text-primary border-primary/20"
-                  : "text-muted-foreground hover:bg-secondary/80",
+                  : "text-muted-foreground hover:bg-secondary",
               )}
               title={!isExpanded ? item.name : ""}
             >
@@ -80,7 +80,7 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
                 )}
               />
               {isExpanded && (
-                <span className="text-sm font-bold tracking-tight whitespace-nowrap overflow-hidden animate-in fade-in slide-in-from-left-1 duration-200">
+                <span className="text-sm font-bold tracking-tight whitespace-nowrap overflow-hidden">
                   {item.name}
                 </span>
               )}
@@ -91,7 +91,7 @@ export function AdminSidebar({ isExpanded, onToggle }: AdminSidebarProps) {
 
       <div className="p-4 border-t border-border shrink-0 min-h-[4rem] flex items-center">
         {isExpanded ? (
-          <div className="flex flex-col animate-in fade-in duration-200">
+          <div className="flex flex-col">
             <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
               System Status
             </span>
