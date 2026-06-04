@@ -103,14 +103,28 @@ export default function AdminDashboardPage() {
         </Card>
 
         {/* Small Widgets */}
-        <Card className="col-span-1">
+        <Card className="col-span-1 flex flex-col">
           <h2 className="text-xl font-bold mb-6 flex items-center gap-2"><UserPlus className="w-5 h-5 text-purple-500"/> Registrations</h2>
-          <LazyChart data={stats?.dailyUsers || []} dataKey="count" fill="#8b5cf6" type="line" />
+          <div className="flex-1 min-h-[200px]">
+            <LazyChart 
+              data={(stats?.dailyUsers || []).map(d => ({ ...d, count: Math.floor(d.count) }))} 
+              dataKey="count" 
+              fill="#8b5cf6" 
+              type="line" 
+            />
+          </div>
         </Card>
 
-        <Card className="col-span-1 md:col-span-2 lg:col-span-1">
+        <Card className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col">
           <h2 className="text-xl font-bold mb-6 flex items-center gap-2"><FilePlus className="w-5 h-5 text-emerald-500"/> Resume Creations</h2>
-          <LazyChart data={stats?.dailyResumes || []} dataKey="count" fill="#10b981" type="bar" />
+          <div className="flex-1 min-h-[200px]">
+            <LazyChart 
+              data={(stats?.dailyResumes || []).map(d => ({ ...d, count: Math.floor(d.count) }))} 
+              dataKey="count" 
+              fill="#10b981" 
+              type="bar" 
+            />
+          </div>
         </Card>
 
         {/* Quick Actions */}
