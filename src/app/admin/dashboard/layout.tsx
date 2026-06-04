@@ -5,6 +5,9 @@ import { AdminSidebar } from "@/components/layout/admin-sidebar";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/lib/auth-store";
+import { UnauthorizedPage } from "@/components/shared/unauthorized-page";
+import { Sparkles } from "lucide-react";
 
 export default function AdminDashboardLayout({
   children,
@@ -13,12 +16,39 @@ export default function AdminDashboardLayout({
 }) {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const { user, checkSession } = useAuthStore();
   const pathname = usePathname();
+
+  // Initial session check
+  useEffect(() => {
+    const init = async () => {
+      await checkSession();
+      setIsChecking(false);
+    };
+    init();
+  }, [checkSession]);
 
   // Close mobile sidebar on navigation
   useEffect(() => {
     setIsMobileOpen(false);
   }, [pathname]);
+
+  if (isChecking) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background gap-4">
+        <Sparkles className="w-12 h-12 text-primary/20 animate-pulse" />
+        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/40">
+          Authenticating Administrator...
+        </p>
+      </div>
+    );
+  }
+
+  // If not logged in or not an admin, show unauthorized screen
+  if (!user || user.role !== "admin") {
+    return <UnauthorizedPage />;
+  }
 
   return (
     <div className="flex h-screen bg-background text-foreground overflow-hidden">
