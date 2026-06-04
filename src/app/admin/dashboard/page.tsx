@@ -1,12 +1,35 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Activity, FileText, LayoutDashboard, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
+interface Stats {
+  totalUsers: number;
+  totalResumes: number;
+  templatesUsedCount: number;
+  aiUtilization: number;
+}
+
 export default function AdminDashboardPage() {
-  const stats = [
-    { id: "total-users", title: "Total Users", value: "1,234", icon: Users },
-    { id: "active-resumes", title: "Active Resumes", value: "856", icon: FileText },
-    { id: "templates-used", title: "Templates Used", value: "42", icon: LayoutDashboard },
-    { id: "system-health", title: "System Health", value: "98%", icon: Activity },
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/admin/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        setStats(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const statConfig = [
+    { id: "users", title: "Total Users", value: stats?.totalUsers || 0, icon: Users },
+    { id: "resumes", title: "Total Resumes", value: stats?.totalResumes || 0, icon: FileText },
+    { id: "templates", title: "Templates Used", value: stats?.templatesUsedCount || 0, icon: LayoutDashboard },
+    { id: "ai", title: "AI Utilization", value: stats?.aiUtilization || 0, icon: Activity },
   ];
 
   return (
@@ -19,7 +42,7 @@ export default function AdminDashboardPage() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => (
+        {statConfig.map((stat) => (
           <Card key={stat.id} className="border transition-none hover:border-primary">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -27,7 +50,9 @@ export default function AdminDashboardPage() {
               </h3>
               <stat.icon className="w-4 h-4 text-primary" />
             </div>
-            <div className="text-3xl font-black mt-2">{stat.value}</div>
+            <div className="text-3xl font-black mt-2">
+              {loading ? "..." : stat.value}
+            </div>
           </Card>
         ))}
       </div>

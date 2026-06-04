@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
+import AdminNotFound from "../not-found";
 
 export default function AdminCatchAll() {
-  notFound();
+  return <AdminNotFound />;
 }
