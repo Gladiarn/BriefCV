@@ -30,7 +30,7 @@ const Calendar = () => {
     return (
         <div className="bg-card border border-border rounded-2xl p-5 shadow-sm">
             {/* Controls */}
-            <div className="flex items-center justify-between mb-6 gap-2">
+            <div className="flex items-center justify-center mb-6 gap-2">
                 <select
                     value={currentDate.getMonth()}
                     onChange={(e) => changeMonth(parseInt(e.target.value))}
