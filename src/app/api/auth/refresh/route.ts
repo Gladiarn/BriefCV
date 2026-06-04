@@ -36,11 +36,15 @@ export async function POST() {
       );
     }
 
-    const accessToken = generateAccessToken(payload.userId, payload.email);
+    const accessToken = generateAccessToken(
+      payload.userId,
+      payload.email,
+      user.role,
+    );
 
     const response = NextResponse.json({
       message: "Token refreshed",
-      user: { email: payload.email },
+      user: { email: payload.email, role: user.role },
     });
 
     response.cookies.set("accessToken", accessToken, {

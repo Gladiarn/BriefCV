@@ -8,9 +8,12 @@ export default function AdminNotFound() {
       <div className="bg-secondary/30 p-6 rounded-full mb-6">
         <FileQuestion className="w-12 h-12 text-muted-foreground" />
       </div>
-      <h1 className="text-3xl font-black tracking-tighter mb-2">404 - Page Not Found</h1>
+      <h1 className="text-3xl font-black tracking-tighter mb-2">
+        404 - Page Not Found
+      </h1>
       <p className="text-muted-foreground max-w-md mb-8">
-        The administrative module you are looking for does not exist or is currently under development.
+        The administrative module you are looking for does not exist or is
+        currently under development.
       </p>
       <Link href="/admin/dashboard">
         <Button className="font-bold gap-2">

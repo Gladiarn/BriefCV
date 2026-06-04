@@ -1,24 +1,40 @@
 "use client";
 
-import { ChevronDown, LogOut, Sparkles } from "lucide-react";
+import { ChevronDown, LogOut, Sparkles, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/auth-store";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "../ui/mode-toggle";
 
-export function AdminNavbar() {
+interface AdminNavbarProps {
+  onMenuClick: () => void;
+  isMobileOpen: boolean;
+}
+
+export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
   const { user, logout } = useAuthStore();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const toggleProfile = useCallback(() => {
-    setIsProfileOpen(prev => !prev);
+    setIsProfileOpen((prev) => !prev);
   }, []);
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+    setIsProfileOpen(false);
+    router.push("/");
+  }, [logout, router]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsProfileOpen(false);
       }
     };
@@ -30,19 +46,34 @@ export function AdminNavbar() {
 
   return (
     <header className="h-16 border-b border-border bg-background sticky top-0 z-40 w-full shrink-0">
-      <div className="h-full px-6 flex items-center justify-between">
-        {/* Logo and Name */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="bg-primary-gradient p-1.5 rounded-lg shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-white" />
-          </div>
-          <span className="text-base font-bold tracking-tight text-gradient">
-            BriefCV
-          </span>
-          <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-2 bg-secondary/50 px-2.5 py-1 rounded-full border border-border/40">
-            Admin
-          </span>
-        </Link>
+      <div className="h-full px-4 md:px-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={onMenuClick}
+            className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            {isMobileOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
+          </button>
+
+          {/* Logo and Name */}
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="bg-primary-gradient p-1.5 rounded-lg shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="text-base font-bold tracking-tight text-gradient">
+              BriefCV
+            </span>
+            <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-2 bg-secondary/50 px-2.5 py-1 rounded-full border border-border/40">
+              Admin
+            </span>
+          </Link>
+        </div>
 
         {/* Right side actions */}
         <div className="flex items-center gap-3">
@@ -62,16 +93,18 @@ export function AdminNavbar() {
               </div>
               <div className="hidden md:flex flex-col items-start leading-none mr-1">
                 <span className="text-[11px] font-black truncate max-w-[120px]">
-                  {user?.email?.split('@')[0]}
+                  {user?.email?.split("@")[0]}
                 </span>
                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
                   Admin
                 </span>
               </div>
-              <ChevronDown className={cn(
-                "h-3.5 w-3.5 text-muted-foreground",
-                isProfileOpen && "rotate-180"
-              )} />
+              <ChevronDown
+                className={cn(
+                  "h-3.5 w-3.5 text-muted-foreground",
+                  isProfileOpen && "rotate-180",
+                )}
+              />
             </button>
 
             {/* Dropdown Menu */}
@@ -89,10 +122,7 @@ export function AdminNavbar() {
                 <div className="h-px bg-border/40 my-1 mx-1" />
 
                 <button
-                  onClick={() => {
-                    logout();
-                    setIsProfileOpen(false);
-                  }}
+                  onClick={handleLogout}
                   className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-destructive hover:bg-destructive/5 group text-left cursor-pointer"
                 >
                   <LogOut className="h-4 w-4 shrink-0" />
