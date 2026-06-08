@@ -1,9 +1,9 @@
 "use client";
 
-import { ChevronDown, LogOut, Sparkles, Menu, X } from "lucide-react";
+import { ChevronDown, LogOut, Menu, Sparkles, X } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthStore } from "@/lib/auth-store";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "../ui/mode-toggle";
@@ -50,6 +50,7 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
         <div className="flex items-center gap-4">
           {/* Mobile Menu Toggle */}
           <button
+            type="button"
             onClick={onMenuClick}
             className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors cursor-pointer"
             aria-label="Toggle Menu"
@@ -83,6 +84,7 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
 
           <div className="relative" ref={dropdownRef}>
             <button
+              type="button"
               onClick={toggleProfile}
               className="flex items-center gap-2 p-1.5 pr-3 rounded-full border border-border/40 bg-secondary/30 hover:bg-secondary/50 cursor-pointer"
             >
@@ -122,6 +124,7 @@ export function AdminNavbar({ onMenuClick, isMobileOpen }: AdminNavbarProps) {
                 <div className="h-px bg-border/40 my-1 mx-1" />
 
                 <button
+                  type="button"
                   onClick={handleLogout}
                   className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-destructive hover:bg-destructive/5 group text-left cursor-pointer"
                 >

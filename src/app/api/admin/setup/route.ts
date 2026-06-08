@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import User from "@/models/User";
 import dbConnect from "@/lib/db";
+import User from "@/models/User";
 import { hashPassword } from "@/services/authService";
 
 export async function GET() {

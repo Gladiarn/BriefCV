@@ -1,28 +1,30 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Activity,
+  FilePlus,
   FileText,
   LayoutDashboard,
+  UserPlus,
   Users,
   Zap,
-  UserPlus,
-  FilePlus,
 } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import TimeRangeFilter from "@/components/admin/TimeRangeFilter";
-import LazyChart from "@/components/admin/LazyChart";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Calendar from "@/components/admin/Calendar";
+import LazyChart from "@/components/admin/LazyChart";
+import TimeRangeFilter from "@/components/admin/TimeRangeFilter";
+import { Card } from "@/components/ui/card";
 
 interface DailyUsage {
   date: string;
   tokens: number;
+  [key: string]: string | number;
 }
 
 interface DailyGrowth {
   date: string;
   count: number;
+  [key: string]: string | number;
 }
 
 interface Stats {
@@ -36,8 +38,15 @@ interface Stats {
   totalUsageCount: number;
 }
 
+interface StatItem {
+  id: string;
+  title: string;
+  value: number | string;
+  icon: React.ElementType;
+}
+
 const StatGrid = React.memo(
-  ({ statConfig, loading }: { statConfig: any[]; loading: boolean }) => (
+  ({ statConfig, loading }: { statConfig: StatItem[]; loading: boolean }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {statConfig.map((stat) => (
         <Card
@@ -206,7 +215,10 @@ export default function AdminDashboardPage() {
               <LayoutDashboard className="w-6 h-6" />
               <span className="font-bold text-xs">Templates</span>
             </a>
-            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-secondary hover:bg-primary/10 hover:text-primary transition-colors text-center cursor-pointer gap-2">
+            <button
+              type="button"
+              className="flex flex-col items-center justify-center p-4 rounded-xl bg-secondary hover:bg-primary/10 hover:text-primary transition-colors text-center cursor-pointer gap-2"
+            >
               <Activity className="w-6 h-6" />
               <span className="font-bold text-xs">AI Logs</span>
             </button>

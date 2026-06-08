@@ -1,43 +1,59 @@
 "use client";
 
-import { Info, X } from "lucide-react";
+import { X, Info, CheckCircle2, AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
 
-export function PricingNotification() {
+interface PricingNotificationProps {
+  type?: 'default' | 'success' | 'destructive';
+  title?: string;
+  message: string;
+}
+
+export function PricingNotification({
+  type = 'default',
+  title = "Notice",
+  message
+}: PricingNotificationProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Show after short delay to not disrupt initial page load
+    // Show after short delay
     const timer = setTimeout(() => setIsVisible(true), 800);
     return () => clearTimeout(timer);
   }, []);
 
   if (!isVisible) return null;
 
+  const icons = {
+    default: Info,
+    success: CheckCircle2,
+    destructive: AlertCircle
+  };
+
+  const Icon = icons[type];
+
   return (
     <div className="fixed bottom-8 right-8 z-50 animate-in slide-in-from-bottom-4 duration-500">
-      <div className="bg-card/80 backdrop-blur-xl border border-primary/20 p-6 rounded-3xl shadow-2xl max-w-xs relative group">
+      <Alert
+        variant={type === 'default' ? 'default' : type === 'success' ? 'success' : 'destructive'}
+        className="w-[350px] shadow-2xl backdrop-blur-xl border border-border/50"
+      >
         <button
           type="button"
           onClick={() => setIsVisible(false)}
           className="absolute top-3 right-3 p-1 rounded-full hover:bg-secondary transition-colors"
         >
-          <X className="w-4 h-4 text-muted-foreground" />
+          <X className="w-4 h-4" />
         </button>
 
-        <div className="flex items-start gap-4">
-          <div className="bg-primary/10 p-2 rounded-2xl">
-            <Info className="w-6 h-6 text-primary" />
-          </div>
-          <div className="pr-4">
-            <h4 className="font-bold text-sm mb-1">Pricing Notice</h4>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              We currently offer our services for free. Payment gateways are not
-              yet enabled. Enjoy all features without constraints!
-            </p>
-          </div>
-        </div>
-      </div>
+        <Icon className="w-5 h-5 mt-0.5" />
+        <AlertTitle className="font-bold">{title}</AlertTitle>
+        <AlertDescription className="text-sm leading-relaxed">
+          {message}
+        </AlertDescription>
+      </Alert>
     </div>
   );
 }

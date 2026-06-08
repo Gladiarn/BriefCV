@@ -1,24 +1,24 @@
 "use client";
 
-import React, { memo } from "react";
+import { memo } from "react";
 import {
-  BarChart,
+  Area,
+  AreaChart,
   Bar,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
+  BarChart,
   Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
 } from "recharts";
 
-interface ChartProps {
-  data: any[];
+export interface ChartProps {
+  data: Record<string, string | number>[];
   dataKey: string;
   fill?: string;
   type?: "bar" | "line" | "area" | "pie";
@@ -146,7 +146,7 @@ const ActivityChart = memo(
               >
                 {data.map((entry, index) => (
                   <Cell
-                    key={`cell-${index}`}
+                    key={`cell-${entry.date || index}`}
                     fill={COLORS[index % COLORS.length]}
                   />
                 ))}

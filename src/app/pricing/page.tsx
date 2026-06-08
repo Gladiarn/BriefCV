@@ -113,7 +113,10 @@ export default function PricingPage() {
 
         <Footer />
       </main>
-      <PricingNotification />
+      <PricingNotification
+        title="Pricing Notice"
+        message="We currently offer our services for free. Payment gateways are not yet enabled. Enjoy all features without constraints!"
+      />
     </div>
   );
 }

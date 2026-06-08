@@ -6,6 +6,7 @@ import {
   updateRefreshToken,
   verifyPassword,
 } from "@/services/authService";
+import { logLogin } from "@/services/logService";
 
 export async function POST(req: Request) {
   try {
@@ -55,6 +56,7 @@ export async function POST(req: Request) {
     );
 
     await updateRefreshToken(user._id.toString(), refreshToken);
+    await logLogin(user._id.toString());
 
     const response = NextResponse.json({
       message: "Logged in",

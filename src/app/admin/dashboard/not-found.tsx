@@ -1,5 +1,5 @@
+import { ChevronLeft, FileQuestion } from "lucide-react";
 import Link from "next/link";
-import { FileQuestion, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function AdminNotFound() {

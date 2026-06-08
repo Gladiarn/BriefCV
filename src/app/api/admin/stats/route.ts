@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
-import User from "@/models/User";
+import LoginLog from "@/models/LoginLog";
 import Resume from "@/models/Resume";
 import Usage from "@/models/Usage";
+import User from "@/models/User";
 
 export async function GET(request: NextRequest) {
   try {
@@ -68,7 +69,11 @@ export async function GET(request: NextRequest) {
     ]);
 
     // Helper to fill missing dates
-    const fillMissingDates = (data: any[], key: string, range: string) => {
+    const fillMissingDates = (
+      data: Record<string, string | number>[],
+      key: string,
+      range: string,
+    ) => {
       const result = [];
       const endDate = new Date();
       const currentDate = new Date(startDate);
@@ -94,7 +99,7 @@ export async function GET(request: NextRequest) {
     const ninetyDaysAgo = new Date();
     ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-    const activityCalendar = await User.aggregate([
+    const activityCalendar = await LoginLog.aggregate([
       { $match: { createdAt: { $gte: ninetyDaysAgo } } },
       {
         $group: {
