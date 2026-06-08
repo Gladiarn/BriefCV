@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -57,7 +56,7 @@ const Calendar = () => {
       <div className="flex items-center justify-center mb-6 gap-2">
         <select
           value={currentDate.getMonth()}
-          onChange={(e) => changeMonth(parseInt(e.target.value))}
+          onChange={(e) => changeMonth(parseInt(e.target.value, 10))}
           className="bg-secondary text-sm font-bold py-1.5 px-3 rounded-lg border border-border outline-none focus:ring-2 focus:ring-primary"
         >
           {monthNames.map((m, i) => (
@@ -68,7 +67,7 @@ const Calendar = () => {
         </select>
         <select
           value={currentDate.getFullYear()}
-          onChange={(e) => changeYear(parseInt(e.target.value))}
+          onChange={(e) => changeYear(parseInt(e.target.value, 10))}
           className="bg-secondary text-sm font-bold py-1.5 px-3 rounded-lg border border-border outline-none focus:ring-2 focus:ring-primary"
         >
           {years.map((y) => (
@@ -97,7 +96,7 @@ const Calendar = () => {
             currentDate.getFullYear() === new Date().getFullYear();
           return (
             <div
-              key={i}
+              key={day ? `day-${day}` : `empty-${i}`}
               className={`flex items-center justify-center h-8 w-8 text-xs font-bold rounded-lg transition-all
                                 ${day ? "cursor-pointer hover:bg-primary/20 hover:text-primary" : ""}
                                 ${isToday ? "bg-primary text-white shadow-lg shadow-primary/30" : "text-foreground"}

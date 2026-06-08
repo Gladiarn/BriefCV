@@ -7,8 +7,9 @@ interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Badge({
   className,
   variant = "primary",
+  children,
   ...props
-}: BadgeProps) {
+}: BadgeProps & { children: React.ReactNode }) {
   const variants = {
     primary: "bg-primary/10 border-primary/20 text-primary",
     outline: "bg-primary/5 border-primary/10 text-primary/80",
@@ -22,6 +23,8 @@ export function Badge({
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }

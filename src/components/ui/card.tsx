@@ -16,11 +16,63 @@ export function Card({ className, variant = "default", ...props }: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-7",
+        "rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-7 overflow-hidden",
         variants[variant],
         className,
       )}
       {...props}
     />
+  );
+}
+
+export function CardHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn("flex flex-col space-y-1.5 p-0 mb-4", className)}
+      {...props}
+    />
+  );
+}
+
+export function CardTitle({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h3
+      className={cn(
+        "text-2xl font-semibold leading-none tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export function CardDescription({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p className={cn("text-sm text-muted-foreground", className)} {...props} />
+  );
+}
+
+export function CardContent({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("p-0", className)} {...props} />;
+}
+
+export function CardFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("flex items-center p-0 mt-4", className)} {...props} />
   );
 }

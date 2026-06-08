@@ -1,13 +1,13 @@
 "use client";
 
+import { Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { AdminNavbar } from "@/components/layout/admin-navbar";
 import { AdminSidebar } from "@/components/layout/admin-sidebar";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { useAuthStore } from "@/lib/auth-store";
 import { UnauthorizedPage } from "@/components/shared/unauthorized-page";
-import { Sparkles } from "lucide-react";
+import { useAuthStore } from "@/lib/auth-store";
+import { cn } from "@/lib/utils";
 
 export default function AdminDashboardLayout({
   children,
@@ -32,7 +32,7 @@ export default function AdminDashboardLayout({
   // Close mobile sidebar on navigation
   useEffect(() => {
     setIsMobileOpen(false);
-  }, [pathname]);
+  }, []);
 
   if (isChecking) {
     return (
@@ -54,9 +54,11 @@ export default function AdminDashboardLayout({
     <div className="flex h-screen bg-background text-foreground overflow-hidden">
       {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-[45] md:hidden"
+        <button
+          type="button"
+          className="fixed inset-0 bg-black/50 z-[45] md:hidden w-full h-full cursor-default"
           onClick={() => setIsMobileOpen(false)}
+          aria-label="Close sidebar"
         />
       )}
 

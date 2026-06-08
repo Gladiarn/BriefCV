@@ -6,6 +6,7 @@ import {
   generateRefreshToken,
   updateRefreshToken,
 } from "@/services/authService";
+import { logLogin } from "@/services/logService";
 
 export async function GET(req: Request) {
   const googleId = (
@@ -100,6 +101,7 @@ export async function GET(req: Request) {
     const refreshToken = generateRefreshToken(user._id.toString(), user.email);
 
     await updateRefreshToken(user._id.toString(), refreshToken);
+    await logLogin(user._id.toString());
 
     const response = NextResponse.redirect(new URL("/", req.url));
 

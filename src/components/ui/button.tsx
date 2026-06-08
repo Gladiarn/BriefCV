@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "outline";
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "sm" | "md" | "lg" | "xl" | "icon";
   className?: string;
 }
 
@@ -29,6 +29,7 @@ export function Button({
     md: "px-6 py-3 text-sm rounded-full",
     lg: "px-8 py-4 text-base rounded-full",
     xl: "px-10 py-5 text-lg rounded-full",
+    icon: "h-10 w-10 p-0 rounded-full",
   };
 
   return (

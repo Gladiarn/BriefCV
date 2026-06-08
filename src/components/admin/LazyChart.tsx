@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import ActivityChart from "./ActivityChart";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import ActivityChart, { type ChartProps } from "./ActivityChart";
 
-export default function LazyChart({ className, ...props }: any) {
+export default function LazyChart({
+  className,
+  ...props
+}: ChartProps & { className?: string }) {
   const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
-  LayoutDashboard,
-  Users,
-  Settings,
   FileText,
+  LayoutDashboard,
+  Settings,
+  Users,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
